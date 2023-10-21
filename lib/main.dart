@@ -1,3 +1,5 @@
+import 'package:bytepad/Views/Pages/login_page.dart';
+import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BytePad',
-      home: const Text("WELCOME!"),
+      theme: ThemeData(
+        scaffoldBackgroundColor: bgColor,
+      ),
+      home: const LoginPage(),
     );
   }
 }
