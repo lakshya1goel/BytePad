@@ -15,6 +15,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'BytePad',
       theme: ThemeData(
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            fontFamily: 'Lato',
+          ),
+        ),
         scaffoldBackgroundColor: bgColor,
       ),
       home: const LoginPage(),

@@ -3,17 +3,40 @@ import '../../theme_data.dart';
 
 class CustomInputField extends StatelessWidget {
   final String labelText;
-  const CustomInputField({ required this.labelText, Key? key,}) : super(key: key);
+  final IconData icon;
+  const CustomInputField({ required this.labelText, required this.icon, Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    final size = MediaQuery.of(context).size;
+
     return Container(
-      color: inputFieldColor,
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: labelText,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: inputFieldColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+        child: TextFormField(
+          cursorColor: blueColor,
+          decoration: InputDecoration(
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: labelColor
+            ),
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            prefixIcon: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: blueColor,
+                ),
+                child: Icon(icon,
+                  color: Colors.white,
+                )
+            ),
+          ),
         ),
       ),
     );
