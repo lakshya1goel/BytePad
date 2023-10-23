@@ -3,6 +3,8 @@ import 'package:bytepad/Views/Pages/login_page.dart';
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
+import 'Views/Pages/OnboardingScreens/second_onboarding_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const FirstOnboardingScreen(),
+      home: const SecondOnboardingScreen(),
     );
   }
 }

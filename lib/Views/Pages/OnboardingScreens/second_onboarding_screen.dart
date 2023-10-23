@@ -1,8 +1,8 @@
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
-class FirstOnboardingScreen extends StatelessWidget {
-  const FirstOnboardingScreen({super.key});
+class SecondOnboardingScreen extends StatelessWidget {
+  const SecondOnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,11 @@ class FirstOnboardingScreen extends StatelessWidget {
                   )
               ),
               SizedBox(height: size.height*0.05),
-              Image.asset("assets/images/FirstOnboardImage.jpeg"),
+              Image.asset("assets/images/SecondOnboardImage.jpeg"),
               SizedBox(height: size.height*0.05),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Unlock the Past",
+                child: Text("Stay Informed",
                   style: TextStyle(
                     fontSize: size.width*0.08,
                     fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class FirstOnboardingScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(size.width*0.05),
-                child: Text("Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.",
+                child: Text("Keep track of your attendance effortlessly, ensuring you never miss an important class or deadline.",
                   style: TextStyle(
                     fontSize: size.width*0.05,
                     // fontWeight: FontWeight.bold,
@@ -51,13 +51,13 @@ class FirstOnboardingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundColor: blueColor,
+                    backgroundColor: Colors.grey,
                     radius: size.width*0.01,
                   ),
                   Padding(
                     padding: EdgeInsets.all(size.width*0.01),
                     child: CircleAvatar(
-                      backgroundColor: Colors.grey,
+                      backgroundColor: blueColor,
                       radius: size.width*0.01,
                     ),
                   ),
