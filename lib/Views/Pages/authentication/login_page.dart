@@ -1,6 +1,7 @@
+import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
-import '../../theme_data.dart';
+import '../../../theme_data.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -71,7 +72,14 @@ class _LoginPageState extends State<LoginPage> {
                       const Text("Remember Me"),
                       SizedBox( width: size.width*0.15,),
                       TextButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
                           child: const Text("Forgot Password?",
                             style: TextStyle(
                               decoration: TextDecoration.underline,
