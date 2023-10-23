@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: TextTheme(
           bodyMedium: TextStyle(
-            fontFamily: 'Lato',
+            fontFamily: 'Montserrat',
           ),
         ),
         scaffoldBackgroundColor: bgColor,

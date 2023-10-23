@@ -1,17 +1,16 @@
-import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +36,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.all(size.width*0.05),
-                child: Text("Forgot Password?",
+                child: Text("Reset Password",
                   style: TextStyle(
                     fontSize: size.width*0.1,
                     fontWeight: FontWeight.bold,
@@ -46,32 +45,31 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Provide your email address to receive a password reset link.",
+                child: Text("You can create a new password for your account.",
                   style: TextStyle(
                     fontSize: size.width*0.05,
                   ),
                 ),
               ),
+              SizedBox(height: size.height*0.02,),
               Padding(
-                padding: EdgeInsets.all(size.width*0.05),
-                child: const CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email,),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
+              ),
+              SizedBox(height: size.height*0.02,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
               ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
-                        ),
-                      );
-                    },
+                    onPressed: (){},
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("SEND",
+                      child: Text("SUBMIT",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),
@@ -88,8 +86,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.05,),
-              Image.asset("assets/images/ForgotPasswordImg.png"),
             ],
           ),
         ),

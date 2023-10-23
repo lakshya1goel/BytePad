@@ -70,13 +70,13 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const Text("Remember Me"),
-                      SizedBox( width: size.width*0.15,),
+                      SizedBox( width: size.width*0.1,),
                       TextButton(
                           onPressed: (){
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ForgotPasswordScreen(),
+                                builder: (context) => const ForgotPasswordScreen(),
                               ),
                             );
                           },
