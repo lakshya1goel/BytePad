@@ -1,6 +1,9 @@
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
+import '../login_page.dart';
+import 'third_onboarding_screen.dart';
+
 class SecondOnboardingScreen extends StatelessWidget {
   const SecondOnboardingScreen({super.key});
 
@@ -18,7 +21,14 @@ class SecondOnboardingScreen extends StatelessWidget {
               Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    },
                     child: const Text("Skip",
                       style: TextStyle(
                           color: blueColor
@@ -26,7 +36,6 @@ class SecondOnboardingScreen extends StatelessWidget {
                     ),
                   )
               ),
-              SizedBox(height: size.height*0.05),
               Image.asset("assets/images/SecondOnboardImage.jpeg"),
               SizedBox(height: size.height*0.05),
               Padding(
@@ -72,7 +81,14 @@ class SecondOnboardingScreen extends StatelessWidget {
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ThirdOnboardingScreen(),
+                        ),
+                      );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text("NEXT",

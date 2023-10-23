@@ -1,10 +1,9 @@
-import 'package:bytepad/Views/Pages/OnboardingScreens/second_onboarding_screen.dart';
 import 'package:bytepad/Views/Pages/login_page.dart';
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
-class FirstOnboardingScreen extends StatelessWidget {
-  const FirstOnboardingScreen({super.key});
+class ThirdOnboardingScreen extends StatelessWidget {
+  const ThirdOnboardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,29 +16,12 @@ class FirstOnboardingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: (){
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
-                    child: const Text("Skip",
-                      style: TextStyle(
-                          color: blueColor
-                      ),
-                    ),
-                  )
-              ),
-              Image.asset("assets/images/FirstOnboardImage.jpeg"),
+              SizedBox(height: size.height*0.05),
+              Image.asset("assets/images/ThirdOnboardImage.jpeg"),
               SizedBox(height: size.height*0.05),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Unlock the Past",
+                child: Text("Empowering Educators",
                   style: TextStyle(
                     fontSize: size.width*0.08,
                     fontWeight: FontWeight.bold,
@@ -48,7 +30,7 @@ class FirstOnboardingScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.all(size.width*0.05),
-                child: Text("Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.",
+                child: Text("Stay updated with the latest course materials, announcements, and resources shared by your teachers.",
                   style: TextStyle(
                     fontSize: size.width*0.05,
                     // fontWeight: FontWeight.bold,
@@ -59,7 +41,7 @@ class FirstOnboardingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundColor: blueColor,
+                    backgroundColor: Colors.grey,
                     radius: size.width*0.01,
                   ),
                   Padding(
@@ -70,7 +52,7 @@ class FirstOnboardingScreen extends StatelessWidget {
                     ),
                   ),
                   CircleAvatar(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: blueColor,
                     radius: size.width*0.01,
                   ),
                 ],
@@ -84,7 +66,7 @@ class FirstOnboardingScreen extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SecondOnboardingScreen(),
+                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },

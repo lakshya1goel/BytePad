@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const SecondOnboardingScreen(),
+      home: const FirstOnboardingScreen(),
     );
   }
 }
