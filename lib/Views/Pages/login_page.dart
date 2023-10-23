@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    bool rememberMe = false;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -57,17 +58,28 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: (){},
-                        child: const Text("Forgot Password?",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: blueColor
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: rememberMe,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            rememberMe = value!;
+                          });
+                        },
+                      ),
+                      const Text("Remember Me"),
+                      SizedBox( width: size.width*0.15,),
+                      TextButton(
+                          onPressed: (){},
+                          child: const Text("Forgot Password?",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: blueColor
+                            ),
                           ),
-                        ),
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Center(
@@ -77,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: (){},
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text("LOG IN",
+                            child: Text("VERIFY",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),
@@ -92,6 +104,63 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: MaterialStateProperty.all<Color>(blueColor),
                       ),
                     ),
+                  ),
+                ),
+                Center(
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(size.width * 0.05),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: "By Clicking 'Verify', you agree to our ",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none,
+                                    fontSize: size.width*0.04,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Terms of Services",
+                                style: TextStyle(
+                                    color: blueColor,
+                                    decoration: TextDecoration.none,
+                                    fontSize: size.width*0.04
+                                ),
+                              ),
+                              TextSpan(
+                                text: " and ",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none,
+                                    fontSize: size.width*0.04
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Privacy Policy",
+                                style: TextStyle(
+                                    color: blueColor,
+                                    decoration: TextDecoration.none,
+                                    fontSize: size.width*0.04
+                                ),
+                              ),
+                              TextSpan(
+                                text: ".",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.none,
+                                    fontSize: size.width*0.04
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
