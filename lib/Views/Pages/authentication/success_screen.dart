@@ -1,17 +1,17 @@
-import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
+import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+class SuccessScreen extends StatefulWidget {
+  const SuccessScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  State<SuccessScreen> createState() => _SuccessScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _SuccessScreenState extends State<SuccessScreen> {
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +37,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Reset Password",
+                child: Text("Success!",
                   style: TextStyle(
                     fontSize: size.width*0.1,
                     fontWeight: FontWeight.bold,
@@ -47,21 +47,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(height: size.height*0.02,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("You can create a new password for your account.",
+                child: Text("Your password has been successfully reset. You can now log in with your new password.",
                   style: TextStyle(
                     fontSize: size.width*0.05,
                   ),
                 ),
-              ),
-              SizedBox(height: size.height*0.05,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
-              ),
-              SizedBox(height: size.height*0.04,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
               ),
               SizedBox(height: size.height*0.05,),
               Center(
@@ -69,16 +59,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SuccessScreen(),
-                        ),
-                      );
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("SUBMIT",
+                      child: Text("LOGIN",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),
@@ -94,6 +82,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
+              ),
+              SizedBox(height: size.height*0.1,),
+              Align(
+                alignment: Alignment.center,
+                  child: Image.asset("assets/images/SuccessImg.png")
               ),
             ],
           ),
