@@ -1,7 +1,7 @@
 import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
-import '../../../Services/login_service.dart';
+import '../../../Services/token_generation.dart';
 import '../../../theme_data.dart';
 
 class LoginPage extends StatefulWidget {
