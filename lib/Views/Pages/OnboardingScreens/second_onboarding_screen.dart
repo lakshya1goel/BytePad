@@ -1,7 +1,6 @@
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
-
-import '../login_page.dart';
+import '../authentication/login_page.dart';
 import 'third_onboarding_screen.dart';
 
 class SecondOnboardingScreen extends StatelessWidget {
