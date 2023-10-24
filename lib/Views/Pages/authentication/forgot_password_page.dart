@@ -53,10 +53,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(size.width*0.05),
-                child: const CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email,),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.all(size.width*0.05),
+              //   child: const CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email,),
+              // ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(

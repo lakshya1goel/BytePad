@@ -54,15 +54,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
               SizedBox(height: size.height*0.05,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
-              ),
-              SizedBox(height: size.height*0.04,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+              //   child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
+              // ),
+              // SizedBox(height: size.height*0.04,),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+              //   child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
+              // ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(

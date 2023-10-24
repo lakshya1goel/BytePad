@@ -4,7 +4,8 @@ import '../../theme_data.dart';
 class CustomInputField extends StatelessWidget {
   final String labelText;
   final IconData icon;
-  const CustomInputField({ required this.labelText, required this.icon, Key? key,}) : super(key: key);
+  final TextEditingController controller;
+  const CustomInputField({ required this.labelText, required this.icon, required this.controller,Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class CustomInputField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0),
         child: TextFormField(
+          controller: controller,
           cursorColor: blueColor,
           decoration: InputDecoration(
             labelText: labelText,

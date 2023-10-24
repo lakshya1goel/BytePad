@@ -1,6 +1,7 @@
 import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
+import '../../../Services/login_service.dart';
 import '../../../theme_data.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +12,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void handleSubmit() {
+    String email = emailController.text;
+    String password = passwordController.text;
+    loginUser(email, password, context);
+  }
+
   @override
 
   Widget build(BuildContext context) {
@@ -51,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
-                  child: const CustomInputField(labelText: "Email", icon: Icons.email,),
+                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController,),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: const CustomInputField(labelText: "Password", icon: Icons.key,),
+                  child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController,),
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
@@ -94,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     width: size.width*0.9,
                     child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: handleSubmit,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                             child: Text("VERIFY",
