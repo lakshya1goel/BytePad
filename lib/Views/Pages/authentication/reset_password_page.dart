@@ -1,17 +1,23 @@
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Services/reset_password.dart';
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String email;
+  ResetPasswordScreen({required this.email, Key? key}) : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+
+  TextEditingController  passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -54,27 +60,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
               ),
               SizedBox(height: size.height*0.05,),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-              //   child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
-              // ),
-              // SizedBox(height: size.height*0.04,),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-              //   child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
-              // ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController,),
+              ),
+              SizedBox(height: size.height*0.04,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController,),
+              ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SuccessScreen(),
-                        ),
-                      );
+                      resetPassword(widget.email, passwordController.text, context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
