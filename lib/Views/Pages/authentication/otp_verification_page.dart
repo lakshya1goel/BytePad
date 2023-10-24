@@ -1,18 +1,29 @@
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import '../../../Services/verify_otp.dart';
 import '../../../theme_data.dart';
-import '../../Widgets/custom_input_field.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
-  const OTPVerificationScreen({super.key});
+  final String email;
+  OTPVerificationScreen({required this.email, Key? key}) : super(key: key);
 
   @override
   State<OTPVerificationScreen> createState() => _OTPVerificationScreenState();
 }
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
+
+  List<TextEditingController> controllers = List.generate(6, (index) => TextEditingController());
+
+  String getOtp() {
+    String otp = '';
+    for (var controller in controllers) {
+      otp += controller.text;
+    }
+    return otp;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -58,140 +69,40 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               SizedBox(height: size.height*0.05,),
               Form(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: size.width*0.02,),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(6, (index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: size.width * 0.1,
+                        height: size.height * 0.05,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: TextField(
+                            controller: controllers[index],
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(1),
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: size.width*0.02,),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: size.width*0.02,),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: size.width*0.02,),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: size.width*0.02,),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: size.height*0.05,
-                      width: size.width*0.12,
-                      child: TextField(
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [LengthLimitingTextInputFormatter(1),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ],
+                      SizedBox(width: size.width*0.03,),
+                    ],
+                  );
+                }),
                 ),
               ),
               SizedBox(height: size.height*0.05,),
@@ -200,12 +111,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
-                        ),
-                      );
+                      verifyResetPasswordOTP(widget.email, getOtp(), context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
