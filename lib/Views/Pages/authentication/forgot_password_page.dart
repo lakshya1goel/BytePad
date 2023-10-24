@@ -2,6 +2,7 @@ import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Services/get_otp.dart';
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
@@ -13,6 +14,9 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -53,16 +57,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.all(size.width*0.05),
-              //   child: const CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email,),
-              // ),
+              Padding(
+                padding: EdgeInsets.all(size.width*0.05),
+                child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
+              ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: (){
+                      requestResetPasswordOTP(emailController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
