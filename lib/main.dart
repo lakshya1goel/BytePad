@@ -1,3 +1,5 @@
+import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
+import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +14,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BytePad',
-      home: const Text("WELCOME!"),
+      theme: ThemeData(
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            fontFamily: 'Montserrat',
+          ),
+        ),
+        scaffoldBackgroundColor: bgColor,
+      ),
+      home: const FirstOnboardingScreen(),
     );
   }
 }
