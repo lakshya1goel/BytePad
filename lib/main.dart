@@ -1,5 +1,6 @@
 import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
+import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 

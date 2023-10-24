@@ -35,7 +35,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(size.width*0.05),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
                 child: Text("Reset Password",
                   style: TextStyle(
                     fontSize: size.width*0.1,
@@ -43,6 +43,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: size.height*0.02,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
                 child: Text("You can create a new password for your account.",
@@ -51,12 +52,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.02,),
+              SizedBox(height: size.height*0.05,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
                 child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
               ),
-              SizedBox(height: size.height*0.02,),
+              SizedBox(height: size.height*0.04,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
                 child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),

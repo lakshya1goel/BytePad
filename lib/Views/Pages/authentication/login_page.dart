@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: Text("Hi! Please sign in to continue.",
+                  child: Text("Hi! Tell us more about yourself by signing in.",
                     style: TextStyle(
                       fontSize: size.width*0.04,
                       color: greyColor

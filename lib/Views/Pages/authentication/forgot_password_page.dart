@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +37,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.all(size.width*0.05),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
                 child: Text("Forgot Password?",
                   style: TextStyle(
-                    fontSize: size.width*0.1,
+                    fontSize: size.width*0.09,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -65,7 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ResetPasswordScreen(),
+                          builder: (context) => const OTPVerificationScreen(),
                         ),
                       );
                     },
