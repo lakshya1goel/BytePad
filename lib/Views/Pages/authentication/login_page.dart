@@ -1,6 +1,7 @@
+import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
-import '../../theme_data.dart';
+import '../../../theme_data.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: Text("Hi! Please sign in to continue.",
+                  child: Text("Hi! Tell us more about yourself by signing in.",
                     style: TextStyle(
                       fontSize: size.width*0.04,
                       color: greyColor
@@ -69,9 +70,16 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const Text("Remember Me"),
-                      SizedBox( width: size.width*0.15,),
+                      SizedBox( width: size.width*0.1,),
                       TextButton(
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgotPasswordScreen(),
+                              ),
+                            );
+                          },
                           child: const Text("Forgot Password?",
                             style: TextStyle(
                               decoration: TextDecoration.underline,
