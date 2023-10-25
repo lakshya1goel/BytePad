@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../Views/Pages/authentication/success_screen.dart';
 
-Future<void> resetPassword(String email, String newPassword, BuildContext context) async {
+Future<void> resetPassword(String? token, String newPassword, BuildContext context) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/');
   var headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'
   };
   var body = jsonEncode({
-    "mail": email,
+    "token": token,
     "new_password": newPassword,
   });
 

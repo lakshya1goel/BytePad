@@ -6,8 +6,8 @@ import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  final String email;
-  ResetPasswordScreen({required this.email, Key? key}) : super(key: key);
+  final String? token;
+  ResetPasswordScreen({required this.token, Key? key}) : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -75,7 +75,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: (){
-                      resetPassword(widget.email, passwordController.text, context);
+                      resetPassword(widget.token, passwordController.text, context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bytepad/Models/verify_otp_reponse.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -19,11 +20,14 @@ Future<void> verifyResetPasswordOTP(String email, String otp, BuildContext conte
   var response = await http.post(url, headers: headers, body: body);
 
   if (response.statusCode == 200) {
+    Map<String, dynamic> verifyOTPResponse = jsonDecode(response.body);
+    VerifyOTPResponse verifyOTP = VerifyOTPResponse.fromJson(verifyOTPResponse);
+    var token = verifyOTP.token;
     print('OTP verification successful');
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ResetPasswordScreen(email: email),
+        builder: (context) => ResetPasswordScreen(token: token),
       ),
     );
     print(jsonDecode(response.body));

@@ -16,7 +16,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   TextEditingController emailController = TextEditingController();
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
 
@@ -37,65 +37,92 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Forgot Password?",
-                  style: TextStyle(
-                    fontSize: size.width*0.09,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Provide your email address to receive a password reset link.",
-                  style: TextStyle(
-                    fontSize: size.width*0.05,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(size.width*0.05),
-                child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
-              ),
-              SizedBox(height: size.height*0.05,),
-              Center(
-                child: Container(
-                  width: size.width*0.9,
-                  child: ElevatedButton(
-                    onPressed: (){
-                      requestResetPasswordOTP(emailController.text);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OTPVerificationScreen(email: emailController.text,),
+              Visibility(
+                visible: !isLoading,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                      child: Text("Forgot Password?",
+                        style: TextStyle(
+                          fontSize: size.width*0.09,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text("SEND",
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                      child: Text("Provide your email address to receive a password reset link.",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),
                       ),
                     ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(blueColor),
+                    Padding(
+                      padding: EdgeInsets.all(size.width*0.05),
+                      child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
                     ),
-                  ),
+                    SizedBox(height: size.height*0.05,),
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                            width: size.width*0.9,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                await requestResetPasswordOTP(emailController.text);
+
+                                setState(() {
+                                  isLoading = false;
+                                });
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OTPVerificationScreen(
+                                      email: emailController.text,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text("SEND",
+                                  style: TextStyle(
+                                    fontSize: size.width*0.05,
+                                  ),
+                                ),
+                              ),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all<Color>(blueColor),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height*0.05,),
+                    Image.asset("assets/images/ForgotPasswordImg.png"),
+                  ],
                 ),
               ),
-              SizedBox(height: size.height*0.05,),
-              Image.asset("assets/images/ForgotPasswordImg.png"),
+              Visibility(
+                visible: isLoading,
+                child: CircularProgressIndicator(),
+              ),
             ],
           ),
         ),
