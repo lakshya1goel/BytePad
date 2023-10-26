@@ -1,17 +1,26 @@
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Contollers/validation.dart';
+import '../../../Models/error_message_dialog_box.dart';
+import '../../../Services/reset_password.dart';
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String? token;
+  ResetPasswordScreen({required this.token, Key? key}) : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+
+  TextEditingController  passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -56,29 +65,59 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(height: size.height*0.05,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "New Password", icon: Icons.key,),
+                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController,),
               ),
               SizedBox(height: size.height*0.04,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: const CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled,),
+                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController,),
               ),
               SizedBox(height: size.height*0.05,),
               Center(
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SuccessScreen(),
-                        ),
-                      );
+                    onPressed: () async {
+                      String? passwordError = Validator.isResetPassword(passwordController.text, confirmPasswordController.text);
+                      if (passwordError != null) {
+                        ErrorMessage.showAlertDialog(context, "Error", passwordError);
+                        return;
+                      }
+
+
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      try {
+                        String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
+
+                        setState(() {
+                          isLoading = false;
+                        });
+
+                        if (errorMessage != null) {
+                          ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                          return; // Don't proceed further if there's an error
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SuccessScreen(),
+                          ),
+                        );
+
+                      } catch (error) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("SUBMIT",
+                      child: isLoading ? CircularProgressIndicator() : Text("SUBMIT",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),
