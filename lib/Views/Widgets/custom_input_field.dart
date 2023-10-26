@@ -12,35 +12,36 @@ class CustomInputField extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(
-          color: Colors.grey,
-          width: 2.0,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        child: TextFormField(
-          controller: controller,
-          cursorColor: blueColor,
-          decoration: InputDecoration(
-            labelText: labelText,
-            labelStyle: TextStyle(
-              color: labelColor
-            ),
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            prefixIcon: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: blueColor,
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: TextFormField(
+        controller: controller,
+        cursorColor: blueColor,
+        decoration: InputDecoration(
+          labelText: labelText,
+          floatingLabelStyle: TextStyle(
+            color: blueColor,
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: blueColor),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          prefixIcon: Container(
+            margin: EdgeInsets.only(right: size.width*0.08),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: blueColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(17.0),
                 child: Icon(icon,
                   color: Colors.white,
-                )
-            ),
+                ),
+              )
           ),
         ),
       ),
