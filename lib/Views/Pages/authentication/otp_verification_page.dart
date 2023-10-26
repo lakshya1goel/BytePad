@@ -14,7 +14,7 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
-  List<TextEditingController> controllers = List.generate(6, (index) => TextEditingController());
+  List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
 
   String getOtp() {
     String otp = '';
@@ -70,7 +70,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               Form(
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(6, (index) {
+                children: List.generate(4, (index) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -106,6 +106,21 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 ),
               ),
               SizedBox(height: size.height*0.05,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Did not recieve OTP?"),
+                  TextButton(
+                      onPressed: () {} ,
+                      child: Text("Resend OTP",
+                        style: TextStyle(
+                          color: blueColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                  )
+                ],
+              ),
               Center(
                 child: Container(
                   width: size.width*0.9,

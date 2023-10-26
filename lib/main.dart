@@ -1,4 +1,5 @@
 import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
+import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
 import 'package:bytepad/theme_data.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const FirstOnboardingScreen(),
+      home: const SplashScreen(),
     );
   }
 }
