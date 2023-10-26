@@ -73,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         onPressed: () async {
                           String? emailError = Validator.isValidEmail(emailController.text);
                           if (emailError != null) {
-                            ErrorMessage.showAlertDialog(context, "Invalid Email", emailError);
+                            ErrorMessage.showAlertDialog(context, "Error", emailError);
                             return;
                           }
 
@@ -112,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text("SEND",
+                          child: isLoading ? CircularProgressIndicator() : Text("SEND",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../Models/generate_token_error.dart';
 import '../Models/generate_token_response.dart';
 
-Future<void> loginUser(String email, String password, BuildContext context) async {
+Future<String?> loginUser(String email, String password) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/generate/');
   var headers = {
     'accept': 'application/json',
@@ -23,11 +23,12 @@ Future<void> loginUser(String email, String password, BuildContext context) asyn
     GenerateTokenResponse generateTokenResponse = GenerateTokenResponse.fromJson(generateResponse);
     var accessToken = generateTokenResponse.access;
     // print(jsonDecode(response.body));
-    verifyToken(accessToken, context);
+    return verifyToken(accessToken);
   }
   else {
     Map<String, dynamic> errorResponse = jsonDecode(response.body);
     GenerateTokenError generateTokenError = GenerateTokenError.fromJson(errorResponse);
     print(generateTokenError.detail);
+    return jsonDecode(response.body)['detail'];
   }
 }

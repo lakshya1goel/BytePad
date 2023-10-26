@@ -77,9 +77,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    // onPressed: (){
-                    //   resetPassword(widget.token, passwordController.text, context);
-                    // },
                     onPressed: () async {
                       String? passwordError = Validator.isResetPassword(passwordController.text, confirmPasswordController.text);
                       if (passwordError != null) {
@@ -120,7 +117,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("SUBMIT",
+                      child: isLoading ? CircularProgressIndicator() : Text("SUBMIT",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),

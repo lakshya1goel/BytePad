@@ -41,5 +41,13 @@ class Validator {
     return null; // Indicates the email is valid
   }
 
+  static String? isValidPassword(String password) {
+    if (password.isEmpty) {
+      return "Password Cannot be empty";
+    }
+
+    return null; // Indicates the email is valid
+  }
+
 
 }

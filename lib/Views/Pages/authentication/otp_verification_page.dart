@@ -167,7 +167,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Text("SUBMIT",
+                      child: isLoading ? CircularProgressIndicator() : Text("SUBMIT",
                         style: TextStyle(
                           fontSize: size.width*0.05,
                         ),

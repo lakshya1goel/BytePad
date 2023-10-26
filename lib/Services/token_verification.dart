@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../Models/generate_token_error.dart';
 import '../Views/Pages/home_page.dart';
 
-Future<void> verifyToken(String? token, BuildContext context) async {
+Future<String?> verifyToken(String? token) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/verify/');
   var headers = {
     'accept': 'application/json',
@@ -18,13 +18,12 @@ Future<void> verifyToken(String? token, BuildContext context) async {
 
   if (response.statusCode == 200) {
     print('Token verification successful');
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => HomePage(),
-    ));
+    return null;
 
   } else {
     Map<String, dynamic> errorResponse = jsonDecode(response.body);
     GenerateTokenError generateTokenError = GenerateTokenError.fromJson(errorResponse);
     print(generateTokenError.detail);
+    return jsonDecode(response.body)['detail'];
   }
 }
