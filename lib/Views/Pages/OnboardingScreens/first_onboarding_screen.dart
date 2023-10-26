@@ -21,6 +21,18 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
 
+  void onNextButtonPressed() {
+    if (currentIndex == display.length - 1) {
+      // Logic for when "NEXT" button is pressed on the last page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()), // Replace YourNextPage() with the actual next page widget
+      );
+    } else {
+      carouselController.nextPage();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -62,7 +74,6 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
                   carouselController: carouselController,
                   options: CarouselOptions(
                     scrollPhysics: const BouncingScrollPhysics(),
-                    // autoPlay: true,
                     aspectRatio: 0.6,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
@@ -102,7 +113,7 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
                     child: Container(
                       width: size.width*0.9,
                       child: ElevatedButton(
-                        onPressed: () => carouselController.nextPage(),
+                        onPressed: onNextButtonPressed,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text("NEXT",
