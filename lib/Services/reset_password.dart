@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../Views/Pages/authentication/success_screen.dart';
 
-Future<void> resetPassword(String? token, String newPassword, BuildContext context) async {
+Future<String?> resetPassword(String? token, String newPassword, BuildContext context) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/');
   var headers = {
     'accept': 'application/json',
@@ -20,14 +20,10 @@ Future<void> resetPassword(String? token, String newPassword, BuildContext conte
   if (response.statusCode == 200) {
     print('Password reset successful');
     print(jsonDecode(response.body));
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SuccessScreen(),
-      ),
-    );
+    return null;
   } else {
     print('Error: ${response.statusCode}');
     print(jsonDecode(response.body));
+    return jsonDecode(response.body)['error'];
   }
 }

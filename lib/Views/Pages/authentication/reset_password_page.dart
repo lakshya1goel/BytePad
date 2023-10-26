@@ -1,6 +1,8 @@
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Contollers/validation.dart';
+import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/reset_password.dart';
 import '../../../theme_data.dart';
 import '../../Widgets/custom_input_field.dart';
@@ -17,6 +19,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   TextEditingController  passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +77,46 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    onPressed: (){
-                      resetPassword(widget.token, passwordController.text, context);
+                    // onPressed: (){
+                    //   resetPassword(widget.token, passwordController.text, context);
+                    // },
+                    onPressed: () async {
+                      String? passwordError = Validator.isResetPassword(passwordController.text, confirmPasswordController.text);
+                      if (passwordError != null) {
+                        ErrorMessage.showAlertDialog(context, "Error", passwordError);
+                        return;
+                      }
+
+
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      try {
+                        String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
+
+                        setState(() {
+                          isLoading = false;
+                        });
+
+                        if (errorMessage != null) {
+                          ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                          return; // Don't proceed further if there's an error
+                        }
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SuccessScreen(),
+                          ),
+                        );
+
+                      } catch (error) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
