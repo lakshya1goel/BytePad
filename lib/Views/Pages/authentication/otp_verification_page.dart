@@ -1,6 +1,9 @@
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Models/error_message_dialog_box.dart';
+import '../../../Models/verify_response.dart';
+import '../../../Services/get_otp.dart';
 import '../../../Services/verify_otp.dart';
 import '../../../theme_data.dart';
 
@@ -15,6 +18,7 @@ class OTPVerificationScreen extends StatefulWidget {
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
   List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
+  bool isLoading = false;
 
   String getOtp() {
     String otp = '';
@@ -111,7 +115,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 children: [
                   Text("Did not recieve OTP?"),
                   TextButton(
-                      onPressed: () {} ,
+                      onPressed: () {
+                        requestResetPasswordOTP(widget.email);
+                      } ,
                       child: Text("Resend OTP",
                         style: TextStyle(
                           color: blueColor,
@@ -125,8 +131,39 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 child: Container(
                   width: size.width*0.9,
                   child: ElevatedButton(
-                    onPressed: (){
-                      verifyResetPasswordOTP(widget.email, getOtp(), context);
+                    onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      try {
+                        VerifyResponse result = await verifyResetPasswordOTP(widget.email, getOtp(), context);
+
+                        setState(() {
+                          isLoading = false;
+                        });
+
+                        if (result.token != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ResetPasswordScreen(
+                                token: result.token,
+                              ),
+                            ),
+                          );
+                        } else {
+                          ErrorMessage.showAlertDialog(context, "Error", result.error ?? "Can't be empty");
+                        }
+
+                      } catch (error) {
+                        setState(() {
+                          isLoading = false;
+                        });
+
+                        print('Error requesting OTP: $error');
+                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
