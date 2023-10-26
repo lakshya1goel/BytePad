@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<void> requestResetPasswordOTP(String email) async {
+Future<String?> requestResetPasswordOTP(String email) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/get-otp/');
   var headers = {
     'accept': 'application/json',
@@ -16,8 +16,10 @@ Future<void> requestResetPasswordOTP(String email) async {
   if (response.statusCode == 200) {
     print('Request for OTP successful');
     print(jsonDecode(response.body));
+    return null;
   } else {
     print('Error: ${response.statusCode}');
     print(jsonDecode(response.body));
+    return jsonDecode(response.body)['error'];
   }
 }

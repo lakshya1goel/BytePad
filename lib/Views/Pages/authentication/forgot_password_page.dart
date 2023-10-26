@@ -82,20 +82,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             isLoading = true;
                           });
 
-                          await requestResetPasswordOTP(emailController.text);
+                          try {
+                            String? errorMessage = await requestResetPasswordOTP(emailController.text);
 
-                          setState(() {
-                            isLoading = false;
-                          });
+                            setState(() {
+                              isLoading = false;
+                            });
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OTPVerificationScreen(
-                                email: emailController.text,
+                            if (errorMessage != null) {
+                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                              return; // Don't proceed further if there's an error
+                            }
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OTPVerificationScreen(
+                                  email: emailController.text,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                          }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
