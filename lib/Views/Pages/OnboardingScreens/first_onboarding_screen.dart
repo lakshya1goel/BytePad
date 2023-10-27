@@ -13,9 +13,9 @@ class FirstOnboardingScreen extends StatefulWidget {
 class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
 
   List display = [
-    { "img": 'assets/images/FirstOnboardImage.jpeg' , "heading": 'Unlock the Past', "content": 'Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.'},
-    { "img": 'assets/images/SecondOnboardImage.jpeg' , "heading": 'Stay Informed', "content": 'Keep track of your attendance effortlessly, ensuring you never miss an important class or deadline.'},
-    { "img": 'assets/images/ThirdOnboardImage.jpeg' , "heading": 'Empower Educators', "content": 'Stay updated with the latest course materials, announcements, and resources shared by your teachers.'},
+    { "img": 'assets/images/firstOnboardImg.png' , "heading": 'Unlock the Past', "content": 'Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.'},
+    { "img": 'assets/images/secondOnboardImg.png' , "heading": 'Stay Informed', "content": 'Keep track of your attendance effortlessly, ensuring you never miss an important class or deadline.'},
+    { "img": 'assets/images/thirdOnboardImg.png' , "heading": 'Empower Educators', "content": 'Stay updated with the latest course materials, announcements, and resources shared by your teachers.'},
   ];
 
   final CarouselController carouselController = CarouselController();
@@ -44,6 +44,11 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
           children: [
             Stack(
               children: [
+                Container(
+                  width: size.width,
+                  color: blueColor,
+                  height: size.height*0.34,
+                ),
                 CarouselSlider(
                     items: display.map((item) => Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +79,7 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
                   carouselController: carouselController,
                   options: CarouselOptions(
                     scrollPhysics: const BouncingScrollPhysics(),
-                    aspectRatio: 0.6,
+                    aspectRatio: 0.55,
                     viewportFraction: 1,
                     onPageChanged: (index, reason) {
                       setState(() {
