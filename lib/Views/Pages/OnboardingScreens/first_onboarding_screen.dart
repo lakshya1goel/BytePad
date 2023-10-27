@@ -23,10 +23,9 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
 
   void onNextButtonPressed() {
     if (currentIndex == display.length - 1) {
-      // Logic for when "NEXT" button is pressed on the last page
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()), // Replace YourNextPage() with the actual next page widget
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     } else {
       carouselController.nextPage();
