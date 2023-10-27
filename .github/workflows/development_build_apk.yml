@@ -1,0 +1,36 @@
+name: Dev Branch Build
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build-dev-apk:
+    name: Build Development APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v7
+        with:
+          flutter-version: '3.13.9'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk Dev-BytePad.apk
+
+      - name: Upload Dev-BytePad.apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: Dev-BytePad APK
+          path: Dev-BytePad.apk
+
