@@ -142,7 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                       },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                            child: isLoading ? CircularProgressIndicator() : Text("VERIFY",
+                            child: isLoading ?
+                            SizedBox(
+                              width: size.width*0.052,
+                              height: size.height*0.028,
+                              child: CircularProgressIndicator(),
+                            )
+                                : Text("VERIFY",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),

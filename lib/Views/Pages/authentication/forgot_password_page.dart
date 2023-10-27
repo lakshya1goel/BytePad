@@ -112,7 +112,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: isLoading ? CircularProgressIndicator() : Text("SEND",
+                          child: isLoading ?
+                          SizedBox(
+                            width: size.width*0.052,
+                            height: size.height*0.028,
+                            child: CircularProgressIndicator(),
+                          )
+                              : Text("SEND",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),
@@ -127,10 +133,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           backgroundColor: MaterialStateProperty.all<Color>(blueColor),
                         ),
                       ),
-                    ),
-                    Visibility(
-                      visible: isLoading,
-                      child: CircularProgressIndicator(),
                     ),
                   ],
                 ),
