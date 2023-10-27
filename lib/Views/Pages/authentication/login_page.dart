@@ -3,6 +3,7 @@ import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
+import '../../../Contollers/validations.dart';
 import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/token_generation.dart';
 import '../../../theme_data.dart';
@@ -19,12 +20,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
 
-  // void handleSubmit() {
-  //   String email = emailController.text;
-  //   String password = passwordController.text;
-  //   loginUser(email, password, context);
-  // }
-
   @override
 
   Widget build(BuildContext context) {
@@ -37,13 +32,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: size.height*0.05),
                 Center(
                   child: Image.asset("assets/images/BytePadLogo.png",
                     height: size.width*0.35,
                     width: size.width*0.35,
                   ),
                 ),
-                SizedBox(height: size.height*0.05),
+                SizedBox(height: size.height*0.03),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
                   child: Text("Login",
@@ -71,27 +67,25 @@ class _LoginPageState extends State<LoginPage> {
                   child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController,),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(size.width*0.05),
-                  child: Row(
-                    children: [
-                      SizedBox( width: size.width*0.5,),
-                      TextButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ForgotPasswordScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text("Forgot Password?",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: blueColor
-                            ),
+                  padding: EdgeInsets.only(bottom: size.width*0.05, right: size.width*0.05 ),
+                  child: TextButton(
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
                           ),
+                        );
+                      },
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: const Text("Forgot Password?",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: blueColor
+                          ),
+                        ),
                       ),
-                    ],
                   ),
                 ),
                 Center(
@@ -142,7 +136,13 @@ class _LoginPageState extends State<LoginPage> {
                       },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                            child: isLoading ? CircularProgressIndicator() : Text("VERIFY",
+                            child: isLoading ?
+                            SizedBox(
+                              width: size.width*0.052,
+                              height: size.height*0.028,
+                              child: CircularProgressIndicator(),
+                            )
+                                : Text("VERIFY",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),
