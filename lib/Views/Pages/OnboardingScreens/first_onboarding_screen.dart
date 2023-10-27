@@ -120,7 +120,7 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
                         onPressed: onNextButtonPressed,
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
-                          child: Text("NEXT",
+                          child:  Text("NEXT",
                             style: TextStyle(
                               fontSize: size.width*0.05,
                             ),
@@ -134,6 +134,25 @@ class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
                           ),
                           backgroundColor: MaterialStateProperty.all<Color>(blueColor),
                         ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: size.height*0.75,
+                  left: size.width*0.75,
+                  right: 0,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Text("Skip",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: size.width*0.04,
                       ),
                     ),
                   ),
