@@ -17,6 +17,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   TextEditingController emailController = TextEditingController();
   bool isLoading = false;
+  final _emailformKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(height: size.height*0.02,),
                   Padding(
                     padding: EdgeInsets.all(size.width*0.05),
-                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
+                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey,),
                   ),
                   SizedBox(height: size.height*0.05,),
                   Center(
@@ -83,12 +84,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           width: size.width*0.9,
                           child: ElevatedButton(
                             onPressed: () async {
-                              String? emailError = Validator.isValidEmail(emailController.text);
-                              if (emailError != null) {
-                                ErrorMessage.showAlertDialog(context, "Error", emailError);
-                                return;
-                              }
-
 
                               setState(() {
                                 isLoading = true;
@@ -106,14 +101,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   return; // Don't proceed further if there's an error
                                 }
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OTPVerificationScreen(
-                                      email: emailController.text,
+                                if(_emailformKey.currentState!.validate()) {
+                                  Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OTPVerificationScreen(
+                                          email: emailController.text,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
 
                               } catch (error) {
                                 setState(() {

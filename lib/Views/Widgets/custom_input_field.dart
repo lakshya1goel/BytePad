@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../Contollers/validation.dart';
-import '../../Services/token_generation.dart';
 import '../../theme_data.dart';
 
 class CustomInputField extends StatelessWidget {
@@ -9,8 +8,10 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
+  final TextEditingController? resetPasswordController;
+  final TextEditingController? confirmResetPasswordController;
   final GlobalKey<FormState>? formKey;
-  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, Key? key,}) : super(key: key);
+  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, this.resetPasswordController, this.confirmResetPasswordController, Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +41,17 @@ class CustomInputField extends StatelessWidget {
             if (passwordError != null) {
               return passwordError;
             }
+
+            String? resetPasswordError;
+
+            if ((resetPasswordController?.text != null && confirmResetPasswordController?.text == null ) || (resetPasswordController?.text == null && confirmResetPasswordController?.text != null ) || (resetPasswordController?.text != null && confirmResetPasswordController?.text != null )) {
+              resetPasswordError = Validator.isResetPassword(resetPasswordController!.text, confirmResetPasswordController!.text);
+            }
+
+            if (resetPasswordError != null) {
+              return resetPasswordError;
+            }
+
 
           },
           decoration: InputDecoration(

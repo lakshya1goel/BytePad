@@ -1,7 +1,5 @@
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../../Contollers/validation.dart';
 import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/reset_password.dart';
 import '../../../theme_data.dart';
@@ -20,6 +18,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController  passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   bool isLoading = false;
+  final _passwordformKey = GlobalKey<FormState>();
+  final _confirmPasswordformKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +65,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(height: size.height*0.05,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController,),
+                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController, resetPasswordController: passwordController, formKey: _passwordformKey,),
               ),
               SizedBox(height: size.height*0.04,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController,),
+                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController, confirmResetPasswordController: confirmPasswordController, formKey: _confirmPasswordformKey),
               ),
               SizedBox(height: size.height*0.05,),
               Center(
@@ -78,12 +78,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: () async {
-                      String? passwordError = Validator.isResetPassword(passwordController.text, confirmPasswordController.text);
-                      if (passwordError != null) {
-                        ErrorMessage.showAlertDialog(context, "Error", passwordError);
-                        return;
-                      }
-
 
                       setState(() {
                         isLoading = true;
@@ -101,18 +95,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           return; // Don't proceed further if there's an error
                         }
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SuccessScreen(),
-                          ),
-                        );
+                        if(_passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SuccessScreen(),
+                            ),
+                          );
+                        }
 
                       } catch (error) {
                         setState(() {
                           isLoading = false;
                         });
-                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                        print(error);
+                        ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                       }
                     },
                     child: Padding(

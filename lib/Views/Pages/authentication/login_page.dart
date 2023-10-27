@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                           setState(() {
                             isLoading = false;
                           });
-                          ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                          ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                         }
                       },
                         child: Padding(
