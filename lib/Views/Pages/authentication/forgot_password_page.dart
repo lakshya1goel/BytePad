@@ -50,8 +50,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: size.height*0.02,),
+              Image.asset("assets/images/ForgotPasswordImg.png"),
+              SizedBox(height: size.height*0.02,),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
                 child: Text("Provide your email address to receive a password reset link.",
                   style: TextStyle(
                     fontSize: size.width*0.05,
@@ -62,7 +65,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 padding: EdgeInsets.all(size.width*0.05),
                 child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
               ),
-              SizedBox(height: size.height*0.05,),
+              SizedBox(height: size.height*0.04,),
               Center(
                 child: Stack(
                   alignment: Alignment.center,
@@ -137,8 +140,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: size.height*0.05,),
-              Image.asset("assets/images/ForgotPasswordImg.png"),
             ],
           ),
         ),

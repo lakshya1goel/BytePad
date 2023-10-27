@@ -18,10 +18,7 @@ class CustomInputField extends StatelessWidget {
         controller: controller,
         cursorColor: blueColor,
         decoration: InputDecoration(
-          labelText: labelText,
-          floatingLabelStyle: TextStyle(
-            color: blueColor,
-          ),
+          hintText: labelText,
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(8.0),

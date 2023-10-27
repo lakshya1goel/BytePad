@@ -71,27 +71,25 @@ class _LoginPageState extends State<LoginPage> {
                   child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController,),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(size.width*0.05),
-                  child: Row(
-                    children: [
-                      SizedBox( width: size.width*0.5,),
-                      TextButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ForgotPasswordScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text("Forgot Password?",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: blueColor
-                            ),
+                  padding: EdgeInsets.only(bottom: size.width*0.05, right: size.width*0.05 ),
+                  child: TextButton(
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
                           ),
+                        );
+                      },
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: const Text("Forgot Password?",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: blueColor
+                          ),
+                        ),
                       ),
-                    ],
                   ),
                 ),
                 Center(
