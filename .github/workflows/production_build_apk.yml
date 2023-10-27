@@ -1,0 +1,36 @@
+name: Main Branch Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-main-apk:
+    name: Build Main APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v7
+        with:
+          flutter-version: '3.13.9'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk Main-BytePad.apk
+
+      - name: Upload Main-BytePad.apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: Main-BytePad APK
+          path: Main-BytePad.apk
+
