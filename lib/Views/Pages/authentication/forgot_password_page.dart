@@ -17,6 +17,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   TextEditingController emailController = TextEditingController();
   bool isLoading = false;
+  final _emailformKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(height: size.height*0.02,),
                   Padding(
                     padding: EdgeInsets.all(size.width*0.05),
-                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,),
+                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey,),
                   ),
                   SizedBox(height: size.height*0.05,),
                   Center(
@@ -83,44 +84,41 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           width: size.width*0.9,
                           child: ElevatedButton(
                             onPressed: () async {
-                              String? emailError = Validator.isValidEmail(emailController.text);
-                              if (emailError != null) {
-                                ErrorMessage.showAlertDialog(context, "Error", emailError);
-                                return;
-                              }
 
+                                if(_emailformKey.currentState!.validate()) {
 
-                              setState(() {
-                                isLoading = true;
-                              });
+                                  setState(() {
+                                    isLoading = true;
+                                  });
 
-                              try {
-                                String? errorMessage = await requestResetPasswordOTP(emailController.text);
+                                  try {
+                                    String? errorMessage = await requestResetPasswordOTP(emailController.text);
 
-                                setState(() {
-                                  isLoading = false;
-                                });
+                                    setState(() {
+                                      isLoading = false;
+                                    });
 
-                                if (errorMessage != null) {
-                                  ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                                  return; // Don't proceed further if there's an error
+                                    if (errorMessage != null) {
+                                      ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                      return; // Don't proceed further if there's an error
+                                    }
+                                  } catch (error) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                                  }
+
+                                  Navigator.push(
+                                    context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OTPVerificationScreen(
+                                          email: emailController.text,
+                                      ),
+                                    ),
+                                  );
                                 }
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OTPVerificationScreen(
-                                      email: emailController.text,
-                                    ),
-                                  ),
-                                );
-
-                              } catch (error) {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
-                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),

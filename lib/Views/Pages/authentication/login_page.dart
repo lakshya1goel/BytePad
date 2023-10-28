@@ -19,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+  final _emailformKey = GlobalKey<FormState>();
+  final _passwordformKey = GlobalKey<FormState>();
 
   @override
 
@@ -60,11 +62,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
-                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController,),
+                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController, emailController: emailController, formKey: _emailformKey,),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController,),
+                  child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController, passwordController: passwordController, formKey: _passwordformKey,),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: size.width*0.05, right: size.width*0.05 ),
@@ -93,31 +95,30 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width*0.9,
                     child: ElevatedButton(
                       onPressed: () async {
-                        String? emailError = Validator.isValidEmail(emailController.text);
-                        if (emailError != null) {
-                          ErrorMessage.showAlertDialog(context, "Error", emailError);
-                          return;
-                        }
-                        String? passwordError = Validator.isValidPassword(passwordController.text);
-                        if (passwordError != null) {
-                          ErrorMessage.showAlertDialog(context, "Error", passwordError);
-                          return;
-                        }
 
-                        setState(() {
-                          isLoading = true;
-                        });
-
-                        try {
-                          String? errorMessage = await loginUser(emailController.text, passwordController.text);
+                        if(_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()){
 
                           setState(() {
-                            isLoading = false;
+                            isLoading = true;
                           });
 
-                          if (errorMessage != null) {
-                            ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                            return; // Don't proceed further if there's an error
+                          try {
+                            String? errorMessage = await loginUser(emailController.text, passwordController.text);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (errorMessage != null) {
+                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                              return;
+                            }
+
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
 
                           Navigator.push(
@@ -126,12 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                               builder: (context) => HomePage(),
                             ),
                           );
-
-                        } catch (error) {
-                          setState(() {
-                            isLoading = false;
-                          });
-                          ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
                         }
                       },
                         child: Padding(

@@ -25,12 +25,6 @@ Future<VerifyResponse> verifyResetPasswordOTP(String email, String otp, BuildCon
     VerifyOTPResponse verifyOTP = VerifyOTPResponse.fromJson(verifyOTPResponse);
     var token = verifyOTP.token;
     print('OTP verification successful');
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => ResetPasswordScreen(token: token),
-    //   ),
-    // );
     print(jsonDecode(response.body));
     return VerifyResponse(token: token, error: null);
   } else {
