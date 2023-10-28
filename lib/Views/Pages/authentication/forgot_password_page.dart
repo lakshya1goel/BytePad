@@ -85,23 +85,30 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           child: ElevatedButton(
                             onPressed: () async {
 
-                              setState(() {
-                                isLoading = true;
-                              });
-
-                              try {
-                                String? errorMessage = await requestResetPasswordOTP(emailController.text);
-
-                                setState(() {
-                                  isLoading = false;
-                                });
-
-                                if (errorMessage != null) {
-                                  ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                                  return; // Don't proceed further if there's an error
-                                }
-
                                 if(_emailformKey.currentState!.validate()) {
+
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+
+                                  try {
+                                    String? errorMessage = await requestResetPasswordOTP(emailController.text);
+
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+
+                                    if (errorMessage != null) {
+                                      ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                      return; // Don't proceed further if there's an error
+                                    }
+                                  } catch (error) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                                  }
+
                                   Navigator.push(
                                     context,
                                       MaterialPageRoute(
@@ -112,12 +119,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   );
                                 }
 
-                              } catch (error) {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
-                              }
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),

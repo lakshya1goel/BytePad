@@ -96,37 +96,37 @@ class _LoginPageState extends State<LoginPage> {
                     child: ElevatedButton(
                       onPressed: () async {
 
-                        setState(() {
-                          isLoading = true;
-                        });
-
-                        try {
-                          String? errorMessage = await loginUser(emailController.text, passwordController.text);
+                        if(_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()){
 
                           setState(() {
-                            isLoading = false;
+                            isLoading = true;
                           });
 
-                          if (errorMessage != null) {
-                            ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                            return;
+                          try {
+                            String? errorMessage = await loginUser(emailController.text, passwordController.text);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (errorMessage != null) {
+                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                              return;
+                            }
+
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
 
-                          if(_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
-                          }
-
-
-                        } catch (error) {
-                          setState(() {
-                            isLoading = false;
-                          });
-                          ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
                         }
                       },
                         child: Padding(

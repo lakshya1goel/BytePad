@@ -79,23 +79,31 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
 
-                      setState(() {
-                        isLoading = true;
-                      });
-
-                      try {
-                        String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
-
-                        setState(() {
-                          isLoading = false;
-                        });
-
-                        if (errorMessage != null) {
-                          ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                          return; // Don't proceed further if there's an error
-                        }
-
                         if(_passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()){
+
+                          setState(() {
+                            isLoading = true;
+                          });
+
+                          try {
+                            String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
+
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (errorMessage != null) {
+                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                              return; // Don't proceed further if there's an error
+                            }
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            print(error);
+                            ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
+                          }
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -104,13 +112,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           );
                         }
 
-                      } catch (error) {
-                        setState(() {
-                          isLoading = false;
-                        });
-                        print(error);
-                        ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
-                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
