@@ -65,12 +65,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               SizedBox(height: size.height*0.05,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController, resetPasswordController: passwordController, formKey: _passwordformKey,),
+                child: CustomInputField(labelText: "New Password", icon: Icons.key, controller: passwordController, passwordController: passwordController, formKey: _passwordformKey,),
               ),
               SizedBox(height: size.height*0.04,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController, confirmResetPasswordController: confirmPasswordController, formKey: _confirmPasswordformKey),
+                child: CustomInputField(labelText: "Confirm New Password", icon: Icons.access_time_filled, controller: confirmPasswordController, passwordController: confirmPasswordController, formKey: _confirmPasswordformKey),
               ),
               SizedBox(height: size.height*0.05,),
               Center(
@@ -79,7 +79,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   child: ElevatedButton(
                     onPressed: () async {
 
-                        if(_passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()){
+                        if( _passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()){
 
                           setState(() {
                             isLoading = true;
