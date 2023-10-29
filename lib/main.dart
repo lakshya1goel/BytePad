@@ -1,5 +1,6 @@
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: bgColor,
       ),
       home: const SplashScreen(),
+      routes: {
+        '/Login' : (context) => LoginPage()
+      },
     );
   }
 }

@@ -72,10 +72,11 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       width: size.width*0.9,
                       child: ElevatedButton(
                         onPressed: (){
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            ModalRoute.withName('/Login'),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),

@@ -219,11 +219,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
 
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => SuccessScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => SuccessScreen()),
+                            ModalRoute.withName('/Login'),
                           );
                         }
 
