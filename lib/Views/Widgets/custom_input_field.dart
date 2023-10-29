@@ -9,9 +9,8 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
   final TextEditingController? resetPasswordController;
-  final TextEditingController? confirmResetPasswordController;
   final GlobalKey<FormState>? formKey;
-  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, this.resetPasswordController, this.confirmResetPasswordController, Key? key,}) : super(key: key);
+  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey,  this.resetPasswordController, Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +41,13 @@ class CustomInputField extends StatelessWidget {
               return passwordError;
             }
 
-            String? resetPasswordError;
-
-            if (resetPasswordController?.text != null && confirmResetPasswordController?.text != null ) {
-              resetPasswordError = Validator.isResetPassword(resetPasswordController!.text, confirmResetPasswordController!.text);
-            }
-
-            if (resetPasswordError != null) {
-              return resetPasswordError;
-            }
-
+            // String? resetPasswordError = passwordController?.text != null
+            //     ? Validator.isResetPassword(passwordController!.text)
+            //     : null;
+            //
+            // if (resetPasswordError != null) {
+            //   return resetPasswordError;
+            // }
 
           },
           decoration: InputDecoration(
