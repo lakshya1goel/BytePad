@@ -4,6 +4,7 @@ import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
 import '../../../Models/error_message_dialog_box.dart';
+import '../../../Services/storage.dart';
 import '../../../Services/token_generation.dart';
 import '../../../Utils/Constants/colors.dart';
 
@@ -21,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText=true;
   final _emailformKey = GlobalKey<FormState>();
   final _passwordformKey = GlobalKey<FormState>();
+  final SecureStorage secureStorage = SecureStorage();
 
   @override
 
@@ -175,6 +177,8 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
+
+                          secureStorage.writeSecureData('email', emailController.text);
 
                           Navigator.pushReplacement(
                             context,
