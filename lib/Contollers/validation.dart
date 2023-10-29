@@ -42,16 +42,16 @@ class Validator {
       return "Password Cannot be empty";
     }
 
-    final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
-    bool isValidFormat = passwordRegex.hasMatch(password);
-
-    if (password.length < 8) {
-      return "Password must contain atleast 8 characters";
-    }
-
-    if (!isValidFormat) {
-      return "Please Enter a Strong Password";
-    }
+    // final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
+    // bool isValidFormat = passwordRegex.hasMatch(password);
+    //
+    // if (password.length < 8) {
+    //   return "Password must contain atleast 8 characters";
+    // }
+    //
+    // if (!isValidFormat) {
+    //   return "Please Enter a Strong Password";
+    // }
 
     return null; // Indicates the email is valid
   }

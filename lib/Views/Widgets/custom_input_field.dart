@@ -40,15 +40,6 @@ class CustomInputField extends StatelessWidget {
             if (passwordError != null) {
               return passwordError;
             }
-
-            // String? resetPasswordError = passwordController?.text != null
-            //     ? Validator.isResetPassword(passwordController!.text)
-            //     : null;
-            //
-            // if (resetPasswordError != null) {
-            //   return resetPasswordError;
-            // }
-
           },
           decoration: InputDecoration(
             hintText: labelText,
