@@ -111,42 +111,6 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     width: size.width * 0.1,
                   ),
                 ),
-
-
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // children: List.generate(4, (index) {
-                //   return Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       SizedBox(
-                //         width: size.width * 0.1,
-                //         height: size.height * 0.05,
-                //         child: Container(
-                //           decoration: BoxDecoration(
-                //             border: Border.all(color: Colors.black),
-                //             borderRadius: BorderRadius.circular(5),
-                //           ),
-                //           child: TextField(
-                //             controller: controllers[index],
-                //             style: TextStyle(
-                //               fontSize: 20,
-                //             ),
-                //             keyboardType: TextInputType.number,
-                //             textAlign: TextAlign.center,
-                //             inputFormatters: [
-                //               LengthLimitingTextInputFormatter(1),
-                //               FilteringTextInputFormatter.digitsOnly,
-                //             ],
-                //             decoration: InputDecoration(
-                //               border: InputBorder.none,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       SizedBox(width: size.width*0.03,),
-                //     ],
-                //   );
-                // }),
                 ),
               SizedBox(height: size.height*0.05,),
               Row(
