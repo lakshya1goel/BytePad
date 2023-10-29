@@ -1,6 +1,5 @@
-import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
-import 'package:bytepad/theme_data.dart';
+import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
 
 void main() {

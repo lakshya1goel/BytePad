@@ -1,7 +1,7 @@
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class SuccessScreen extends StatefulWidget {

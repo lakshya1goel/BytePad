@@ -5,7 +5,7 @@ import '../../../Models/error_message_dialog_box.dart';
 import '../../../Models/verify_response.dart';
 import '../../../Services/get_otp.dart';
 import '../../../Services/verify_otp.dart';
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPVerificationScreen extends StatefulWidget {

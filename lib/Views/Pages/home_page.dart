@@ -6,7 +6,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text("Success!"),
+      body: Center(
+          child: Text("Success!"),
+      ),
     );
   }
 }

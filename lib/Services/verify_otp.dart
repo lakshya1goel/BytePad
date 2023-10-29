@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../Views/Pages/authentication/reset_password_page.dart';
-
 Future<VerifyResponse> verifyResetPasswordOTP(String email, String otp, BuildContext context) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/verify-otp/');
   var headers = {

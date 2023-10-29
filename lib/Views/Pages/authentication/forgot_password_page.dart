@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
 import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/get_otp.dart';
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {

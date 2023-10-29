@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import '../Views/Pages/authentication/success_screen.dart';
-
 Future<String?> resetPassword(String? token, String newPassword, BuildContext context) async {
   var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/');
   var headers = {
