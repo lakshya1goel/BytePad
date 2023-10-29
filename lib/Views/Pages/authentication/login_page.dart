@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isLoading = false;
+  bool _obscureText=true;
   final _emailformKey = GlobalKey<FormState>();
   final _passwordformKey = GlobalKey<FormState>();
 
@@ -66,7 +67,62 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: CustomInputField(labelText: "Password", icon: Icons.key, controller: passwordController, passwordController: passwordController, formKey: _passwordformKey,),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: Form(
+                      key: _passwordformKey,
+                      child: TextFormField(
+                        obscureText: _obscureText,
+                        obscuringCharacter: '*',
+                        controller: passwordController,
+                        cursorColor: blueColor,
+                        validator: (value) {
+                          String? passwordError = passwordController?.text != null
+                              ? Validator.isValidPassword(passwordController!.text)
+                              : null;
+
+                          if (passwordError != null) {
+                            return passwordError;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          suffixIcon: GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                _obscureText= !_obscureText;
+                              }
+                              );
+                            },
+                            child: Icon(_obscureText ? Icons.visibility_off : Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          hintText: "Password",
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: blueColor),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          prefixIcon: Container(
+                              margin: EdgeInsets.only(right: size.width*0.08),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: blueColor,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(17.0),
+                                child: Icon(Icons.mail,
+                                  color: Colors.white,
+                                ),
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: size.width*0.05, right: size.width*0.05 ),

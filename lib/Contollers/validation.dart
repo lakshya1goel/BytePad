@@ -42,6 +42,13 @@ class Validator {
       return "Password Cannot be empty";
     }
 
+    return null;
+  }
+
+  static String? isStrongPassword(String password) {
+    if (password.isEmpty) {
+      return "Password Cannot be empty";
+    }
     final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$');
     bool isValidFormat = passwordRegex.hasMatch(password);
 
@@ -53,7 +60,7 @@ class Validator {
       return "Please Enter a Strong Password";
     }
 
-    return null; // Indicates the email is valid
+    return null;
   }
 
 
