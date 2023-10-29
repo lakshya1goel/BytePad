@@ -3,12 +3,12 @@ import 'package:bytepad/Models/verify_otp_reponse.dart';
 import 'package:bytepad/Models/verify_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-import '../Views/Pages/authentication/reset_password_page.dart';
-
 Future<VerifyResponse> verifyResetPasswordOTP(String email, String otp, BuildContext context) async {
-  var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/verify-otp/');
+  final String baseURl = dotenv.get('BaseUrl');
+  var url = Uri.parse('$baseURl/auth/reset-password/verify-otp/');
   var headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'

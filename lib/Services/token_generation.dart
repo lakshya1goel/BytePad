@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../Models/generate_token_error.dart';
 import '../Models/generate_token_response.dart';
 
 Future<String?> loginUser(String email, String password) async {
-  var url = Uri.parse('https://bytepad.onrender.com/auth/generate/');
+  final String baseURl = dotenv.get('BaseUrl');
+  var url = Uri.parse('$baseURl/auth/generate/');
   var headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'

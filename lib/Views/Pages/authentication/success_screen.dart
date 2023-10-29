@@ -1,7 +1,7 @@
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 
 class SuccessScreen extends StatefulWidget {
@@ -72,10 +72,11 @@ class _SuccessScreenState extends State<SuccessScreen> {
                       width: size.width*0.9,
                       child: ElevatedButton(
                         onPressed: (){
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            ModalRoute.withName('/Login'),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),

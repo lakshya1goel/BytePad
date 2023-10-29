@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
 import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/reset_password.dart';
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   final String? token;
@@ -219,11 +219,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
 
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => SuccessScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => SuccessScreen()),
+                            ModalRoute.withName('/Login'),
                           );
                         }
 

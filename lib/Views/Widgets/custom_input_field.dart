@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../Contollers/validation.dart';
-import '../../theme_data.dart';
+import '../../Utils/Constants/colors.dart';
 
 class CustomInputField extends StatelessWidget {
   final String labelText;
@@ -8,9 +8,8 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
-  final TextEditingController? resetPasswordController;
   final GlobalKey<FormState>? formKey;
-  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey,  this.resetPasswordController, Key? key,}) : super(key: key);
+  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

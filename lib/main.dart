@@ -1,9 +1,11 @@
-import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
-import 'package:bytepad/theme_data.dart';
+import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async{
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: bgColor,
       ),
       home: const SplashScreen(),
+      routes: {
+        '/Login' : (context) => LoginPage()
+      },
     );
   }
 }

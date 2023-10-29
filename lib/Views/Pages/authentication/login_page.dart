@@ -3,10 +3,9 @@ import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Contollers/validations.dart';
 import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/token_generation.dart';
-import '../../../theme_data.dart';
+import '../../../Utils/Constants/colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

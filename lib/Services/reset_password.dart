@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-import '../Views/Pages/authentication/success_screen.dart';
-
 Future<String?> resetPassword(String? token, String newPassword, BuildContext context) async {
-  var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/');
+  final String baseURl = dotenv.get('BaseUrl');
+  var url = Uri.parse('$baseURl/auth/reset-password/');
   var headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'
