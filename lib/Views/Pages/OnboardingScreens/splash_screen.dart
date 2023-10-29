@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
+import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Services/storage.dart';
+
+String? finalEmail;
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -10,14 +14,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final SecureStorage secureStorage = SecureStorage();
+
   @override
   void initState() {
+    secureStorage.readSecureData('email').then((value) {
+      finalEmail = value;
+    });
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(
-          builder: (context) => const FirstOnboardingScreen()));
+          builder: (context) => finalEmail == null ? FirstOnboardingScreen() : HomePage()));
 
     });
   }
