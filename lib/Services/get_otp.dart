@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 Future<String?> requestResetPasswordOTP(String email) async {
-  var url = Uri.parse('https://bytepad.onrender.com/auth/reset-password/get-otp/');
+  final String baseURl = dotenv.get('BaseUrl');
+  var url = Uri.parse('$baseURl/auth/reset-password/get-otp/');
   var headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'
