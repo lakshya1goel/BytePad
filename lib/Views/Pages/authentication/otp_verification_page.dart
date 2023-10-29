@@ -6,6 +6,7 @@ import '../../../Models/verify_response.dart';
 import '../../../Services/get_otp.dart';
 import '../../../Services/verify_otp.dart';
 import '../../../theme_data.dart';
+import 'package:pinput/pinput.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   final String email;
@@ -17,16 +18,20 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
-  List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
+  // List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
   bool isLoading = false;
+  final TextEditingController _otpController = TextEditingController();
 
-  String getOtp() {
-    String otp = '';
-    for (var controller in controllers) {
-      otp += controller.text;
-    }
-    return otp;
-  }
+  // String getOtp() {
+  //   String otp = '';
+  //   for (var controller in controllers) {
+  //     otp += controller.text;
+  //   }
+  //   return otp;
+  // }
+  final focusNode = FocusNode();
+  final _pinKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,43 +77,77 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               Image.asset("assets/images/OTPVerificationImg.png"),
               SizedBox(height: size.height*0.05,),
               Form(
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(4, (index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: size.width * 0.1,
-                        height: size.height * 0.05,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: TextField(
-                            controller: controllers[index],
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                            keyboardType: TextInputType.number,
-                            textAlign: TextAlign.center,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(1),
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: size.width*0.03,),
-                    ],
-                  );
-                }),
+                child: Pinput(
+                  controller: _otpController,
+                  defaultPinTheme: PinTheme(
+                    textStyle: TextStyle(
+                      fontSize: size.width*0.05,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5)),
+                    height: size.height * 0.05,
+                    width: size.width * 0.1,
+                  ),
+                  focusNode: focusNode,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  length: 4,
+                  validator: (value) {
+                    if (value!.length != 4) {
+                      return "Enter the OTP";
+                    }
+                    return null;
+                  },
+                  errorPinTheme: PinTheme(
+                    textStyle: TextStyle(
+                        color: Colors.red,
+                        fontSize: size.width*0.05,
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.red),
+                        borderRadius: BorderRadius.circular(8)),
+                    height: size.height * 0.05,
+                    width: size.width * 0.1,
+                  ),
                 ),
-              ),
+
+
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // children: List.generate(4, (index) {
+                //   return Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       SizedBox(
+                //         width: size.width * 0.1,
+                //         height: size.height * 0.05,
+                //         child: Container(
+                //           decoration: BoxDecoration(
+                //             border: Border.all(color: Colors.black),
+                //             borderRadius: BorderRadius.circular(5),
+                //           ),
+                //           child: TextField(
+                //             controller: controllers[index],
+                //             style: TextStyle(
+                //               fontSize: 20,
+                //             ),
+                //             keyboardType: TextInputType.number,
+                //             textAlign: TextAlign.center,
+                //             inputFormatters: [
+                //               LengthLimitingTextInputFormatter(1),
+                //               FilteringTextInputFormatter.digitsOnly,
+                //             ],
+                //             decoration: InputDecoration(
+                //               border: InputBorder.none,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       SizedBox(width: size.width*0.03,),
+                //     ],
+                //   );
+                // }),
+                ),
               SizedBox(height: size.height*0.05,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -137,7 +176,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       });
 
                       try {
-                        VerifyResponse result = await verifyResetPasswordOTP(widget.email, getOtp(), context);
+                        VerifyResponse result = await verifyResetPasswordOTP(widget.email, _otpController.text, context);
 
                         setState(() {
                           isLoading = false;
