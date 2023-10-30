@@ -1,10 +1,36 @@
-import 'package:bytepad/Views/Pages/OnboardingScreens/second_onboarding_screen.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
-import 'package:bytepad/theme_data.dart';
+import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
-class FirstOnboardingScreen extends StatelessWidget {
+class FirstOnboardingScreen extends StatefulWidget {
   const FirstOnboardingScreen({super.key});
+
+  @override
+  State<FirstOnboardingScreen> createState() => _FirstOnboardingScreenState();
+}
+
+class _FirstOnboardingScreenState extends State<FirstOnboardingScreen> {
+
+  List display = [
+    { "img": 'assets/images/firstOnboardImg.png' , "heading": 'Unlock the Past', "content": 'Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.'},
+    { "img": 'assets/images/secondOnboardImg.png' , "heading": 'Stay Informed', "content": 'Keep track of your attendance effortlessly, ensuring you never miss an important class or deadline.'},
+    { "img": 'assets/images/thirdOnboardImg.png' , "heading": 'Empower Educators', "content": 'Stay updated with the latest course materials, announcements, and resources shared by your teachers.'},
+  ];
+
+  final CarouselController carouselController = CarouselController();
+  int currentIndex = 0;
+
+  void onNextButtonPressed() {
+    if (currentIndex == display.length - 1) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
+    } else {
+      carouselController.nextPage();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,102 +39,127 @@ class FirstOnboardingScreen extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                  alignment: Alignment.topRight,
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: size.width,
+                  color: blueColor,
+                  height: size.height*0.34,
+                ),
+                CarouselSlider(
+                    items: display.map((item) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(item['img'],),
+                        SizedBox(height: size.height*0.05),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal : size.width*0.05),
+                          child: Text(item['heading'],
+                            style: TextStyle(
+                              fontSize: size.width*0.08,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        // SizedBox(height: size.height*0.05),
+                        Padding(
+                          padding: EdgeInsets.all(size.width*0.05),
+                          child: Text(item['content'],
+                            style: TextStyle(
+                              fontSize: size.width*0.05,
+                            ),
+                          ),
+                        )
+                      ],
+                    )).toList(),
+                  carouselController: carouselController,
+                  options: CarouselOptions(
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    aspectRatio: 0.55,
+                    viewportFraction: 1,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    }
+                  ),
+                ),
+                Positioned(
+                    bottom: size.height*0.09,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: display.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => carouselController.animateToPage(entry.key),
+                          child: Container(
+                            width: size.width*0.025,
+                            height: size.height*0.012,
+                            margin: const EdgeInsets.symmetric(horizontal: 3),
+                            decoration: BoxDecoration(
+                              color: currentIndex == entry.key? blueColor : Colors.grey,
+                              borderRadius: BorderRadius.circular(size.width*0.025),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    )
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Container(
+                      width: size.width*0.9,
+                      child: ElevatedButton(
+                        onPressed: onNextButtonPressed,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child:  Text("NEXT",
+                            style: TextStyle(
+                              fontSize: size.width*0.05,
+                            ),
+                          ),
+                        ),
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(blueColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: size.height*0.75,
+                  left: size.width*0.75,
+                  right: 0,
                   child: TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
+                        MaterialPageRoute(builder: (context) => LoginPage()),
                       );
                     },
-                    child: const Text("Skip",
+                    child: Text("Skip",
                       style: TextStyle(
-                          color: blueColor
+                        color: Colors.white,
+                        fontSize: size.width*0.04,
                       ),
-                    ),
-                  )
-              ),
-              Image.asset("assets/images/FirstOnboardImage.jpeg"),
-              SizedBox(height: size.height*0.05),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Text("Unlock the Past",
-                  style: TextStyle(
-                    fontSize: size.width*0.08,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(size.width*0.05),
-                child: Text("Dive into a treasure trove of past exam papers and study materials, making exam preparation a breeze.",
-                  style: TextStyle(
-                    fontSize: size.width*0.05,
-                    // fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: blueColor,
-                    radius: size.width*0.01,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(size.width*0.01),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      radius: size.width*0.01,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: size.width*0.01,
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height*0.02,),
-              Center(
-                child: Container(
-                  width: size.width*0.9,
-                  child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SecondOnboardingScreen(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text("NEXT",
-                        style: TextStyle(
-                          fontSize: size.width*0.05,
-                        ),
-                      ),
-                    ),
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(blueColor),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
