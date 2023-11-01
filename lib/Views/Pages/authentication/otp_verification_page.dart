@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,19 +20,38 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
-  // List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
   bool isLoading = false;
   final TextEditingController _otpController = TextEditingController();
 
-  // String getOtp() {
-  //   String otp = '';
-  //   for (var controller in controllers) {
-  //     otp += controller.text;
-  //   }
-  //   return otp;
-  // }
   final focusNode = FocusNode();
-  final _pinKey = GlobalKey<FormState>();
+
+  int _secondsRemaining = 300; // Initial value for OTP timer (5 minutes)
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+        } else {
+          _timer.cancel();
+          // Handle what happens when the timer reaches 0 (e.g., show a message)
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
 
   @override
@@ -84,7 +105,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       fontSize: size.width*0.05,
                     ),
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+                        border: Border.all(color: blueColor),
                         borderRadius: BorderRadius.circular(5)),
                     height: size.height * 0.05,
                     width: size.width * 0.1,
@@ -111,8 +132,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     width: size.width * 0.1,
                   ),
                 ),
-                ),
-              SizedBox(height: size.height*0.05,),
+              ),
+              SizedBox(height: size.height*0.025,),
+              Text(
+                '${(_secondsRemaining ~/ 60).toString().padLeft(2, '0')} : ${(_secondsRemaining % 60).toString().padLeft(2, '0')} ',
+                style: TextStyle(fontSize: 20, color: Colors.grey),
+              ),
+              SizedBox(height: size.height*0.02,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
