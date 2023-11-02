@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
@@ -161,39 +162,52 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-
                       try {
-                        VerifyResponse result = await verifyResetPasswordOTP(widget.email, _otpController.text, context);
+                        final result = await InternetAddress.lookup('example.com');
+                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                          // Internet connection is available
+                          setState(() {
+                            isLoading = true;
+                          });
 
-                        setState(() {
-                          isLoading = false;
-                        });
+                          try {
+                            VerifyResponse result = await verifyResetPasswordOTP(widget.email, _otpController.text, context);
 
-                        if (result.token != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(
-                                token: result.token,
-                              ),
-                            ),
-                          );
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            if (result.token != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResetPasswordScreen(
+                                    token: result.token,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              ErrorMessage.showAlertDialog(context, "Error", result.error ?? "Can't be empty");
+                            }
+
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            print('Error requesting OTP: $error');
+                            ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                          }
                         } else {
-                          ErrorMessage.showAlertDialog(context, "Error", result.error ?? "Can't be empty");
+                          // No internet connection
+                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                         }
-
-                      } catch (error) {
-                        setState(() {
-                          isLoading = false;
-                        });
-
-                        print('Error requesting OTP: $error');
-                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                      } on SocketException catch (_) {
+                        // Unable to lookup host, likely no internet connection
+                        ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                       }
                     },
+
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: isLoading ?

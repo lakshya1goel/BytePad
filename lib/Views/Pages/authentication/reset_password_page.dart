@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
@@ -193,40 +195,51 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: () async {
-
-                        if( _passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()){
-
-                          setState(() {
-                            isLoading = true;
-                          });
-
-                          try {
-                            String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
-
+                      try {
+                        final result = await InternetAddress.lookup('example.com');
+                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                          // Internet connection is available
+                          if (_passwordformKey.currentState!.validate() && _confirmPasswordformKey.currentState!.validate()) {
                             setState(() {
-                              isLoading = false;
+                              isLoading = true;
                             });
 
-                            if (errorMessage != null) {
-                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                              return; // Don't proceed further if there's an error
+                            try {
+                              String? errorMessage = await resetPassword(widget.token, passwordController.text, context);
+
+                              setState(() {
+                                isLoading = false;
+                              });
+
+                              if (errorMessage != null) {
+                                ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                return; // Don't proceed further if there's an error
+                              }
+
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => SuccessScreen()),
+                                ModalRoute.withName('/Login'),
+                              );
+
+                            } catch (error) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              print(error);
+                              ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                             }
-                          } catch (error) {
-                            setState(() {
-                              isLoading = false;
-                            });
-                            print(error);
-                            ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
-
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => SuccessScreen()),
-                            ModalRoute.withName('/Login'),
-                          );
+                        } else {
+                          // No internet connection
+                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                         }
-
+                      } on SocketException catch (_) {
+                        // Unable to lookup host, likely no internet connection
+                        ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                      }
                     },
+
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: isLoading ?

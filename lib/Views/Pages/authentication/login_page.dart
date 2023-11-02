@@ -154,11 +154,11 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width*0.9,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()) {
-                          try {
-                            final result = await InternetAddress.lookup('example.com');
-                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-                              // Internet connection is available
+                        try {
+                          final result = await InternetAddress.lookup('example.com');
+                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                            // Internet connection is available
+                            if (_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
                               });
@@ -174,6 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ErrorMessage.showAlertDialog(context, "Error", errorMessage);
                                   return;
                                 }
+
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -181,24 +182,24 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
 
+                                secureStorage.writeSecureData('email', emailController.text);
                               } catch (error) {
                                 setState(() {
                                   isLoading = false;
                                 });
                                 ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                               }
-
-                              secureStorage.writeSecureData('email', emailController.text);
-                            } else {
-                              // No internet connection
-                              ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                             }
-                          } on SocketException catch (_) {
-                            // Unable to lookup host, likely no internet connection
+                          } else {
+                            // No internet connection
                             ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                           }
+                        } on SocketException catch (_) {
+                          // Unable to lookup host, likely no internet connection
+                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
                         }
                       },
+
                       child: Padding(
                           padding: const EdgeInsets.all(12.0),
                             child: isLoading ?

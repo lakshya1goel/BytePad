@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Models/error_message_dialog_box.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 
@@ -71,13 +74,26 @@ class _SuccessScreenState extends State<SuccessScreen> {
                     child: Container(
                       width: size.width*0.9,
                       child: ElevatedButton(
-                        onPressed: (){
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
-                            ModalRoute.withName('/Login'),
-                          );
+                        onPressed: () async {
+                          try {
+                            final result = await InternetAddress.lookup('example.com');
+                            if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                              // Internet connection is available
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginPage()),
+                                ModalRoute.withName('/Login'),
+                              );
+                            } else {
+                              // No internet connection
+                              ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                            }
+                          } on SocketException catch (_) {
+                            // Unable to lookup host, likely no internet connection
+                            ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                          }
                         },
+
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Text("LOGIN",
