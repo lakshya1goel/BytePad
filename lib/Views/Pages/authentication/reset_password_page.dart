@@ -25,6 +25,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool _obscureTextPassword = true;
   bool _obscureTextConfirmPassword = true;
   String password = "";
+  String? errorMsgText;
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +93,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         }
                       },
                       decoration: InputDecoration(
+                        errorText: errorMsgText,
                         suffixIcon: GestureDetector(
                           onTap: (){
                             setState(() {
@@ -120,7 +122,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(17.0),
-                              child: Icon(Icons.mail,
+                              child: Icon(Icons.key,
                                 color: Colors.white,
                               ),
                             )
@@ -151,6 +153,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         }
                       },
                       decoration: InputDecoration(
+                        errorText: errorMsgText,
                         suffixIcon: GestureDetector(
                           onTap: (){
                             setState(() {
@@ -179,7 +182,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(17.0),
-                              child: Icon(Icons.mail,
+                              child: Icon(Icons.access_time_filled ,
                                 color: Colors.white,
                               ),
                             )
@@ -209,10 +212,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                               setState(() {
                                 isLoading = false;
+                                errorMsgText = "";
                               });
 
                               if (errorMessage != null) {
-                                ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                setState(() {
+                                  errorMsgText = errorMessage;
+                                });
                                 return; // Don't proceed further if there's an error
                               }
 
@@ -225,18 +231,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             } catch (error) {
                               setState(() {
                                 isLoading = false;
+                                errorMsgText = "Unexpected error occurred. Please try again later.";
                               });
                               print(error);
-                              ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                             }
                           }
                         } else {
                           // No internet connection
-                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                          setState(() {
+                            errorMsgText = "No Internet Connection";
+                          });
                         }
                       } on SocketException catch (_) {
                         // Unable to lookup host, likely no internet connection
-                        ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                        setState(() {
+                          errorMsgText = "No Internet Connection";
+                        });
                       }
                     },
 

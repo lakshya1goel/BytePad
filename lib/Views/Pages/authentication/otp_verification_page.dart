@@ -28,6 +28,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
   int _secondsRemaining = 300; // Initial value for OTP timer (5 minutes)
   late Timer _timer;
+  String? errorMsgText;
 
   @override
   void initState() {
@@ -121,6 +122,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     }
                     return null;
                   },
+                  errorText: errorMsgText,
                   errorPinTheme: PinTheme(
                     textStyle: TextStyle(
                         color: Colors.red,
@@ -175,6 +177,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
                             setState(() {
                               isLoading = false;
+                              errorMsgText = "";
                             });
 
                             if (result.token != null) {
@@ -187,7 +190,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                 ),
                               );
                             } else {
-                              ErrorMessage.showAlertDialog(context, "Error", result.error ?? "Can't be empty");
+                              setState(() {
+                                errorMsgText = "Can't be empty!";
+                              });
                             }
 
                           } catch (error) {
@@ -196,15 +201,22 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                             });
 
                             print('Error requesting OTP: $error');
-                            ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
+                            setState(() {
+                              errorMsgText = "Error requesting OTP. Please try again later.";
+                            });
+
                           }
                         } else {
                           // No internet connection
-                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                          setState(() {
+                            errorMsgText = "No Internet Connection";
+                          });
                         }
                       } on SocketException catch (_) {
                         // Unable to lookup host, likely no internet connection
-                        ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                        setState(() {
+                          errorMsgText = "No Internet Connection";
+                        });
                       }
                     },
 

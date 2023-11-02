@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/get_otp.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
@@ -20,6 +19,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController emailController = TextEditingController();
   bool isLoading = false;
   final _emailformKey = GlobalKey<FormState>();
+  String? errorMsgText;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(height: size.height*0.02,),
                   Padding(
                     padding: EdgeInsets.all(size.width*0.05),
-                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey,),
+                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey, errorMsgText: errorMsgText,),
                   ),
                   SizedBox(height: size.height*0.05,),
                   Center(
@@ -92,6 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   // Internet connection is available
                                   if (_emailformKey.currentState!.validate()) {
                                     setState(() {
+                                      errorMsgText = "";
                                       isLoading = true;
                                     });
 
@@ -103,7 +104,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       });
 
                                       if (errorMessage != null) {
-                                        ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                        setState(() {
+                                          errorMsgText = errorMessage;
+                                        });
                                         return; // Don't proceed further if there's an error
                                       }
 
@@ -119,17 +122,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     } catch (error) {
                                       setState(() {
                                         isLoading = false;
+                                        errorMsgText = "Error requesting OTP. Please try again later.";
                                       });
-                                      ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
                                     }
                                   }
                                 } else {
                                   // No internet connection
-                                  ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                                  setState(() {
+                                    isLoading = false;
+                                    errorMsgText = "No Internet Connection";
+                                  });
                                 }
                               } on SocketException catch (_) {
                                 // Unable to lookup host, likely no internet connection
-                                ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                                setState(() {
+                                  isLoading = false;
+                                  errorMsgText = "No Internet Connection";
+                                });
                               }
                             },
 

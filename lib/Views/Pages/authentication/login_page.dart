@@ -5,7 +5,6 @@ import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/storage.dart';
 import '../../../Services/token_generation.dart';
 import '../../../Utils/Constants/colors.dart';
@@ -25,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailformKey = GlobalKey<FormState>();
   final _passwordformKey = GlobalKey<FormState>();
   final SecureStorage secureStorage = SecureStorage();
+  String? errorMsgText;
 
   @override
 
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
-                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController, emailController: emailController, formKey: _emailformKey,),
+                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController, emailController: emailController, formKey: _emailformKey, errorMsgText: errorMsgText,),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                         decoration: InputDecoration(
+                          errorText: errorMsgText,
                           suffixIcon: GestureDetector(
                             onTap: (){
                               setState(() {
@@ -117,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(17.0),
-                                child: Icon(Icons.mail,
+                                child: Icon(Icons.key,
                                   color: Colors.white,
                                 ),
                               )
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
+                                errorMsgText = "";
                               });
 
                               try {
@@ -171,7 +173,9 @@ class _LoginPageState extends State<LoginPage> {
                                 });
 
                                 if (errorMessage != null) {
-                                  ErrorMessage.showAlertDialog(context, "Error", errorMessage);
+                                  setState(() {
+                                    errorMsgText = errorMessage;
+                                  });
                                   return;
                                 }
 
@@ -186,17 +190,21 @@ class _LoginPageState extends State<LoginPage> {
                               } catch (error) {
                                 setState(() {
                                   isLoading = false;
+                                  errorMsgText = "Unexpected error occurred. Please try again later.";
                                 });
-                                ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                               }
                             }
                           } else {
                             // No internet connection
-                            ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                            setState(() {
+                              errorMsgText = "No Internet Connection";
+                            });
                           }
                         } on SocketException catch (_) {
                           // Unable to lookup host, likely no internet connection
-                          ErrorMessage.showAlertDialog(context, "Error", "No Internet Connection");
+                          setState(() {
+                            errorMsgText = "No Internet Connection";
+                          });
                         }
                       },
 
