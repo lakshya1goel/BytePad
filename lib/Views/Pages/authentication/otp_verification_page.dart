@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,19 +21,39 @@ class OTPVerificationScreen extends StatefulWidget {
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
-  // List<TextEditingController> controllers = List.generate(4, (index) => TextEditingController());
   bool isLoading = false;
   final TextEditingController _otpController = TextEditingController();
 
-  // String getOtp() {
-  //   String otp = '';
-  //   for (var controller in controllers) {
-  //     otp += controller.text;
-  //   }
-  //   return otp;
-  // }
   final focusNode = FocusNode();
-  final _pinKey = GlobalKey<FormState>();
+
+  int _secondsRemaining = 300; // Initial value for OTP timer (5 minutes)
+  late Timer _timer;
+  String? errorMsgText;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_secondsRemaining > 0) {
+          _secondsRemaining--;
+        } else {
+          _timer.cancel();
+          // Handle what happens when the timer reaches 0 (e.g., show a message)
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
 
 
   @override
@@ -84,7 +107,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       fontSize: size.width*0.05,
                     ),
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+                        border: Border.all(color: blueColor),
                         borderRadius: BorderRadius.circular(5)),
                     height: size.height * 0.05,
                     width: size.width * 0.1,
@@ -99,6 +122,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     }
                     return null;
                   },
+                  errorText: errorMsgText,
                   errorPinTheme: PinTheme(
                     textStyle: TextStyle(
                         color: Colors.red,
@@ -111,8 +135,13 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                     width: size.width * 0.1,
                   ),
                 ),
-                ),
-              SizedBox(height: size.height*0.05,),
+              ),
+              SizedBox(height: size.height*0.025,),
+              Text(
+                '${(_secondsRemaining ~/ 60).toString().padLeft(2, '0')} : ${(_secondsRemaining % 60).toString().padLeft(2, '0')} ',
+                style: TextStyle(fontSize: 20, color: Colors.grey),
+              ),
+              SizedBox(height: size.height*0.02,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -135,39 +164,62 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                   width: size.width*0.9,
                   child: ElevatedButton(
                     onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-
                       try {
-                        VerifyResponse result = await verifyResetPasswordOTP(widget.email, _otpController.text, context);
+                        final result = await InternetAddress.lookup('example.com');
+                        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                          // Internet connection is available
+                          setState(() {
+                            isLoading = true;
+                          });
 
-                        setState(() {
-                          isLoading = false;
-                        });
+                          try {
+                            VerifyResponse result = await verifyResetPasswordOTP(widget.email, _otpController.text, context);
 
-                        if (result.token != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(
-                                token: result.token,
-                              ),
-                            ),
-                          );
+                            setState(() {
+                              isLoading = false;
+                              errorMsgText = "";
+                            });
+
+                            if (result.token != null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResetPasswordScreen(
+                                    token: result.token,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              setState(() {
+                                errorMsgText = "Can't be empty!";
+                              });
+                            }
+
+                          } catch (error) {
+                            setState(() {
+                              isLoading = false;
+                            });
+
+                            print('Error requesting OTP: $error');
+                            setState(() {
+                              errorMsgText = "Error requesting OTP. Please try again later.";
+                            });
+
+                          }
                         } else {
-                          ErrorMessage.showAlertDialog(context, "Error", result.error ?? "Can't be empty");
+                          // No internet connection
+                          setState(() {
+                            errorMsgText = "No Internet Connection";
+                          });
                         }
-
-                      } catch (error) {
+                      } on SocketException catch (_) {
+                        // Unable to lookup host, likely no internet connection
                         setState(() {
-                          isLoading = false;
+                          errorMsgText = "No Internet Connection";
                         });
-
-                        print('Error requesting OTP: $error');
-                        ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
                       }
                     },
+
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: isLoading ?
