@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_selction_screen.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const SplashScreen(),
+      home: const DocumentSelectionScren(),
       routes: {
         '/Login' : (context) => LoginPage()
       },
