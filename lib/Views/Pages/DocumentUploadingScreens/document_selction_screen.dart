@@ -1,6 +1,11 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DocumentSelectionScren extends StatefulWidget {
   const DocumentSelectionScren({super.key});
@@ -12,6 +17,57 @@ class DocumentSelectionScren extends StatefulWidget {
 class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
 
   bool isLoading = false;
+  FilePickerResult? result;
+  String? _fileName;
+  PlatformFile? pickedFile;
+  File? fileToDisplay;
+
+  Future<void> requestPermission() async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      print(status);
+    } else if (status.isDenied) {
+      Permission.storage.request();
+      openAppSettings();
+    }
+  }
+
+
+  void pickFile() async {
+    try{
+      setState(() {
+        isLoading = true;
+      });
+
+      result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['pdf', 'ppt', 'jpeg', 'png', 'word'],
+      );
+
+      if(result != null) {
+        _fileName = result!.files.first.name;
+        pickedFile = result!.files.first;
+        fileToDisplay = File(pickedFile!.name.toString());
+
+        print('filename: $_fileName');
+        setState(() {
+
+        });
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+    catch(e) {
+      print(e);
+    }
+  }
+
+  void loadSelectedFiles(PlatformFile file) {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +233,7 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                 ],
               ),
               SizedBox(height: size.height*0.03,),
-              Padding(
+              (pickedFile == null) ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
                 child: DottedBorder(
                   color: Colors.grey,
@@ -197,7 +253,9 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  pickFile();
+                                },
                                 child: Text('Upload',
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
@@ -229,6 +287,45 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                     ),
                   ),
                 ),
+              ) : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: size.width*0.08, vertical: size.height*0.025),
+                    child: Text("Loaded - 1 file",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF676767),
+                        fontSize: size.width*0.05
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color(0xFF11AF22),
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Row(
+                          children: [
+                            Text(_fileName!),
+                            SizedBox(width: size.width*0.13,),
+                            IconButton(
+                              onPressed: (){},
+                                icon: Icon(Icons.repeat),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height*0.25,)
+                ],
               ),
               SizedBox(height: size.height*0.03,),
               Center(
@@ -266,6 +363,7 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                   ],
                 ),
               ),
+              // (pickedFile == null) ? Container(): Image.file(File(pickedFile!.path.toString()))
             ],
           ),
         ),
