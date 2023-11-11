@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-Future<String?> paperListing(String? authToken) async {
+import '../../Models/PastYearPapers/papers_listing_model.dart';
+
+Future<PaperListingModel?> paperListing(String? authToken) async {
   print("hehehe");
   final String baseUrl = dotenv.get('BaseUrl');
   int page = 1;
+  List<Results>? allPapers;
 
   while (true) {
     var url = Uri.parse('$baseUrl/papers/?page=$page');
@@ -28,6 +31,15 @@ Future<String?> paperListing(String? authToken) async {
         // Parse the JSON response
         final Map<String, dynamic> data = json.decode(response.body);
 
+        // Extract papers from the current page
+        List<Results> papers = (data['results'] as List)
+            .map((paperData) => Results.fromJson(paperData))
+            .toList();
+
+        // Add papers to the accumulated list
+        allPapers ??= [];
+        allPapers.addAll(papers);
+
         // Check if the 'next' value is null
         if (data['next'] == null) {
           print('Reached the last page. Stopping the loop.');
@@ -47,5 +59,5 @@ Future<String?> paperListing(String? authToken) async {
       break; // Break the loop on error
     }
   }
-
+  return PaperListingModel(results: allPapers);
 }

@@ -2,6 +2,7 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Models/PastYearPapers/papers_listing_model.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 
 class DocumentListingScreen extends StatefulWidget {
@@ -12,6 +13,15 @@ class DocumentListingScreen extends StatefulWidget {
 }
 
 class _DocumentListingScreenState extends State<DocumentListingScreen> {
+
+  Future<PaperListingModel?>? papersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    papersFuture = paperListing("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NzMwNzIxLCJpYXQiOjE2OTk3MzA0MjEsImp0aSI6ImRjYjkyMzMxMDFhMjQ5ZGU5Y2I0NmU3NzI2YWJjMmM5IiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.Nts9FdNFrKliCxzd0W3xZv1QPVOig2JX-iL1W9j3WHI");
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -55,6 +65,36 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                     fontSize: size.width*0.09,
                   ),
                 ),
+              ),
+              FutureBuilder<PaperListingModel?>(
+                future: papersFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.results == null || snapshot.data!.results!.isEmpty) {
+                    return Center(
+                      child: Text('No papers available.'),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.results!.length,
+                      itemBuilder: (context, index) {
+                        Results paper = snapshot.data!.results![index];
+                        return Card(
+                          child: ListTile(
+                            title: Text(paper.title ?? ''),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ],
           ),
