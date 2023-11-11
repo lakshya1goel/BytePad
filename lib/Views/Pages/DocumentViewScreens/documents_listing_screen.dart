@@ -13,19 +13,19 @@ class DocumentListingScreen extends StatefulWidget {
 }
 
 class _DocumentListingScreenState extends State<DocumentListingScreen> {
-
+  late Size size;
   Future<PaperListingModel?>? papersFuture;
 
   @override
   void initState() {
     super.initState();
-    papersFuture = paperListing("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NzMwNzIxLCJpYXQiOjE2OTk3MzA0MjEsImp0aSI6ImRjYjkyMzMxMDFhMjQ5ZGU5Y2I0NmU3NzI2YWJjMmM5IiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.Nts9FdNFrKliCxzd0W3xZv1QPVOig2JX-iL1W9j3WHI");
+    papersFuture = paperListing("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzI1MTM3LCJpYXQiOjE2OTk3MzMxMzcsImp0aSI6ImUxMTVkZjFmZTM0ZTQyMWFiNzUzYWQ3ZWNmMThlYzhhIiwidXNlcl9pZCI6ImFkbWluQGFkbWluLmNvbSJ9.Xkngyodaw18XzRxqz7p-rv5_UI8hQ6RblNP_eT8C3TU");
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -82,16 +82,32 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                       child: Text('No papers available.'),
                     );
                   } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.results!.length,
-                      itemBuilder: (context, index) {
-                        Results paper = snapshot.data!.results![index];
-                        return Card(
-                          child: ListTile(
-                            title: Text(paper.title ?? ''),
-                          ),
-                        );
-                      },
+                    return SizedBox(
+                      height: size.height,
+                      child: ListView.builder(
+                        itemCount: snapshot.data!.results!.length,
+                        itemBuilder: (context, index) {
+                          Results paper = snapshot.data!.results![index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(paper.title ?? ''),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(paper.courses.toString() ?? ''),
+                                  Row(
+                                    children: [
+                                      Text(paper.year.toString() ?? ''),
+                                      SizedBox(width: size.width*0.75,),
+                                      Text(paper.semester.toString() ?? ''),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ),
+                          );
+                        },
+                      ),
                     );
                   }
                 },

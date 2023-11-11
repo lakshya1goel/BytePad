@@ -36,8 +36,10 @@ class Results {
   String? file;
   int? year;
   int? semester;
+  List<String>? courses;
 
-  Results({this.id, this.title, this.file, this.year, this.semester});
+  Results(
+      {this.id, this.title, this.file, this.year, this.semester, this.courses});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,6 +47,7 @@ class Results {
     file = json['file'];
     year = json['year'];
     semester = json['semester'];
+    courses = json['courses'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +57,7 @@ class Results {
     data['file'] = this.file;
     data['year'] = this.year;
     data['semester'] = this.semester;
+    data['courses'] = this.courses;
     return data;
   }
 }
