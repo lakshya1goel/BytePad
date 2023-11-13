@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const HodDashboard(),
+      home: const SplashScreen(),
       routes: {
-        '/Login' : (context) => const SplashScreen()
+        '/Login' : (context) => const LoginPage()
       },
     );
   }

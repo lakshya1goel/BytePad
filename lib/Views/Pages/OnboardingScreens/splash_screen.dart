@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
 import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 4), () {
       Navigator.pushReplacement(
           context, MaterialPageRoute(
-          builder: (context) => finalEmail == null ? FirstOnboardingScreen() : HomePage()));
+          builder: (context) => finalEmail == null ? FirstOnboardingScreen() : StudentDashboard()));
 
     });
   }
