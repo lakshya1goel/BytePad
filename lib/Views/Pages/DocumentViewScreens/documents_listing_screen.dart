@@ -93,22 +93,27 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                         itemCount: snapshot.data!.results!.length,
                         itemBuilder: (context, index) {
                           Results paper = snapshot.data!.results![index];
-                          return Card(
-                            child: ListTile(
-                              title: Text(paper.title ?? ''),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(paper.courses.toString() ?? ''),
-                                  Row(
-                                    children: [
-                                      Text(paper.year.toString() ?? ''),
-                                      SizedBox(width: size.width*0.75,),
-                                      Text(paper.semester.toString() ?? ''),
-                                    ],
-                                  ),
-                                ],
-                              )
+                          return GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: Card(
+                              child: ListTile(
+                                title: Text(paper.title ?? ''),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(paper.courses.toString() ?? ''),
+                                    Row(
+                                      children: [
+                                        Text(paper.year.toString() ?? ''),
+                                        SizedBox(width: size.width*0.75,),
+                                        Text(paper.semester.toString() ?? ''),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              ),
                             ),
                           );
                         },
