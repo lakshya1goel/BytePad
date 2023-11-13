@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/storage.dart';
 import '../../../Services/token_generation.dart';
 import '../../../Utils/Constants/colors.dart';
@@ -23,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _emailformKey = GlobalKey<FormState>();
   final _passwordformKey = GlobalKey<FormState>();
   final SecureStorage secureStorage = SecureStorage();
+  String? errorMsgText;
 
   @override
 
@@ -64,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(size.width*0.05),
-                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController, emailController: emailController, formKey: _emailformKey,),
+                  child: CustomInputField(labelText: "Email", icon: Icons.email, controller: emailController, emailController: emailController, formKey: _emailformKey, errorMsgText: errorMsgText,),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
@@ -87,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                         decoration: InputDecoration(
+                          errorText: errorMsgText,
                           suffixIcon: GestureDetector(
                             onTap: (){
                               setState(() {
@@ -115,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(17.0),
-                                child: Icon(Icons.mail,
+                                child: Icon(Icons.key,
                                   color: Colors.white,
                                 ),
                               )
@@ -152,43 +155,60 @@ class _LoginPageState extends State<LoginPage> {
                     width: size.width*0.9,
                     child: ElevatedButton(
                       onPressed: () async {
+                        try {
+                          final result = await InternetAddress.lookup('example.com');
+                          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                            // Internet connection is available
+                            if (_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                                errorMsgText = "";
+                              });
 
-                        if(_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()){
+                              try {
+                                String? errorMessage = await loginUser(emailController.text, passwordController.text);
 
-                          setState(() {
-                            isLoading = true;
-                          });
+                                setState(() {
+                                  isLoading = false;
+                                });
 
-                          try {
-                            String? errorMessage = await loginUser(emailController.text, passwordController.text);
+                                if (errorMessage != null) {
+                                  setState(() {
+                                    errorMsgText = errorMessage;
+                                  });
+                                  return;
+                                }
 
-                            setState(() {
-                              isLoading = false;
-                            });
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                );
 
-                            if (errorMessage != null) {
-                              ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                              return;
+                                secureStorage.writeSecureData('email', emailController.text);
+                              } catch (error) {
+                                setState(() {
+                                  isLoading = false;
+                                  errorMsgText = "Unexpected error occurred. Please try again later.";
+                                });
+                              }
                             }
-
-                          } catch (error) {
+                          } else {
+                            // No internet connection
                             setState(() {
-                              isLoading = false;
+                              errorMsgText = "No Internet Connection";
                             });
-                            ErrorMessage.showAlertDialog(context, "Error", "Unexpected error occurred. Please try again later.");
                           }
-
-                          secureStorage.writeSecureData('email', emailController.text);
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ),
-                          );
+                        } on SocketException catch (_) {
+                          // Unable to lookup host, likely no internet connection
+                          setState(() {
+                            errorMsgText = "No Internet Connection";
+                          });
                         }
                       },
-                        child: Padding(
+
+                      child: Padding(
                           padding: const EdgeInsets.all(12.0),
                             child: isLoading ?
                             SizedBox(
