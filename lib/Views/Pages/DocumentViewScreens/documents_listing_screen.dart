@@ -116,7 +116,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }
