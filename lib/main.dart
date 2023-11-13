@@ -5,6 +5,8 @@ import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'Views/Pages/Dashboards/student_dashboard.dart';
+
 void main() async{
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const StudentProfilePage(),
+      home: const StudentDashboard(),
       routes: {
         '/Login' : (context) => const SplashScreen()
       },
