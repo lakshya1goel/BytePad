@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bytepad/Services/storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../Models/generate_token_error.dart';
@@ -21,6 +22,8 @@ Future<String?> loginUser(String email, String password) async {
   if (response.statusCode == 200) {
     Map<String, dynamic> generateResponse = jsonDecode(response.body);
     GenerateTokenResponse generateTokenResponse = GenerateTokenResponse.fromJson(generateResponse);
+    final SecureStorage secureStorage = SecureStorage();
+    secureStorage.writeSecureData('accessToken', generateTokenResponse.access);
     print(jsonDecode(response.body));
     return null;
   }

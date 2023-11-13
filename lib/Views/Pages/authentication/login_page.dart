@@ -187,7 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
 
-                                secureStorage.writeSecureData('email', emailController.text);
+                                // secureStorage.writeSecureData('email', emailController.text);
                               } catch (error) {
                                 setState(() {
                                   isLoading = false;

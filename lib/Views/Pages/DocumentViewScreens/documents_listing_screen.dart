@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/papers_listing_model.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
-
+import '../../../Services/storage.dart';
+String? accessToken;
 class DocumentListingScreen extends StatefulWidget {
   const DocumentListingScreen({super.key});
 
@@ -15,11 +16,17 @@ class DocumentListingScreen extends StatefulWidget {
 class _DocumentListingScreenState extends State<DocumentListingScreen> {
   late Size size;
   Future<PaperListingModel?>? papersFuture;
+  final SecureStorage secureStorage = SecureStorage();
 
   @override
   void initState() {
     super.initState();
-    papersFuture = paperListing("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyMzI1MTM3LCJpYXQiOjE2OTk3MzMxMzcsImp0aSI6ImUxMTVkZjFmZTM0ZTQyMWFiNzUzYWQ3ZWNmMThlYzhhIiwidXNlcl9pZCI6ImFkbWluQGFkbWluLmNvbSJ9.Xkngyodaw18XzRxqz7p-rv5_UI8hQ6RblNP_eT8C3TU");
+    secureStorage.readSecureData('accessToken').then((value) {
+      accessToken = value;
+      setState(() {
+        papersFuture = paperListing(accessToken);
+      });
+    });
   }
 
   @override
@@ -46,9 +53,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueColor,
-        onPressed: () {
-          paperListing("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NzMwNzIxLCJpYXQiOjE2OTk3MzA0MjEsImp0aSI6ImRjYjkyMzMxMDFhMjQ5ZGU5Y2I0NmU3NzI2YWJjMmM5IiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.Nts9FdNFrKliCxzd0W3xZv1QPVOig2JX-iL1W9j3WHI");
-        },
+        onPressed: () {},
         tooltip: 'Files',
         child: Icon(Icons.folder_copy_outlined),
       ),
