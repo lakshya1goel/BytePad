@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/Dashboards/faculty_dashboard.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const StudentDashboard(),
+      home: const FacultyDashboard(),
       routes: {
         '/Login' : (context) => LoginPage()
       },
