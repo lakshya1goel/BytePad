@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Models/error_message_dialog_box.dart';
 import '../../../Services/get_otp.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
@@ -18,6 +19,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController emailController = TextEditingController();
   bool isLoading = false;
   final _emailformKey = GlobalKey<FormState>();
+  String? errorMsgText;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   SizedBox(height: size.height*0.02,),
                   Padding(
                     padding: EdgeInsets.all(size.width*0.05),
-                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey,),
+                    child: CustomInputField(labelText: "Enter registered e-mail", icon: Icons.email, controller: emailController,  emailController: emailController, formKey: _emailformKey, errorMsgText: errorMsgText,),
                   ),
                   SizedBox(height: size.height*0.05,),
                   Center(
@@ -84,42 +86,62 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           width: size.width*0.9,
                           child: ElevatedButton(
                             onPressed: () async {
-
-                                if(_emailformKey.currentState!.validate()) {
-
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-
-                                  try {
-                                    String? errorMessage = await requestResetPasswordOTP(emailController.text);
-
+                              try {
+                                final result = await InternetAddress.lookup('example.com');
+                                if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+                                  // Internet connection is available
+                                  if (_emailformKey.currentState!.validate()) {
                                     setState(() {
-                                      isLoading = false;
+                                      errorMsgText = "";
+                                      isLoading = true;
                                     });
 
-                                    if (errorMessage != null) {
-                                      ErrorMessage.showAlertDialog(context, "Error", errorMessage);
-                                      return; // Don't proceed further if there's an error
+                                    try {
+                                      String? errorMessage = await requestResetPasswordOTP(emailController.text);
+
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+
+                                      if (errorMessage != null) {
+                                        setState(() {
+                                          errorMsgText = errorMessage;
+                                        });
+                                        return; // Don't proceed further if there's an error
+                                      }
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => OTPVerificationScreen(
+                                            email: emailController.text,
+                                          ),
+                                        ),
+                                      );
+
+                                    } catch (error) {
+                                      setState(() {
+                                        isLoading = false;
+                                        errorMsgText = "Error requesting OTP. Please try again later.";
+                                      });
                                     }
-                                  } catch (error) {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    ErrorMessage.showAlertDialog(context, "Error", "Error requesting OTP. Please try again later.");
                                   }
-
-                                  Navigator.push(
-                                    context,
-                                      MaterialPageRoute(
-                                        builder: (context) => OTPVerificationScreen(
-                                          email: emailController.text,
-                                      ),
-                                    ),
-                                  );
+                                } else {
+                                  // No internet connection
+                                  setState(() {
+                                    isLoading = false;
+                                    errorMsgText = "No Internet Connection";
+                                  });
                                 }
-
+                              } on SocketException catch (_) {
+                                // Unable to lookup host, likely no internet connection
+                                setState(() {
+                                  isLoading = false;
+                                  errorMsgText = "No Internet Connection";
+                                });
+                              }
                             },
+
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: isLoading ?

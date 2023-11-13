@@ -1,5 +1,6 @@
 import 'package:bytepad/Views/Pages/OnboardingScreens/splash_screen.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const StudentDashboard(),
       routes: {
-        '/Login' : (context) => LoginPage()
+        '/Login' : (context) => const SplashScreen()
       },
     );
   }
