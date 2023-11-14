@@ -1,20 +1,20 @@
-import 'package:bytepad/Utils/Constants/colors.dart';
-import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
-import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/papers_listing_model.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/storage.dart';
+import '../../../Utils/Constants/colors.dart';
+
 String? accessToken;
-class DocumentListingScreen extends StatefulWidget {
-  const DocumentListingScreen({super.key});
+class MyCollections extends StatefulWidget {
+  const MyCollections({super.key});
 
   @override
-  State<DocumentListingScreen> createState() => _DocumentListingScreenState();
+  State<MyCollections> createState() => _MyCollectionsState();
 }
 
-class _DocumentListingScreenState extends State<DocumentListingScreen> {
+class _MyCollectionsState extends State<MyCollections> {
+
   late Size size;
   Future<PaperListingModel?>? papersFuture;
   final SecureStorage secureStorage = SecureStorage();
@@ -30,41 +30,29 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
 
     size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: bgColor,
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back,
+        appBar: AppBar(
+          backgroundColor: bgColor,
+          elevation: 0,
+          leading: Padding(
+            padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back,
               color: Colors.black,
               size: size.width*0.1,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: blueColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MyCollections(),
-            ),
-          );
-        },
-        tooltip: 'Files',
-        child: Icon(Icons.folder_copy_outlined),
-      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -72,7 +60,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.07, vertical: size.height*0.02),
-                child: Text('Past Exams',
+                child: Text('My Collections',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width*0.09,
@@ -101,12 +89,8 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                         itemCount: snapshot.data!.results!.length,
                         itemBuilder: (context, index) {
                           Results paper = snapshot.data!.results![index];
-                          return GestureDetector(
-                            onTap: (){
-
-                            },
-                            child: Card(
-                              child: ListTile(
+                          return Card(
+                            child: ListTile(
                                 title: Text(paper.title ?? ''),
                                 subtitle: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +105,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                                     ),
                                   ],
                                 )
-                              ),
                             ),
                           );
                         },
@@ -134,7 +117,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }

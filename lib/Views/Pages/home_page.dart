@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            secureStorage.deleteSecureData('email');
+            // secureStorage.deleteSecureData('email');
             Navigator.pushReplacement(
                 context, MaterialPageRoute(
                 builder: (context) => LoginPage()));
