@@ -2,6 +2,7 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/documents_listing_screen.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/learning_section.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/profile_setting_page.dart';
 import 'package:flutter/material.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
@@ -44,6 +45,17 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             context,
             MaterialPageRoute(
               builder: (context) => LearningSection(),
+            ),
+          );
+          setState(() {
+            _currentIndex = index;
+          });
+        }
+        if(index == 3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileSettingPage(),
             ),
           );
           setState(() {
