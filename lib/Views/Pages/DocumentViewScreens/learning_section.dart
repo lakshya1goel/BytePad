@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/bottom_navigation_bar.dart';
+import 'documents_listing_screen.dart';
 
 class LearningSection extends StatefulWidget {
   const LearningSection({super.key});
@@ -49,32 +50,42 @@ class _LearningSectionState extends State<LearningSection> {
               ),
               SizedBox(height: size.height*0.03,),
               Center(
-                child: Card(
-                  child: Container(
-                    height: size.height*0.4,
-                    width: size.width*0.85,
-                    // color: Colors.red,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: Image.asset("assets/images/learning.png")
-                            )
-                        ),
-                        SizedBox(height: size.height*0.02,),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
-                          child: Text("Past Exams",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: size.width*0.05),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DocumentListingScreen(),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    child: Container(
+                      height: size.height*0.4,
+                      width: size.width*0.85,
+                      // color: Colors.red,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.asset("assets/images/learning.png")
+                              )
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
-                          child: Text("Access and review past exam papers effortlessly with our app's comprehensive Past Papers feature"),
-                        ),
-                      ],
+                          SizedBox(height: size.height*0.02,),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
+                            child: Text("Past Exams",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: size.width*0.05),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
+                            child: Text("Access and review past exam papers effortlessly with our app's comprehensive Past Papers feature"),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const LearningSection(),
+      home: const SplashScreen(),
       routes: {
         '/Login' : (context) => const LoginPage()
       },
