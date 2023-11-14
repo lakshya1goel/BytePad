@@ -1,5 +1,6 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
+import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -146,6 +147,12 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                           return GestureDetector(
                             onTap: (){
                               print("hhhhhhhhh");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: EdgeInsets.all(8.0),
