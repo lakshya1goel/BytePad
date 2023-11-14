@@ -141,6 +141,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                     return SizedBox(
                       height: size.height,
                       child: ListView.builder(
+                        shrinkWrap: true,
                         itemCount: snapshot.data!.results!.length,
                         itemBuilder: (context, index) {
                           Results paper = snapshot.data!.results![index];
