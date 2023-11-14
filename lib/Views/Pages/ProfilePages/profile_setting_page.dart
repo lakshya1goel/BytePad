@@ -121,7 +121,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
     );
   }
 }
