@@ -1,4 +1,5 @@
 import 'package:bytepad/Services/PastYearPapers/paper_reading.dart';
+import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/paper_read_model.dart';
@@ -32,13 +33,9 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
   Future<void> fetchData() async {
     try {
       setState(() {
-        isLoading = true; // Set loading to true before making the API call
+        isLoading = true;
       });
-
-      // Call the paperRead function to get data
       final result = await paperRead(accessToken, widget.paperId);
-
-      // Update the UI with the retrieved data
       setState(() {
         paperModel = result;
       });
@@ -46,7 +43,7 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
       print('Error fetching data: $e');
     } finally {
       setState(() {
-        isLoading = false; // Set loading to false after the API call is complete
+        isLoading = false;
       });
     }
   }
@@ -103,7 +100,10 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                         Padding(
                           padding: EdgeInsets.only(top: 8.0),
                           child: Text(paperModel?.title ?? '',
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey,
+                              fontFamily: 'Inter',
+                              fontSize: size.width*0.045
+                            ),
                           ),
                         ),
                         Row(
@@ -165,10 +165,138 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                   ),
                 ),
               ): Container(),
+              SizedBox(height: size.height*0.02,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 152,
+                    height: 197,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: (){},
+                      child: Column(
+                        children: [
+                          SizedBox(height: size.height*0.07,),
+                          Image.asset("assets/images/document.png"),
+                          SizedBox(height: size.height*0.05,),
+                          Padding(
+                            padding: EdgeInsets.only(left: size.width*0.07),
+                            child: Text("Question Paper",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.width*0.055
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 152,
+                    height: 197,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: (){},
+                      child: Column(
+                        children: [
+                          SizedBox(height: size.height*0.07,),
+                          Image.asset("assets/images/document.png"),
+                          SizedBox(height: size.height*0.05,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text("Solution 1",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: size.width*0.055
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: size.height*0.02,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    width: 152,
+                    height: 197,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: (){},
+                      child: Column(
+                        children: [
+                          SizedBox(height: size.height*0.07,),
+                          Image.asset("assets/images/document.png"),
+                          SizedBox(height: size.height*0.05,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text("Solution 2",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: size.width*0.055
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),),
+                  Container(
+                    width: 152,
+                    height: 197,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: GestureDetector(
+                      onTap: (){},
+                      child: Column(
+                        children: [
+                          SizedBox(height: size.height*0.07,),
+                          Image.asset("assets/images/document.png"),
+                          SizedBox(height: size.height*0.05,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: Text("Solution 3",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: size.width*0.055
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }
