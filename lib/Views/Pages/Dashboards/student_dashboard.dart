@@ -2,6 +2,9 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../Widgets/bottom_navigation_bar.dart';
+import '../DocumentViewScreens/documents_listing_screen.dart';
+
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
 
@@ -189,7 +192,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DocumentListingScreen(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 height: 100,
                                 width: 100,
@@ -239,6 +249,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0,),
     );
   }
 }
