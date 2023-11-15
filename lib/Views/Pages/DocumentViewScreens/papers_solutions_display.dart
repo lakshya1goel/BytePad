@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bytepad/Services/PastYearPapers/file_open.dart';
 import 'package:bytepad/Services/PastYearPapers/paper_reading.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +182,9 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                       ),
                     ),
                     child: GestureDetector(
-                      onTap: (){},
+                      onTap: (){
+                        downloadAndOpenFile(paperModel!.file ?? '', paperModel!.title ?? '');
+                      },
                       child: Column(
                         children: [
                           SizedBox(height: size.height*0.07,),
