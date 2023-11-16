@@ -20,25 +20,35 @@ Future openFile({required String url, String? fileName, File? file}) async{
 }
 
 Future<File?> downloadFile(String url, String name) async{
-  final appStorage = await getApplicationDocumentsDirectory();
-  final file = File('${appStorage.path}/$name');
-
   try {
+    // Get external storage directory
+    final externalStorage = await getExternalStorageDirectory();
+
+    // Ensure that the external storage directory is available
+    if (externalStorage == null) {
+      throw Exception("External storage directory not available");
+    }
+
+    // Create a File in the external storage directory
+    final file = File('${externalStorage.path}/$name');
+
+    // Download the file using Dio
     final response = await Dio().get(
-        url,
-        options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-        )
+      url,
+      options: Options(
+        responseType: ResponseType.bytes,
+        followRedirects: false,
+      ),
     );
 
+    // Open the file and write the downloaded data
     final raf = file.openSync(mode: FileMode.write);
     raf.writeFromSync(response.data);
     await raf.close();
 
     return file;
-  }
-  catch(e) {
+  } catch (e) {
+    print("Error downloading file: $e");
     return null;
   }
 }
