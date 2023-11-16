@@ -10,29 +10,48 @@ Future<List<String>> getCourseNames(String? authToken) async {
     final String baseUrl = dotenv.get('BaseUrl');
     var url = Uri.parse('$baseUrl/details/courses/');
 
-    final response = await http.get(
-      url,
-      headers: {
-        'accept': 'application/json',
-        'Authorization':
-        'Bearer $authToken',
-      },
-    );
+    List<String> allCourseNames = [];
+    String? nextUrl;
 
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      final courseListModel = CourseListModel.fromJson(jsonResponse);
+    do {
+      // Make the API call
+      final response = await http.get(
+        nextUrl != null ? Uri.parse(nextUrl) : url,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
 
-      if (courseListModel.results != null) {
-        return courseListModel.results!.map((result) => result.name!).toList();
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final courseListModel = CourseListModel.fromJson(jsonResponse);
+
+        if (courseListModel.results != null) {
+          // Extract names from the current page
+          List<String> pageCourseNames =
+          courseListModel.results!.map((result) => result.name!).toList();
+
+          // Add names to the overall list
+          allCourseNames.addAll(pageCourseNames);
+
+          // Get the next API URL for pagination
+          nextUrl = courseListModel.next;
+
+          // Ensure nextUrl is not null before assigning it
+          if (nextUrl == null) {
+            break;
+          }
+        } else {
+          print('No results found');
+        }
       } else {
-        print('No results found');
+        print('Request failed with status: ${response.statusCode}');
         return [];
       }
-    } else {
-      print('Request failed with status: ${response.statusCode}');
-      return [];
-    }
+    } while (nextUrl != null);
+
+    return allCourseNames;
   } catch (e) {
     print('Error: $e');
     return [];
