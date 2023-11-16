@@ -8,7 +8,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Views/Pages/DocumentViewScreens/documents_listing_screen.dart';
 import 'Views/Pages/Dashboards/hod_dashboard.dart';
 import 'Views/Pages/Dashboards/student_dashboard.dart';
+import 'Views/Pages/DocumentViewScreens/filters.dart';
 import 'Views/Pages/ProfilePages/profile_setting_page.dart';
+import 'Views/Pages/DocumentViewScreens/learning_section.dart';
+import 'Views/Pages/DocumentViewScreens/papers_collection.dart';
+
 
 void main() async{
   await dotenv.load(fileName: ".env");
@@ -32,8 +36,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: bgColor,
       ),
       home: const StudentProfilePage(),
+
       routes: {
-        '/Login' : (context) => const SplashScreen()
+        '/Login' : (context) => const LoginPage()
       },
     );
   }

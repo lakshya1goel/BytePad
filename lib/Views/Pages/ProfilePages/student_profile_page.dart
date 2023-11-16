@@ -94,7 +94,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(),
+      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
     );
   }
 }

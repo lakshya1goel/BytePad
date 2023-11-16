@@ -1,8 +1,13 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
+import 'package:bytepad/Views/Pages/DocumentViewScreens/documents_listing_screen.dart';
+import 'package:bytepad/Views/Pages/DocumentViewScreens/learning_section.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/profile_setting_page.dart';
 import 'package:flutter/material.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
-  const MyBottomNavigationBar({super.key});
+  final int currentIndex;
+  const MyBottomNavigationBar({required this.currentIndex, Key? key}) : super(key: key);
 
   @override
   State<MyBottomNavigationBar> createState() => _MyBottomNavigationBarState();
@@ -10,7 +15,13 @@ class MyBottomNavigationBar extends StatefulWidget {
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.currentIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +29,39 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
       onTap: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
+        if(index == 0) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StudentDashboard(),
+            ),
+          );
+          setState(() {
+            _currentIndex = index;
+          });
+        }
+        if(index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LearningSection(),
+            ),
+          );
+          setState(() {
+            _currentIndex = index;
+          });
+        }
+        if(index == 3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileSettingPage(),
+            ),
+          );
+          setState(() {
+            _currentIndex = index;
+          });
+        }
       },
       items: [
         BottomNavigationBarItem(
@@ -29,7 +70,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.search),
-          label: 'Academics',
+          label: 'Learning',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.pie_chart_outline,),
