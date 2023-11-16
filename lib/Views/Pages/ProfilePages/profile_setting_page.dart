@@ -11,6 +11,19 @@ class ProfileSettingPage extends StatefulWidget {
 }
 
 class _ProfileSettingPageState extends State<ProfileSettingPage> {
+
+  final List<Map<String, dynamic>> itemList = [
+    {'title': 'My Account', 'subtitle': 'View and make changes to your account', 'icon': Icons.person},
+    {'title': 'My Collections', 'subtitle': 'Manage your saved material', 'icon': Icons.create_new_folder},
+    {'title': 'Notifications', 'subtitle': 'Minimized distractions and improved focus', 'icon': Icons.security},
+    {'title': 'Log out', 'subtitle': 'Further secure your account for safety', 'icon': Icons.logout},
+  ];
+
+  final List<Map<String, dynamic>> itemList2 = [
+    {'title': 'Help & Support', 'icon': Icons.notifications},
+    {'title': 'About App', 'icon': Icons.favorite_outline_rounded},
+  ];
+
   @override
   Widget build(BuildContext context) {
 
@@ -61,7 +74,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               SizedBox(height: size.height*0.02,),
               Container(
                 width: double.infinity,
-                height: size.height*0.8,
+                height: size.height*0.7,
                 decoration: ShapeDecoration(
                   color: bgColor,
                   shape: RoundedRectangleBorder(
@@ -74,20 +87,40 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 343,
-                      height: 350,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 44,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          )
-                        ],
+                    Center(
+                      child: Container(
+                        width: size.width*0.95,
+                        height: size.height*0.4,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 44,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: size.height*0.02),
+                          child: ListView.builder(
+                            itemCount: itemList.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: Icon(itemList[index]['icon']),
+                                title: Text(itemList[index]['title']),
+                                subtitle: Text(itemList[index]['subtitle']),
+                                onTap: () {
+                                  // Add your onTap functionality here
+                                  print('Tapped on ${itemList[index]['title']}');
+                                },
+                                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -98,20 +131,39 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                             fontSize: size.width*0.05),
                       ),
                     ),
-                    Container(
-                      width: 343,
-                      height: 139,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x0F000000),
-                            blurRadius: 44,
-                            offset: Offset(0, 4),
-                            spreadRadius: 0,
-                          )
-                        ],
+                    Center(
+                      child: Container(
+                        width: size.width*0.95,
+                        height: size.height*0.2,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x0F000000),
+                              blurRadius: 44,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: size.height*0.02),
+                          child: ListView.builder(
+                            itemCount: itemList2.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                leading: Icon(itemList2[index]['icon']),
+                                title: Text(itemList2[index]['title']),
+                                onTap: () {
+                                  // Add your onTap functionality here
+                                  print('Tapped on ${itemList2[index]['title']}');
+                                },
+                                trailing: Icon(Icons.arrow_forward_ios_outlined),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     )
                   ],
