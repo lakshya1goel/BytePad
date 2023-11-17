@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -113,7 +114,12 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                                 title: Text(itemList[index]['title']),
                                 subtitle: Text(itemList[index]['subtitle']),
                                 onTap: () {
-                                  // Add your onTap functionality here
+                                  if (index == 0) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => StudentProfilePage()),
+                                    );
+                                  }
                                   print('Tapped on ${itemList[index]['title']}');
                                 },
                                 trailing: Icon(Icons.arrow_forward_ios_outlined),

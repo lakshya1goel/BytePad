@@ -35,8 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const StudentProfilePage(),
-
+      home: const SplashScreen(),
       routes: {
         '/Login' : (context) => const LoginPage()
       },
