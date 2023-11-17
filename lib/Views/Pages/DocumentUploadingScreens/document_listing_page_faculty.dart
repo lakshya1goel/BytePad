@@ -147,32 +147,24 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
                         itemCount: snapshot.data!.results!.length,
                         itemBuilder: (context, index) {
                           Results paper = snapshot.data!.results![index];
-                          return GestureDetector(
-                            onTap: (){
-                              print("hhhhhhhhh");
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SolutionUploadingScreen(),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Container(
-                                width: size.width*0.95,
-                                height: size.height*0.15,
-                                child: ListTile(
-                                    title: Padding(
-                                      padding: EdgeInsets.only(top: 8.0),
-                                      child: Text(paper.title ?? '',
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
+                          return Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Container(
+                              width: size.width*0.95,
+                              height: size.height*0.17,
+                              child: ListTile(
+                                  title: Padding(
+                                    padding: EdgeInsets.only(top: 8.0),
+                                    child: Text(paper.title ?? '',
+                                      style: TextStyle(color: Colors.grey),
                                     ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 8.0),
+                                        child: Row(
                                           children: [
                                             Text(paper.courses.toString() ?? '',
                                               style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
@@ -195,30 +187,51 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
                                                 icon: Icon(Icons.share,)),
                                           ],
                                         ),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(right: 8.0),
-                                              child: Text("Sem: ${paper.semester.toString() ?? ''}"),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 8.0),
+                                            child: Text("Sem: ${paper.semester.toString() ?? ''}"),
+                                          ),
+                                          Text("Year: ${paper.year.toString() ?? ''}"),
+                                          SizedBox(width: size.width*0.2,),
+                                          Container(
+                                            height: size.height*0.04,
+                                            decoration: BoxDecoration(
+                                              color: blueColor,
+                                              borderRadius: BorderRadius.circular(10.0),
                                             ),
-                                            Text("Year: ${paper.year.toString() ?? ''}"),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                  shadows: [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => SolutionUploadingScreen(paperId: paper.id,),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Text('Add Solution',
+                                                  style: TextStyle(color: Colors.white),
+                                                ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
                               ),
                             ),
                           );

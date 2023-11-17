@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bytepad/Services/UploadDocuments/success_upload_document.dart';
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/success_upload_document.dart';
 import 'package:bytepad/Services/UploadDocuments/upload_papers.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';

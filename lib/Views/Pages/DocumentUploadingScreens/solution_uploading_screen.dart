@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bytepad/Services/UploadDocuments/success_upload_document.dart';
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/success_upload_document.dart';
 import 'package:bytepad/Services/UploadDocuments/upload_papers.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +7,13 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../Services/UploadDocuments/upload_solution.dart';
 import '../../../Services/authentication/storage.dart';
 
 String? accessToken;
 class SolutionUploadingScreen extends StatefulWidget {
-  const SolutionUploadingScreen({super.key});
+  final int? paperId;
+  const SolutionUploadingScreen({required this.paperId, Key? key}) : super(key: key);
 
   @override
   State<SolutionUploadingScreen> createState() => _SolutionUploadingScreen();
@@ -240,14 +242,11 @@ class _SolutionUploadingScreen extends State<SolutionUploadingScreen> {
                               isApiLoading = true; // Set isApiLoading for the API call
                             });
 
-                            await postPapers(
-                              accessToken,
-                              paperTitle.toString(),
-                              paperYear.toString(),
-                              sem.toString(),
-                              code.toString(),
+                            await uploadSolution(
+                              accessToken.toString(),
+                              widget.paperId.toString(),
                               filePath.toString(),
-                              _fileName!,
+                              _fileName!
                             );
 
                             setState(() {
