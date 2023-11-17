@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bytepad/Services/UploadDocuments/success_upload_document.dart';
 import 'package:bytepad/Services/UploadDocuments/upload_papers.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../Services/storage.dart';
+import '../../../Services/authentication/storage.dart';
 
 String? accessToken;
 class DocumentSelectionScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class DocumentSelectionScreen extends StatefulWidget {
 
 class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
 
+  bool isApiLoading = false;
   bool isLoading = false;
   FilePickerResult? result;
   String? _fileName;
@@ -328,11 +330,15 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(_fileName!),
-                            SizedBox(width: size.width*0.13,),
+                            Text(_fileName!,
+                              style: TextStyle(fontSize: size.width*0.032),
+                            ),
                             IconButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                pickFile();
+                              },
                                 icon: Icon(Icons.repeat),
                             )
                           ],
@@ -351,10 +357,36 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                     Container(
                       width: size.width*0.85,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if(pickedFile != null) {
+                        onPressed: () async {
+                          if (pickedFile != null) {
                             paperTitle = "$type $code $paperYear";
-                            postPapers(accessToken, paperTitle.toString(), paperYear.toString(), sem.toString(), code.toString(), filePath.toString(), _fileName!);
+                            setState(() {
+                              isApiLoading = true; // Set isApiLoading for the API call
+                            });
+
+                            await postPapers(
+                              accessToken,
+                              paperTitle.toString(),
+                              paperYear.toString(),
+                              sem.toString(),
+                              code.toString(),
+                              filePath.toString(),
+                              _fileName!,
+                            );
+
+                            setState(() {
+                              isApiLoading = false; // Reset isApiLoading after the API call
+                            });
+
+                            // Only navigate if the API call was successful
+                            if (!isApiLoading) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SuccessUploadScreen(),
+                                ),
+                              );
+                            }
                           }
                         },
                         child: Padding(
@@ -384,7 +416,6 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                   ],
                 ),
               ),
-              // (pickedFile == null) ? Container(): Image.file(File(pickedFile!.path.toString()))
             ],
           ),
         ),
