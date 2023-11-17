@@ -6,7 +6,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../Services/storage.dart';
+import '../../../Services/authentication/storage.dart';
 
 String? accessToken;
 class DocumentSelectionScreen extends StatefulWidget {
@@ -328,11 +328,15 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(_fileName!),
-                            SizedBox(width: size.width*0.13,),
+                            Text(_fileName!,
+                              style: TextStyle(fontSize: size.width*0.032),
+                            ),
                             IconButton(
-                              onPressed: (){},
+                              onPressed: (){
+                                pickFile();
+                              },
                                 icon: Icon(Icons.repeat),
                             )
                           ],
@@ -384,7 +388,6 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                   ],
                 ),
               ),
-              // (pickedFile == null) ? Container(): Image.file(File(pickedFile!.path.toString()))
             ],
           ),
         ),
