@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
 import 'package:bytepad/Views/Pages/OnboardingScreens/first_onboarding_screen.dart';
-import 'package:bytepad/Views/Pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Services/storage.dart';
+import '../../../Services/authentication/storage.dart';
 
 String? accessToken;
 class SplashScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Models/error_message_dialog_box.dart';
+import '../../../Models/authentication/error_message_dialog_box.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 

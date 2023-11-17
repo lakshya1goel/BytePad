@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:bytepad/Views/Pages/authentication/reset_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../../Models/error_message_dialog_box.dart';
-import '../../../Models/verify_response.dart';
-import '../../../Services/get_otp.dart';
-import '../../../Services/verify_otp.dart';
+import '../../../Models/authentication/error_message_dialog_box.dart';
+import '../../../Models/authentication/verify_response.dart';
+import '../../../Services/authentication/get_otp.dart';
+import '../../../Services/authentication/verify_otp.dart';
 import '../../../Utils/Constants/colors.dart';
 import 'package:pinput/pinput.dart';
 

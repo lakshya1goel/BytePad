@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../Models/Details/student_details_model.dart';
 import '../../../Services/Details/student_details.dart';
-import '../../../Services/storage.dart';
+import '../../../Services/authentication/storage.dart';
 import '../../Widgets/bottom_navigation_bar.dart';
 
 String? accessToken;

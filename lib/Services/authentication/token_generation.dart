@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:bytepad/Services/storage.dart';
+import 'package:bytepad/Services/authentication/storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import '../Models/generate_token_error.dart';
-import '../Models/generate_token_response.dart';
+import '../../Models/authentication/generate_token_error.dart';
+import '../../Models/authentication/generate_token_response.dart';
 
 Future<String?> loginUser(String email, String password) async {
   final String baseURl = dotenv.get('BaseUrl');
