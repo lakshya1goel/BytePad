@@ -13,6 +13,7 @@ import 'Views/Pages/Dashboards/hod_dashboard.dart';
 import 'Views/Pages/Dashboards/student_dashboard.dart';
 import 'Views/Pages/DocumentViewScreens/filters.dart';
 import 'Views/Pages/Home/FacultySide.dart';
+import 'Views/Pages/Home/HodSide.dart';
 import 'Views/Pages/ProfilePages/hod_faculty_profile_page.dart';
 import 'Views/Pages/ProfilePages/profile_setting_page.dart';
 import 'Views/Pages/DocumentViewScreens/learning_section.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const FacultySide(),
+      home: const HodSide(),
       routes: {
         '/Login' : (context) => const LoginPage()
       },
