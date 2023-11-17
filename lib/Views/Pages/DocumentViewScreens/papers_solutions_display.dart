@@ -184,7 +184,7 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                     downloadAndOpenFile(paperModel!.file ?? '', paperModel!.title ?? '');
                   },
                   child: Container(
-                    width: size.width * 0.43,
+                    width: size.width * 0.4,
                     height: size.height*0.25,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
@@ -216,13 +216,13 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
+                  crossAxisSpacing: 1.0,
+                  mainAxisSpacing: 1.0,
                 ),
                 itemCount: solutions?.length ?? 0,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(left: size.width*0.05),
+                    padding: EdgeInsets.only(left: size.width*0.05, right: size.width*0.05 ),
                     child: GestureDetector(
                       onTap: () {
                         if (solutions != null && solutions!.isNotEmpty && index < solutions!.length) {
@@ -230,8 +230,6 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                         }
                       },
                       child: Container(
-                        width: size.width * 0.4,
-                        height: size.height*0.15,
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
                             side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
