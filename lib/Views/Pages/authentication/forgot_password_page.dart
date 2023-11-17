@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bytepad/Views/Pages/authentication/otp_verification_page.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Services/get_otp.dart';
+import '../../../Services/authentication/get_otp.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../../Widgets/custom_input_field.dart';
 

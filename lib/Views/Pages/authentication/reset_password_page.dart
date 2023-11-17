@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:bytepad/Views/Pages/authentication/success_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Models/error_message_dialog_box.dart';
-import '../../../Services/reset_password.dart';
+import '../../../Models/authentication/error_message_dialog_box.dart';
+import '../../../Services/authentication/reset_password.dart';
 import '../../../Utils/Constants/colors.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

@@ -5,8 +5,8 @@ import 'package:bytepad/Views/Pages/authentication/forgot_password_page.dart';
 import 'package:bytepad/Views/Widgets/custom_input_field.dart';
 import 'package:flutter/material.dart';
 import '../../../Contollers/validation.dart';
-import '../../../Services/storage.dart';
-import '../../../Services/token_generation.dart';
+import '../../../Services/authentication/storage.dart';
+import '../../../Services/authentication/token_generation.dart';
 import '../../../Utils/Constants/colors.dart';
 
 class LoginPage extends StatefulWidget {
