@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../Views/Pages/Dashboards/hod_dashboard.dart';
+import '../Dashboards/hod_dashboard.dart';
 
 class SuccessUploadScreen extends StatelessWidget {
   const SuccessUploadScreen({super.key});

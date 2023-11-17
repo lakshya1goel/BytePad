@@ -7,17 +7,19 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../Services/UploadDocuments/upload_solution.dart';
 import '../../../Services/authentication/storage.dart';
 
 String? accessToken;
-class DocumentSelectionScreen extends StatefulWidget {
-  const DocumentSelectionScreen({super.key});
+class SolutionUploadingScreen extends StatefulWidget {
+  final int? paperId;
+  const SolutionUploadingScreen({required this.paperId, Key? key}) : super(key: key);
 
   @override
-  State<DocumentSelectionScreen> createState() => _DocumentSelectionScreenState();
+  State<SolutionUploadingScreen> createState() => _SolutionUploadingScreen();
 }
 
-class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
+class _SolutionUploadingScreen extends State<SolutionUploadingScreen> {
 
   bool isApiLoading = false;
   bool isLoading = false;
@@ -119,136 +121,12 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.07, vertical: size.height*0.02),
-                child: Text('Upload',
+                child: Text('Upload Solution',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width*0.09,
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
-                      child: DropdownButton(
-                        hint: Text('Code'),
-                        value: code,
-                        items: <String>['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        underline: Container(
-                          height: 0,
-                        ),
-                        onChanged: (String? newValue){
-                          setState(() {
-                            code = newValue;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: size.width*0.38,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
-                      child: DropdownButton(
-                        hint: Text('Year       '),
-                        value: paperYear,
-                        items: <String>['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        underline: Container(
-                          height: 0,
-                        ),
-                        onChanged: (String? newValue){
-                        setState(() {
-                          paperYear = newValue;
-                        });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: size.height*0.03,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
-                      child: DropdownButton(
-                        hint: Text('Semester'),
-                        value: sem,
-                        items: <String>['1', '2', '3', '4', '5', '6', '7', '8']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        underline: Container(
-                          height: 0,
-                        ),
-                        onChanged: (String? newValue){
-                        setState(() {
-                          sem = newValue;
-                        });
-                        },
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
-                      child: DropdownButton(
-                        hint: Text('Type'),
-                        value: type,
-                        items: <String>['ST1', 'ST2', 'PUT', 'UT', 'Retest(s)']
-                            .map((String value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        underline: Container(
-                          height: 0,
-                        ),
-                        onChanged: (String? newValue){
-                        setState(() {
-                          type = newValue;
-                        });
-                        },
-                      ),
-                    ),
-                  ),
-                ],
               ),
               SizedBox(height: size.height*0.03,),
               (pickedFile == null) ? Padding(
@@ -259,7 +137,7 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                   borderType: BorderType.RRect,
                   radius: Radius.circular(10),
                   child: Container(
-                    height: size.height*0.4,
+                    height: size.height*0.5,
                     width: size.width*0.85,
                     child: Column(
                       children: [
@@ -277,13 +155,13 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                                 child: Text('Upload',
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
-                                    fontSize: size.width*0.05,
+                                      fontSize: size.width*0.05,
                                       color: blueColor),
                                 )
                             ),
                             Text('your file here',
                               style: TextStyle(
-                                  fontSize: size.width*0.05,
+                                fontSize: size.width*0.05,
                               ),
                             ),
                           ],
@@ -312,9 +190,9 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                     padding: EdgeInsets.symmetric(horizontal: size.width*0.08, vertical: size.height*0.025),
                     child: Text("Loaded - 1 file",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF676767),
-                        fontSize: size.width*0.05
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF676767),
+                          fontSize: size.width*0.05
                       ),
                     ),
                   ),
@@ -339,7 +217,7 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                               onPressed: (){
                                 pickFile();
                               },
-                                icon: Icon(Icons.repeat),
+                              icon: Icon(Icons.repeat),
                             )
                           ],
                         ),
@@ -349,7 +227,7 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                   SizedBox(height: size.height*0.25,)
                 ],
               ),
-              SizedBox(height: size.height*0.03,),
+              SizedBox(height: size.height*0.1,),
               Center(
                 child: Stack(
                   alignment: Alignment.center,
@@ -364,14 +242,11 @@ class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
                               isApiLoading = true; // Set isApiLoading for the API call
                             });
 
-                            await postPapers(
-                              accessToken,
-                              paperTitle.toString(),
-                              paperYear.toString(),
-                              sem.toString(),
-                              code.toString(),
+                            await uploadSolution(
+                              accessToken.toString(),
+                              widget.paperId.toString(),
                               filePath.toString(),
-                              _fileName!,
+                              _fileName!
                             );
 
                             setState(() {

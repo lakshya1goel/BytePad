@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> postPapers(String? authToken, String paperTitle, String paperYear, String sem, String code, String path, String name) async {
   // Replace the URL and token with your actual values
-  String url = 'https://bytepad.onrender.com/papers/';
+  final String baseUrl = dotenv.get('BaseUrl');
+  var url = Uri.parse('$baseUrl/papers/');
   String token =
       'Bearer $authToken';
 
@@ -16,7 +18,7 @@ Future<void> postPapers(String? authToken, String paperTitle, String paperYear, 
   String filePath = path;
 
   // Create multipart request
-  var request = http.MultipartRequest('POST', Uri.parse(url));
+  var request = http.MultipartRequest('POST', url);
   request.headers['Authorization'] = token;
   request.headers['accept'] = 'application/json';
 
