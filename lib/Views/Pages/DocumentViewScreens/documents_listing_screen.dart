@@ -139,90 +139,88 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                       child: Text('No papers available.'),
                     );
                   } else {
-                    return SizedBox(
-                      height: size.height,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.results!.length,
-                        itemBuilder: (context, index) {
-                          Results paper = snapshot.data!.results![index];
-                          return GestureDetector(
-                            onTap: (){
-                              print("hhhhhhhhh");
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Container(
-                                width: size.width*0.95,
-                                height: size.height*0.15,
-                                child: ListTile(
-                                    title: Padding(
-                                      padding: EdgeInsets.only(top: 8.0),
-                                      child: Text(paper.title ?? '',
-                                        style: TextStyle(color: Colors.grey),
-                                      ),
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.results!.length,
+                      itemBuilder: (context, index) {
+                        Results paper = snapshot.data!.results![index];
+                        return GestureDetector(
+                          onTap: (){
+                            print("hhhhhhhhh");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Container(
+                              width: size.width*0.95,
+                              height: size.height*0.15,
+                              child: ListTile(
+                                  title: Padding(
+                                    padding: EdgeInsets.only(top: 8.0),
+                                    child: Text(paper.title ?? '',
+                                      style: TextStyle(color: Colors.grey),
                                     ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(paper.courses.toString() ?? '',
-                                              style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(width: size.width*0.28),
-                                            IconButton(
-                                                onPressed: (){
-                                                  print("dddddd");
-                                                },
-                                                icon: Icon(Icons.download,)),
-                                            IconButton(
-                                                onPressed: (){
-                                                  print("fffffff");
-                                                },
-                                                icon: Icon(Icons.create_new_folder,)),
-                                            IconButton(
-                                                onPressed: (){
-                                                  print("sssssss");
-                                                },
-                                                icon: Icon(Icons.share,)),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(right: 8.0),
-                                              child: Text("Sem: ${paper.semester.toString() ?? ''}"),
-                                            ),
-                                            Text("Year: ${paper.year.toString() ?? ''}"),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                  shadows: [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(paper.courses.toString() ?? '',
+                                            style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(width: size.width*0.28),
+                                          IconButton(
+                                              onPressed: (){
+                                                print("dddddd");
+                                              },
+                                              icon: Icon(Icons.download,)),
+                                          IconButton(
+                                              onPressed: (){
+                                                print("fffffff");
+                                              },
+                                              icon: Icon(Icons.create_new_folder,)),
+                                          IconButton(
+                                              onPressed: (){
+                                                print("sssssss");
+                                              },
+                                              icon: Icon(Icons.share,)),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 8.0),
+                                            child: Text("Sem: ${paper.semester.toString() ?? ''}"),
+                                          ),
+                                          Text("Year: ${paper.year.toString() ?? ''}"),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     );
                   }
                 },
