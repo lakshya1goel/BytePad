@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 
 import '../../Models/PastYearPapers/solution_listing_model.dart';
 
-Future<SolutionListingModel?> solutionListing(String? authToken, int? paper_id) async {
+Future<List<String>?> solutionListing(String? authToken, int? paper_id) async {
   final String baseUrl = dotenv.get('BaseUrl');
-  List<Results>? allSolutions;
+  List<String>? fileList;
 
   var url = Uri.parse('$baseUrl/papers/solutions/?paper_id=$paper_id');
   final String token = 'Bearer $authToken';
@@ -29,12 +29,12 @@ Future<SolutionListingModel?> solutionListing(String? authToken, int? paper_id) 
       final Map<String, dynamic> data = json.decode(response.body);
 
       // Extract solutions from the response
-      List<Results> solutions = (data['results'] as List)
-          .map((solutionData) => Results.fromJson(solutionData))
+      fileList = (data['results'] as List)
+          .map((solutionData) => Results.fromJson(solutionData).file)
+          .toList()
+          .where((file) => file != null) // Filter out null values
+          .cast<String>() // Cast to String type
           .toList();
-
-      // Assign the solutions to the accumulated list
-      allSolutions = solutions.isNotEmpty ? solutions : null;
     } else {
       // Handle error response
       print('Error: ${response.statusCode}, ${response.reasonPhrase}');
@@ -44,5 +44,5 @@ Future<SolutionListingModel?> solutionListing(String? authToken, int? paper_id) 
     print('Error: $error');
   }
 
-  return SolutionListingModel(results: allSolutions);
+  return fileList;
 }
