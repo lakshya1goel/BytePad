@@ -1,24 +1,48 @@
 import 'dart:io';
+import 'package:bytepad/Services/UploadDocuments/upload_papers.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class DocumentSelectionScren extends StatefulWidget {
-  const DocumentSelectionScren({super.key});
+import '../../../Services/storage.dart';
+
+String? accessToken;
+class DocumentSelectionScreen extends StatefulWidget {
+  const DocumentSelectionScreen({super.key});
 
   @override
-  State<DocumentSelectionScren> createState() => _DocumentSelectionScrenState();
+  State<DocumentSelectionScreen> createState() => _DocumentSelectionScreenState();
 }
 
-class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
+class _DocumentSelectionScreenState extends State<DocumentSelectionScreen> {
 
   bool isLoading = false;
   FilePickerResult? result;
   String? _fileName;
   PlatformFile? pickedFile;
   File? fileToDisplay;
+  String? paperTitle;
+  String? paperYear;
+  String? sem;
+  String? code;
+  String? path;
+  String? name;
+  String? type;
+  String? filePath;
+  final SecureStorage secureStorage = SecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    secureStorage.readSecureData('accessToken').then((value) {
+      setState(() {
+        accessToken = value;
+      });
+      print('Access Token: $accessToken');
+    });
+  }
 
   Future<void> requestPermission() async {
     var status = await Permission.storage.request();
@@ -47,6 +71,7 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
         _fileName = result!.files.first.name;
         pickedFile = result!.files.first;
         fileToDisplay = File(pickedFile!.name.toString());
+        filePath = pickedFile!.path;
 
         print('filename: $_fileName');
         setState(() {
@@ -61,10 +86,6 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
     catch(e) {
       print(e);
     }
-  }
-
-  void loadSelectedFiles(PlatformFile file) {
-
   }
 
   @override
@@ -115,8 +136,8 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
                       child: DropdownButton(
                         hint: Text('Code'),
-                        // value: selectedValue,
-                        items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                        value: code,
+                        items: <String>['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203']
                             .map((String value) {
                           return DropdownMenuItem(
                             value: value,
@@ -126,16 +147,16 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                         underline: Container(
                           height: 0,
                         ),
-                        onChanged: (String? newValue){},
-                            // (String newValue) {
-                          // setState(() {
-                          //   selectedValue = newValue;
-                          // });
-                        // },
+                        onChanged: (String? newValue){
+                          setState(() {
+                            code = newValue;
+                          });
+                        },
                       ),
                     ),
                   ),
                   Container(
+                    width: size.width*0.38,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10),
@@ -143,9 +164,9 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
                       child: DropdownButton(
-                        hint: Text('Year'),
-                        // value: selectedValue,
-                        items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                        hint: Text('Year       '),
+                        value: paperYear,
+                        items: <String>['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022']
                             .map((String value) {
                           return DropdownMenuItem(
                             value: value,
@@ -155,12 +176,11 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                         underline: Container(
                           height: 0,
                         ),
-                        onChanged: (String? newValue){},
-                        // (String newValue) {
-                        // setState(() {
-                        //   selectedValue = newValue;
-                        // });
-                        // },
+                        onChanged: (String? newValue){
+                        setState(() {
+                          paperYear = newValue;
+                        });
+                        },
                       ),
                     ),
                   ),
@@ -179,8 +199,8 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
                       child: DropdownButton(
                         hint: Text('Semester'),
-                        // value: selectedValue,
-                        items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                        value: sem,
+                        items: <String>['1', '2', '3', '4', '5', '6', '7', '8']
                             .map((String value) {
                           return DropdownMenuItem(
                             value: value,
@@ -190,12 +210,11 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                         underline: Container(
                           height: 0,
                         ),
-                        onChanged: (String? newValue){},
-                        // (String newValue) {
-                        // setState(() {
-                        //   selectedValue = newValue;
-                        // });
-                        // },
+                        onChanged: (String? newValue){
+                        setState(() {
+                          sem = newValue;
+                        });
+                        },
                       ),
                     ),
                   ),
@@ -208,8 +227,8 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                       padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
                       child: DropdownButton(
                         hint: Text('Type'),
-                        // value: selectedValue,
-                        items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                        value: type,
+                        items: <String>['ST1', 'ST2', 'PUT', 'UT', 'Retest(s)']
                             .map((String value) {
                           return DropdownMenuItem(
                             value: value,
@@ -219,12 +238,11 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                         underline: Container(
                           height: 0,
                         ),
-                        onChanged: (String? newValue){},
-                        // (String newValue) {
-                        // setState(() {
-                        //   selectedValue = newValue;
-                        // });
-                        // },
+                        onChanged: (String? newValue){
+                        setState(() {
+                          type = newValue;
+                        });
+                        },
                       ),
                     ),
                   ),
@@ -333,7 +351,12 @@ class _DocumentSelectionScrenState extends State<DocumentSelectionScren> {
                     Container(
                       width: size.width*0.85,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if(pickedFile != null) {
+                            paperTitle = "$type $code $paperYear";
+                            postPapers(accessToken, paperTitle.toString(), paperYear.toString(), sem.toString(), code.toString(), filePath.toString(), _fileName!);
+                          }
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: isLoading ?

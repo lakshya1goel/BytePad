@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: const DocumentSelectionScren(),
+      home: const DocumentSelectionScreen(),
       routes: {
         '/Login' : (context) => LoginPage()
       },
