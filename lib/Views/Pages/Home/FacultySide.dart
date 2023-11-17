@@ -1,24 +1,22 @@
-import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
-import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
-import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
+import 'package:bytepad/Views/Pages/Dashboards/faculty_dashboard.dart';
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_listing_page_faculty.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/hod_faculty_profile_page.dart';
 import 'package:flutter/material.dart';
-
 import '../../../Utils/Constants/colors.dart';
-import '../Attendance/student_attendance.dart';
-import '../DocumentViewScreens/learning_section.dart';
+import '../Attendance/faculty_side_attendance.dart';
 
-class StudentSide extends StatefulWidget {
-  const StudentSide({super.key});
+class FacultySide extends StatefulWidget {
+  const FacultySide({super.key});
 
   @override
-  State<StudentSide> createState() => _StudentSideState();
+  State<FacultySide> createState() => _FacultySideState();
 }
 
-class _StudentSideState extends State<StudentSide> {
+class _FacultySideState extends State<FacultySide> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [StudentDashboard(), LearningSection(), StudentAttendance(), StudentProfilePage()];
+    List<Widget> widgets = [FacultyDashboard(), DocumentListingFacultyScreen(), FacultySideAttendance(), HodFacultyProfilePage()];
     return Scaffold(
       body: widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
