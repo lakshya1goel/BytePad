@@ -29,39 +29,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       type: BottomNavigationBarType.fixed,
       currentIndex: _currentIndex,
       onTap: (index) {
-        if(index == 0) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => StudentDashboard(),
-            ),
-          );
-          setState(() {
-            _currentIndex = index;
-          });
-        }
-        if(index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LearningSection(),
-            ),
-          );
-          setState(() {
-            _currentIndex = index;
-          });
-        }
-        if(index == 3) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProfileSettingPage(),
-            ),
-          );
-          setState(() {
-            _currentIndex = index;
-          });
-        }
+
       },
       items: [
         BottomNavigationBarItem(

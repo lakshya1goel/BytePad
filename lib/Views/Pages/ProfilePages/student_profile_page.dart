@@ -290,7 +290,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ): Center(child: CircularProgressIndicator()),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
+      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
     );
   }
 }

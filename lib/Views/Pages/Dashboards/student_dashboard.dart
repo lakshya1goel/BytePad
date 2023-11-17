@@ -249,7 +249,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0,),
+      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0,),
     );
   }
 }

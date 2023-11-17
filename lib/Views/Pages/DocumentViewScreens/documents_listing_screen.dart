@@ -229,7 +229,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
+      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }
