@@ -25,6 +25,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
     super.initState();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
+      print(accessToken);
       setState(() {
         papersFuture = paperListing(accessToken);
       });
