@@ -1,6 +1,10 @@
+import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
 import 'package:flutter/material.dart';
 
-import '../../../Models/PastYearPapers/papers_listing_model.dart';
+import '../../../Models/PastYearPapers/myCollection_paper_list_model.dart';
+import '../../../Models/PastYearPapers/paper_read_model.dart';
+import '../../../Services/PastYearPapers/myCollections_papers_list.dart';
+import '../../../Services/PastYearPapers/paper_reading.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
@@ -15,102 +19,170 @@ class MyCollections extends StatefulWidget {
 
 class _MyCollectionsState extends State<MyCollections> {
 
+  bool isLoading = false;
   late Size size;
-  Future<PaperListingModel?>? papersFuture;
+  List<Results> myCollectionPapers = [];
   final SecureStorage secureStorage = SecureStorage();
+  PaperReadModel? paperReading = PaperReadModel();
 
   @override
   void initState() {
     super.initState();
+    fetchData();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
-      setState(() {
-        papersFuture = paperListing(accessToken);
-      });
     });
   }
 
+  void fetchData() async {
+    // Display loading indicator
+    setState(() {
+      isLoading = true;
+    });
+
+    // Call your API service to get the list of papers
+    try {
+      List<Results> papers = await getPapersFromCollection("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyODgxNTMzLCJpYXQiOjE3MDAyODk1MzMsImp0aSI6ImM0N2JmNDc0MWIzODQwOGI5OWVlMDIyMjE1NjNlNGRkIiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.JKF6SJad21xBRTNy-VX_BVOeaGG-SNQaZOaypRJuNAo");
+      setState(() {
+        myCollectionPapers = papers;
+      });
+    } catch (e) {
+      // Handle error if needed
+      print('Error fetching data: $e');
+    } finally {
+      // Hide loading indicator
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    size = MediaQuery.of(context).size;
+    size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: bgColor,
-          elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back,
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back,
               color: Colors.black,
-              size: size.width*0.1,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              size: size.width * 0.1,
             ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.07, vertical: size.height*0.02),
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.07,
+                    vertical: size.height * 0.02),
                 child: Text('My Collections',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: size.width*0.09,
+                    fontSize: size.width * 0.09,
                   ),
                 ),
               ),
-              FutureBuilder<PaperListingModel?>(
-                future: papersFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  } else if (!snapshot.hasData || snapshot.data!.results == null || snapshot.data!.results!.isEmpty) {
-                    return Center(
-                      child: Text('No papers available.'),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: size.height,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.results!.length,
-                        itemBuilder: (context, index) {
-                          Results paper = snapshot.data!.results![index];
-                          return Card(
-                            child: ListTile(
-                                title: Text(paper.title ?? ''),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(paper.courses.toString() ?? ''),
-                                    Row(
-                                      children: [
-                                        Text(paper.year.toString() ?? ''),
-                                        SizedBox(width: size.width*0.75,),
-                                        Text(paper.semester.toString() ?? ''),
-                                      ],
-                                    ),
-                                  ],
-                                )
-                            ),
-                          );
-                        },
+              isLoading
+                  ? Center(child: CircularProgressIndicator()) // Show loading indicator
+                  : myCollectionPapers.isEmpty
+                  ? Text('No papers available') // Show message if no papers
+                  : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: myCollectionPapers.length,
+                    itemBuilder: (context, index) {
+                    final paper = myCollectionPapers[index];
+                    Future<void> fetchAndSetPaperReading() async {
+                       paperReading = await paperRead(accessToken, paper.paper);
+                    }
+                    fetchAndSetPaperReading();
+                    return GestureDetector(
+                      onTap: (){
+                        print("hhhhhhhhh");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Container(
+                          width: size.width*0.95,
+                          height: size.height*0.15,
+                          child: ListTile(
+                              title: Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: Text(paperReading!.title ?? '',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(paperReading!.courses.toString() ?? '',
+                                        style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(width: size.width*0.28),
+                                      IconButton(
+                                          onPressed: (){
+                                            print("dddddd");
+                                          },
+                                          icon: Icon(Icons.download,)),
+                                      IconButton(
+                                          onPressed: (){
+                                            print("fffffff");
+                                          },
+                                          icon: Icon(Icons.create_new_folder,)),
+                                      IconButton(
+                                          onPressed: (){
+                                            print("sssssss");
+                                          },
+                                          icon: Icon(Icons.share,)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 8.0),
+                                        child: Text("Sem: ${paperReading!.semester.toString() ?? ''}"),
+                                      ),
+                                      Text("Year: ${paperReading!.year.toString() ?? ''}"),
+                                    ],
+                                  ),
+                                ],
+                              )
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x3F000000),
+                                blurRadius: 4,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                        ),
                       ),
                     );
-                  }
                 },
               ),
             ],
