@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StudentAttendance extends StatefulWidget {
-  final PageController pageController;
-  const StudentAttendance({super.key, required this.pageController});
+  const StudentAttendance({super.key});
 
   @override
   State<StudentAttendance> createState() => _StudentAttendanceState();

@@ -9,8 +9,7 @@ import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/authentication/storage.dart';
 String? accessToken;
 class DocumentListingScreen extends StatefulWidget {
-  final PageController pageController;
-  const DocumentListingScreen({super.key, required this.pageController});
+  const DocumentListingScreen({super.key});
 
   @override
   State<DocumentListingScreen> createState() => _DocumentListingScreenState();
@@ -152,7 +151,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PaperSolutionDisplay(paperId: paper.id, pageController: widget.pageController,),
+                                builder: (context) => PaperSolutionDisplay(paperId: paper.id),
                               ),
                             );
                           },
@@ -230,12 +229,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currPage: 1, pageController: widget.pageController,
-          onTap: (ind) {
-        widget.pageController.jumpToPage(ind);
-        Navigator.pop(context);
-          }
-      )
     );
   }
 }

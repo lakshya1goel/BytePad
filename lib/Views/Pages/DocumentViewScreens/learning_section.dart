@@ -5,8 +5,7 @@ import '../../Widgets/bottom_navigation_bar.dart';
 import 'documents_listing_screen.dart';
 
 class LearningSection extends StatefulWidget {
-  final PageController pageController;
-  const LearningSection({super.key, required this.pageController});
+  const LearningSection({super.key});
 
   @override
   State<LearningSection> createState() => _LearningSectionState();
@@ -56,7 +55,7 @@ class _LearningSectionState extends State<LearningSection> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DocumentListingScreen(pageController: widget.pageController,),
+                        builder: (context) => DocumentListingScreen(),
                       ),
                     );
                   },

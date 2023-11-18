@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import '../DocumentViewScreens/documents_listing_screen.dart';
 
 class StudentDashboard extends StatefulWidget {
-  final PageController pageController;
-  const StudentDashboard({super.key, required this.pageController});
+  const StudentDashboard({super.key});
 
   @override
   State<StudentDashboard> createState() => _StudentDashboardState();
@@ -196,7 +195,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DocumentListingScreen(pageController: widget.pageController,),
+                                    builder: (context) => DocumentListingScreen(),
                                   ),
                                 );
                               },

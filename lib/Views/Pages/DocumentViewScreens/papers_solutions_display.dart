@@ -10,9 +10,8 @@ import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
 String? accessToken;
 class PaperSolutionDisplay extends StatefulWidget {
-  final PageController pageController;
   final int? paperId;
-  const PaperSolutionDisplay({required this.paperId, required this.pageController, Key? key}) : super(key: key);
+  const PaperSolutionDisplay({required this.paperId, Key? key}) : super(key: key);
 
   @override
   State<PaperSolutionDisplay> createState() => _PaperSolutionDisplayState();
@@ -262,12 +261,6 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
           ),
         ),
       ),
-        bottomNavigationBar: MyBottomNavigationBar(currPage: 1, pageController: widget.pageController,
-            onTap: (ind) {
-              widget.pageController.jumpToPage(ind);
-              Navigator.pop(context);
-            }
-        )
     );
   }
 }
