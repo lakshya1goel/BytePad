@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../Services/Details/course_list.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
 String? accessToken;
@@ -15,6 +13,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
   int selectedTabIndex = 0;
   final SecureStorage secureStorage = SecureStorage();
   String? selectedName;
+  int selectedYearIndex = -1;
+  int selectedExamIndex = -1;
+  int selectedCodeIndex = -1;
 
   @override
   void initState() {
@@ -30,7 +31,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: blueColor,
       appBar: AppBar(
         backgroundColor: bgColor,
         elevation: 0,
@@ -65,20 +65,18 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   ),
                 ),
               ),
-              Container(
-                color: bgColor,
-                width: size.width,
-                height: size.height*0.05,),
+              SizedBox(height: size.height*0.05,),
               Container(
                 color: Colors.black,
-                height: 0.5,),
+                height: 0.5,
+              ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    // height: size.height,
-                    width: size.width*0.45,
                     color: blueColor,
+                    height: size.height*0.8,
+                    width: size.width*0.45,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -89,12 +87,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       ],
                     ),
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                      color: bgColor,
-                      width: size.width*0.55,
-                      child: getContent(selectedTabIndex),
-                    ),
+                  Container(
+                    color: bgColor,
+                    width: size.width*0.55,
+                    child: getContent(selectedTabIndex),
                   ),
                 ],
               )
@@ -141,51 +137,66 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Widget getContent(int index) {
+    final List<int> years = List.generate(2023 - 2015, (index) => 2015 + index);
+    final List<String> exams = ['ST1', 'ST2', 'PUT', 'UT', 'Retest(s)'];
+    final List<String> codes = ['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203'];
     switch (index) {
       case 0:
-        return Text('Content of Tab 1');
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: years.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(years[index].toString()),
+              value: index,
+              groupValue: selectedYearIndex,
+              activeColor: selectedYearIndex == index ? blueColor: null,
+              onChanged: (value) {
+                setState(() {
+                  selectedYearIndex = value as int;
+                });
+              },
+            );
+          },
+        );
       case 1:
-        return Text('Content of Tab 2');
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: exams.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(exams[index]),
+              value: index,
+              groupValue: selectedExamIndex,
+              activeColor: selectedExamIndex == index ? blueColor: null,
+              onChanged: (value) {
+                setState(() {
+                  selectedExamIndex = value as int;
+                });
+              },
+            );
+          },
+        );
       case 2:
-        return FutureBuilder(
-            future: getCourseNames(accessToken),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(
-                  height: 200,
-                  child: Padding(
-                    padding: EdgeInsets.all(50),
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(blueColor),
-                    ),
-                  ),
-                );
-              }
-              else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              else {
-                List<String> names = snapshot.data as List<String>;
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for (String name in names)
-                        RadioListTile<String>(
-                          title: Text(name),
-                          value: name,
-                          groupValue: selectedName,
-                          onChanged: (value) {
-                            // Handle the selection here
-                            setState(() {
-                              selectedName = value;
-                            });
-                          },
-                        ),
-                    ],
-                  ),
-                );
-              }
-            }
+        return ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: codes.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(codes[index]),
+              value: index,
+              groupValue: selectedCodeIndex,
+              activeColor: selectedCodeIndex == index ? blueColor: null,
+              onChanged: (value) {
+                setState(() {
+                  selectedCodeIndex = value as int;
+                });
+              },
+            );
+          },
         );
       default:
         return Container();
