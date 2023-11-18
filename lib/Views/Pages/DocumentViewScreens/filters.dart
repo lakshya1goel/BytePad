@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
@@ -11,18 +13,78 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   int selectedTabIndex = 0;
-  final SecureStorage secureStorage = SecureStorage();
   String? selectedName;
   int selectedYearIndex = -1;
   int selectedExamIndex = -1;
   int selectedCodeIndex = -1;
+  final ScrollController _scrollController = ScrollController();
+  List<dynamic> courses = [];
+  int currentPage = 1;
+  bool isLoading = false;
+  final SecureStorage secureStorage = SecureStorage();
 
   @override
   void initState() {
     super.initState();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
+      _scrollController.addListener(_scrollListener);
+      _fetchCourses();
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _fetchCourses();
+    }
+  }
+
+  Future<void> _fetchCourses() async {
+    if (isLoading) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var url =
+    Uri.parse('https://bytepad.onrender.com/details/courses/?page=$currentPage');
+    var headers = {
+      'accept': 'application/json',
+      'Authorization':
+      'Bearer $accessToken'
+    };
+
+    var response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+
+      if (jsonResponse.containsKey('next') && jsonResponse['next'] != null) {
+        var results = jsonResponse['results'];
+
+        var names = results.map((result) => result['course_code']).toList();
+
+        setState(() {
+          courses.addAll(names);
+          currentPage++;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        print('No more pages or unexpected response format');
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
   }
 
   @override
@@ -75,7 +137,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 children: [
                   Container(
                     color: blueColor,
-                    height: size.height*0.8,
+                    height: size.height*0.79,
                     width: size.width*0.45,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,11 +149,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    color: bgColor,
-                    width: size.width*0.55,
-                    child: getContent(selectedTabIndex),
-                  ),
+                  SizedBox(
+                    height: size.height*0.65,
+                      width: size.width*0.55,
+                      child: getContent(selectedTabIndex)),
                 ],
               )
             ],
@@ -139,7 +200,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget getContent(int index) {
     final List<int> years = List.generate(2023 - 2015, (index) => 2015 + index);
     final List<String> exams = ['ST1', 'ST2', 'PUT', 'UT', 'Retest(s)'];
-    final List<String> codes = ['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203'];
+    // final List<String> codes = ['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203'];
     switch (index) {
       case 0:
         return ListView.builder(
@@ -182,22 +243,47 @@ class _FiltersScreenState extends State<FiltersScreen> {
       case 2:
         return ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: codes.length,
+          controller: _scrollController,
+          itemCount: courses.length + 1,
           itemBuilder: (context, index) {
-            return RadioListTile(
-              title: Text(codes[index]),
-              value: index,
-              groupValue: selectedCodeIndex,
-              activeColor: selectedCodeIndex == index ? blueColor: null,
-              onChanged: (value) {
-                setState(() {
-                  selectedCodeIndex = value as int;
-                });
-              },
-            );
+            if (index < courses.length) {
+              final course = courses[index];
+              return RadioListTile(
+                title: Text(course),
+                value: index,
+                groupValue: selectedCodeIndex,
+                activeColor: selectedCodeIndex == index ? blueColor: null,
+                onChanged: (value) {
+                  setState(() {
+                    selectedCodeIndex = value as int;
+                  });
+                },
+              );
+            } else if (isLoading) {
+                    return Center(child: CircularProgressIndicator());
+            } else {
+              return Container();
+            }
           },
         );
+        // return ListView.builder(
+        //   shrinkWrap: true,
+        //   physics: NeverScrollableScrollPhysics(),
+        //   itemCount: codes.length,
+        //   itemBuilder: (context, index) {
+        //     return RadioListTile(
+        //       title: Text(codes[index]),
+        //       value: index,
+        //       groupValue: selectedCodeIndex,
+        //       activeColor: selectedCodeIndex == index ? blueColor: null,
+        //       onChanged: (value) {
+        //         setState(() {
+        //           selectedCodeIndex = value as int;
+        //         });
+        //       },
+        //     );
+        //   },
+        // );
       default:
         return Container();
     }
