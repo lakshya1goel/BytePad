@@ -1,12 +1,12 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
-import '../../Widgets/bottom_navigation_bar.dart';
 import '../DocumentViewScreens/documents_listing_screen.dart';
 
 class StudentDashboard extends StatefulWidget {
-  const StudentDashboard({super.key});
+  final PageController pageController;
+  const StudentDashboard({super.key, required this.pageController});
 
   @override
   State<StudentDashboard> createState() => _StudentDashboardState();
@@ -196,7 +196,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DocumentListingScreen(),
+                                    builder: (context) => DocumentListingScreen(pageController: widget.pageController,),
                                   ),
                                 );
                               },
@@ -249,7 +249,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ),
       ),
-      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0,),
     );
   }
 }

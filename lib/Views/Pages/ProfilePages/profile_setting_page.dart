@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../../../Utils/Constants/colors.dart';
 
 class ProfileSettingPage extends StatefulWidget {
-  const ProfileSettingPage({super.key});
+  final PageController pageController;
+  const ProfileSettingPage({super.key, required this.pageController});
 
   @override
   State<ProfileSettingPage> createState() => _ProfileSettingPageState();
@@ -117,7 +118,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                                   if (index == 0) {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => StudentProfilePage()),
+                                      MaterialPageRoute(builder: (context) => StudentProfilePage(pageController: widget.pageController,)),
                                     );
                                   }
                                   print('Tapped on ${itemList[index]['title']}');
@@ -179,7 +180,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
+      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
     );
   }
 }

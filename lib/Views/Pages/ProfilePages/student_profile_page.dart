@@ -8,7 +8,8 @@ import '../../Widgets/bottom_navigation_bar.dart';
 
 String? accessToken;
 class StudentProfilePage extends StatefulWidget {
-  const StudentProfilePage({super.key});
+  final PageController pageController;
+  const StudentProfilePage({super.key, required this.pageController});
 
   @override
   State<StudentProfilePage> createState() => _StudentProfilePageState();
@@ -290,7 +291,12 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           ): Center(child: CircularProgressIndicator()),
         ),
       ),
-      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
+        bottomNavigationBar: MyBottomNavigationBar(currPage: 3, pageController: widget.pageController,
+            onTap: (ind) {
+              widget.pageController.jumpToPage(ind);
+              Navigator.pop(context);
+            }
+        )
     );
   }
 }

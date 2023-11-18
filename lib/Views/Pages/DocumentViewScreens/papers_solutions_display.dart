@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:bytepad/Services/PastYearPapers/file_open.dart';
 import 'package:bytepad/Services/PastYearPapers/paper_reading.dart';
-import 'package:bytepad/Views/Pages/DocumentViewScreens/document_view.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../../../Models/PastYearPapers/paper_read_model.dart';
@@ -11,8 +10,9 @@ import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
 String? accessToken;
 class PaperSolutionDisplay extends StatefulWidget {
+  final PageController pageController;
   final int? paperId;
-  const PaperSolutionDisplay({required this.paperId, Key? key}) : super(key: key);
+  const PaperSolutionDisplay({required this.paperId, required this.pageController, Key? key}) : super(key: key);
 
   @override
   State<PaperSolutionDisplay> createState() => _PaperSolutionDisplayState();
@@ -262,7 +262,12 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
+        bottomNavigationBar: MyBottomNavigationBar(currPage: 1, pageController: widget.pageController,
+            onTap: (ind) {
+              widget.pageController.jumpToPage(ind);
+              Navigator.pop(context);
+            }
+        )
     );
   }
 }
