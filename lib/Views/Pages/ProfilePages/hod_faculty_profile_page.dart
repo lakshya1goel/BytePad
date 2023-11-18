@@ -154,48 +154,6 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(left: size.width*0.08, top: size.height*0.03, right: size.width*0.08),
-                    //   child: Row(
-                    //     children: [
-                    //       Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text('Branch',
-                    //             style: TextStyle(
-                    //                 color: Colors.grey,
-                    //                 fontSize: size.width*0.04
-                    //             ),),
-                    //           Text(studentDetails!.branch.toString(),
-                    //             style: TextStyle(
-                    //                 fontWeight: FontWeight.bold,
-                    //                 fontSize: size.width*0.04
-                    //             ),),
-                    //           SizedBox(height: size.height*0.02,),
-                    //           Container(height: size.height*0.002, width: size.width*0.3, color: Colors.grey,),
-                    //         ],
-                    //       ),
-                    //       SizedBox(width: size.width*0.15,),
-                    //       Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text('Date of Birth',
-                    //             style: TextStyle(
-                    //                 color: Colors.grey,
-                    //                 fontSize: size.width*0.04
-                    //             ),),
-                    //           Text(studentDetails!.dateOfBirth.toString(),
-                    //             style: TextStyle(
-                    //                 fontWeight: FontWeight.bold,
-                    //                 fontSize: size.width*0.04
-                    //             ),),
-                    //           SizedBox(height: size.height*0.02,),
-                    //           Container(height: size.height*0.002, width: size.width*0.3, color: Colors.grey,),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                     Padding(
                       padding: EdgeInsets.only(left: size.width*0.08, top: size.height*0.03, right: size.width*0.08),
                       child: Column(
@@ -236,46 +194,6 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(left: size.width*0.08, top: size.height*0.03, right: size.width*0.08),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       Text('Guardian Name',
-                    //         style: TextStyle(
-                    //             color: Colors.grey,
-                    //             fontSize: size.width*0.04
-                    //         ),),
-                    //       Text(studentDetails!.guardianName.toString(),
-                    //         style: TextStyle(
-                    //             fontWeight: FontWeight.bold,
-                    //             fontSize: size.width*0.04
-                    //         ),),
-                    //       SizedBox(height: size.height*0.02,),
-                    //       Container(height: size.height*0.002, width: size.width*0.75, color: Colors.grey,),
-                    //     ],
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(left: size.width*0.08, top: size.height*0.03, right: size.width*0.08),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: [
-                    //       Text('Guardian Contact No.',
-                    //         style: TextStyle(
-                    //             color: Colors.grey,
-                    //             fontSize: size.width*0.04
-                    //         ),),
-                    //       Text(studentDetails!.guardianContactNumber.toString(),
-                    //         style: TextStyle(
-                    //             fontWeight: FontWeight.bold,
-                    //             fontSize: size.width*0.04
-                    //         ),),
-                    //       SizedBox(height: size.height*0.02,),
-                    //       Container(height: size.height*0.002, width: size.width*0.75, color: Colors.grey,),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -283,7 +201,6 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
           ): Center(child: CircularProgressIndicator()),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 3,),
     );
   }
 }

@@ -151,7 +151,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
+                                builder: (context) => PaperSolutionDisplay(paperId: paper.id),
                               ),
                             );
                           },
@@ -229,7 +229,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }
