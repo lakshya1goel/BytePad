@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.1.1
   webview_flutter: ^2.3.0
   percent_indicator: ^4.2.3
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_test:

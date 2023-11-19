@@ -8,6 +8,7 @@ import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Views/Pages/Attendance/student_attendance.dart';
+import 'Views/Pages/Attendance/student_subject_detailed_attendance.dart';
 import 'Views/Pages/DocumentUploadingScreens/document_listing_page_faculty.dart';
 import 'Views/Pages/DocumentViewScreens/documents_listing_screen.dart';
 import 'Views/Pages/Dashboards/hod_dashboard.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: FiltersScreen(),
+      home: StudentDetailedSubjectAttendance(),
       routes: {
         '/Login' : (context) => const LoginPage()
       },
