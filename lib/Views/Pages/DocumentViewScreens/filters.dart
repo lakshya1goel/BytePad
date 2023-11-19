@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
+import 'filters_result_list.dart';
 String? accessToken;
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key});
@@ -12,6 +13,9 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
+  String? selectedYear;
+  String? selectedExam;
+  String? selectedCode;
   int selectedTabIndex = 0;
   String? selectedName;
   int selectedYearIndex = -1;
@@ -127,7 +131,49 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.05,),
+              Container(
+                height: size.height*0.05,
+                child: Padding(
+                  padding: EdgeInsets.only(right: size.width*0.05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          onPressed: () {},
+                          child: Text("Clear",
+                            style: TextStyle(
+                                color: blueColor,
+                              fontSize: size.width*0.05
+                            ),
+                          ),
+                      ),
+                      SizedBox(width: size.width*0.1,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: blueColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => FiltersResultList(year: selectedYear?? '', exam: selectedExam?? '', code: selectedCode?? ''),
+                              ),
+                            );
+                          },
+                          child: Text("Apply",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: size.width*0.04
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Container(
                 color: Colors.black,
                 height: 0.5,
@@ -152,7 +198,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   SizedBox(
                     height: size.height*0.65,
                       width: size.width*0.55,
-                      child: getContent(selectedTabIndex)),
+                      child: getContent(selectedTabIndex)
+                  ),
                 ],
               )
             ],
@@ -198,9 +245,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Widget getContent(int index) {
-    final List<int> years = List.generate(2023 - 2015, (index) => 2015 + index);
+    final List<String> years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
     final List<String> exams = ['ST1', 'ST2', 'PUT', 'UT', 'Retest(s)'];
-    // final List<String> codes = ['BAS103', 'BAS101', 'BEE101', 'BCS101', 'BAS104', 'BAS151', 'BEE151', 'BCS151', 'BCE151', 'BAS203'];
     switch (index) {
       case 0:
         return ListView.builder(
@@ -216,6 +262,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
               onChanged: (value) {
                 setState(() {
                   selectedYearIndex = value as int;
+                  selectedYear = years[selectedYearIndex];
+                  print(selectedYear);
                 });
               },
             );
@@ -235,6 +283,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
               onChanged: (value) {
                 setState(() {
                   selectedExamIndex = value as int;
+                  print(selectedExamIndex);
+                  selectedExam = exams[selectedExamIndex];
+                  print(selectedExam);
                 });
               },
             );
@@ -256,6 +307,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 onChanged: (value) {
                   setState(() {
                     selectedCodeIndex = value as int;
+                    selectedCode = courses[selectedCodeIndex];
+                    print(selectedCode);
                   });
                 },
               );
@@ -266,24 +319,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
             }
           },
         );
-        // return ListView.builder(
-        //   shrinkWrap: true,
-        //   physics: NeverScrollableScrollPhysics(),
-        //   itemCount: codes.length,
-        //   itemBuilder: (context, index) {
-        //     return RadioListTile(
-        //       title: Text(codes[index]),
-        //       value: index,
-        //       groupValue: selectedCodeIndex,
-        //       activeColor: selectedCodeIndex == index ? blueColor: null,
-        //       onChanged: (value) {
-        //         setState(() {
-        //           selectedCodeIndex = value as int;
-        //         });
-        //       },
-        //     );
-        //   },
-        // );
       default:
         return Container();
     }
