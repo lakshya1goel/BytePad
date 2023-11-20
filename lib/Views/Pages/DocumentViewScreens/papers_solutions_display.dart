@@ -210,58 +210,61 @@ class _PaperSolutionDisplayState extends State<PaperSolutionDisplay> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.02,),
-              GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 1.0,
-                  mainAxisSpacing: 1.0,
-                ),
-                itemCount: solutions?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(left: size.width*0.05, right: size.width*0.05 ),
-                    child: GestureDetector(
-                      onTap: () {
-                        if (solutions != null && solutions!.isNotEmpty && index < solutions!.length) {
-                          downloadAndOpenFile(solutions![index], 'Solution ${index + 1}');
-                        }
-                      },
-                      child: Container(
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
-                            borderRadius: BorderRadius.circular(8),
+              SizedBox(height: size.height*0.035,),
+              Padding(
+                padding: EdgeInsets.only(bottom: size.height*0.035),
+                child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 1.0,
+                    mainAxisSpacing: size.height*0.035,
+                  ),
+                  itemCount: solutions?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(left: size.width*0.05, right: size.width*0.05 ),
+                      child: GestureDetector(
+                        onTap: () {
+                          if (solutions != null && solutions!.isNotEmpty && index < solutions!.length) {
+                            downloadAndOpenFile(solutions![index], 'Solution ${index + 1}');
+                          }
+                        },
+                        child: Container(
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(width: 1, color: Color(0xFFD8D0E3)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: size.height * 0.07),
-                            Image.asset("assets/images/document.png"),
-                            SizedBox(height: size.height * 0.05),
-                            Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                'Solution ${index + 1}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: size.width * 0.055,
+                          child: Column(
+                            children: [
+                              SizedBox(height: size.height * 0.07),
+                              Image.asset("assets/images/document.png"),
+                              SizedBox(height: size.height * 0.05),
+                              Padding(
+                                padding: EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  'Solution ${index + 1}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: size.width * 0.055,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }

@@ -1,7 +1,7 @@
 class MyCollectionsPaperListModel {
   int? count;
-  Null? next;
-  Null? previous;
+  String? next;
+  String? previous;
   List<Results>? results;
 
   MyCollectionsPaperListModel(
@@ -33,18 +33,36 @@ class MyCollectionsPaperListModel {
 
 class Results {
   int? id;
+  String? title;
+  String? year;
+  String? semester;
+  List<String>? courses;
   int? paper;
 
-  Results({this.id, this.paper});
+  Results(
+      {this.id,
+        this.title,
+        this.year,
+        this.semester,
+        this.courses,
+        this.paper});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    title = json['title'];
+    year = json['year'];
+    semester = json['semester'];
+    courses = json['courses'].cast<String>();
     paper = json['paper'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['title'] = this.title;
+    data['year'] = this.year;
+    data['semester'] = this.semester;
+    data['courses'] = this.courses;
     data['paper'] = this.paper;
     return data;
   }

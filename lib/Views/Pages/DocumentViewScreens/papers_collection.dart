@@ -21,41 +21,40 @@ class _MyCollectionsState extends State<MyCollections> {
 
   bool isLoading = false;
   late Size size;
-  List<Results> myCollectionPapers = [];
+  Future<List<Results>>? papers;
+  // List<Results> myCollectionPapers = [];
   final SecureStorage secureStorage = SecureStorage();
-  PaperReadModel? paperReading = PaperReadModel();
+  // PaperReadModel? paperReading = PaperReadModel();
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    // fetchData();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
+      print(accessToken);
+      papers = getPapersFromCollection(accessToken);
     });
   }
 
-  void fetchData() async {
-    // Display loading indicator
-    setState(() {
-      isLoading = true;
-    });
-
-    // Call your API service to get the list of papers
-    try {
-      List<Results> papers = await getPapersFromCollection("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyODgxNTMzLCJpYXQiOjE3MDAyODk1MzMsImp0aSI6ImM0N2JmNDc0MWIzODQwOGI5OWVlMDIyMjE1NjNlNGRkIiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.JKF6SJad21xBRTNy-VX_BVOeaGG-SNQaZOaypRJuNAo");
-      setState(() {
-        myCollectionPapers = papers;
-      });
-    } catch (e) {
-      // Handle error if needed
-      print('Error fetching data: $e');
-    } finally {
-      // Hide loading indicator
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  // void fetchData() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try {
+  //     List<Results> papers = await getPapersFromCollection("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyODgxNTMzLCJpYXQiOjE3MDAyODk1MzMsImp0aSI6ImM0N2JmNDc0MWIzODQwOGI5OWVlMDIyMjE1NjNlNGRkIiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.JKF6SJad21xBRTNy-VX_BVOeaGG-SNQaZOaypRJuNAo");
+  //     setState(() {
+  //       myCollectionPapers = papers;
+  //     });
+  //   } catch (e) {
+  //     // Handle error if needed
+  //     print('Error fetching data: $e');
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,94 +94,103 @@ class _MyCollectionsState extends State<MyCollections> {
                   ),
                 ),
               ),
-              isLoading
-                  ? Center(child: CircularProgressIndicator()) // Show loading indicator
-                  : myCollectionPapers.isEmpty
-                  ? Text('No papers available') // Show message if no papers
-                  : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: myCollectionPapers.length,
-                    itemBuilder: (context, index) {
-                    final paper = myCollectionPapers[index];
-                    Future<void> fetchAndSetPaperReading() async {
-                       paperReading = await paperRead(accessToken, paper.paper);
-                    }
-                    fetchAndSetPaperReading();
-                    return GestureDetector(
-                      onTap: (){
-                        print("hhhhhhhhh");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaperSolutionDisplay(paperId: paper.id,),
+              FutureBuilder<List<Results>>(
+                future: papers,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else {
+                    List<Results>? results = snapshot.data ?? [];
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: results.length,
+                      itemBuilder: (context, index) {
+                        Results result = results[index];
+                        return GestureDetector(
+                          onTap: (){
+                            print("hhhhhhhhh");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaperSolutionDisplay(paperId: result.paper,),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: size.width*0.95,
+                              height: size.height*0.15,
+                              child: ListTile(
+                                title: Padding(
+                                  padding: EdgeInsets.only(top: 8.0),
+                                  child: Text(result.title ?? '',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                                subtitle: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(result.courses.toString() ?? '',
+                                          style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: size.width*0.28),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("dddddd");
+                                            },
+                                            icon: Icon(Icons.download,)),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("fffffff");
+                                            },
+                                            icon: Icon(Icons.create_new_folder,)),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("sssssss");
+                                            },
+                                            icon: Icon(Icons.share,)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text("Sem: ${result.semester}"),
+                                        ),
+                                        Text("Year: ${result.year}"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                // Add more details as needed
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         );
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Container(
-                          width: size.width*0.95,
-                          height: size.height*0.15,
-                          child: ListTile(
-                              title: Padding(
-                                padding: EdgeInsets.only(top: 8.0),
-                                child: Text(paperReading!.title ?? '',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(paperReading!.courses.toString() ?? '',
-                                        style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(width: size.width*0.28),
-                                      IconButton(
-                                          onPressed: (){
-                                            print("dddddd");
-                                          },
-                                          icon: Icon(Icons.download,)),
-                                      IconButton(
-                                          onPressed: (){
-                                            print("fffffff");
-                                          },
-                                          icon: Icon(Icons.create_new_folder,)),
-                                      IconButton(
-                                          onPressed: (){
-                                            print("sssssss");
-                                          },
-                                          icon: Icon(Icons.share,)),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 8.0),
-                                        child: Text("Sem: ${paperReading!.semester.toString() ?? ''}"),
-                                      ),
-                                      Text("Year: ${paperReading!.year.toString() ?? ''}"),
-                                    ],
-                                  ),
-                                ],
-                              )
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                            shadows: [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
                     );
+                  }
                 },
               ),
             ],
