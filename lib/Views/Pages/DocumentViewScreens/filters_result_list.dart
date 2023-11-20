@@ -1,24 +1,26 @@
-import 'package:bytepad/Utils/Constants/colors.dart';
-import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
-import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/papers_listing_model.dart';
-import '../../../Services/PastYearPapers/add_to_collection.dart';
-import '../../../Services/PastYearPapers/papers_listing.dart';
+import '../../../Services/PastYearPapers/filtersDetails.dart';
 import '../../../Services/authentication/storage.dart';
+import '../../../Utils/Constants/colors.dart';
+
 String? accessToken;
-class DocumentListingScreen extends StatefulWidget {
-  const DocumentListingScreen({super.key});
+class FiltersResultList extends StatefulWidget {
+  final String year;
+  final String exam;
+  final String code;
+  const FiltersResultList({required this.year, required this.exam, required this.code, Key? key,}) : super(key: key);
 
   @override
-  State<DocumentListingScreen> createState() => _DocumentListingScreenState();
+  State<FiltersResultList> createState() => _FiltersResultListState();
 }
 
-class _DocumentListingScreenState extends State<DocumentListingScreen> {
-  late Size size;
+class _FiltersResultListState extends State<FiltersResultList> {
+
   Future<PaperListingModel?>? papersFuture;
+
   final SecureStorage secureStorage = SecureStorage();
 
   @override
@@ -28,7 +30,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
       accessToken = value;
       print(accessToken);
       setState(() {
-        papersFuture = paperListing(accessToken);
+        papersFuture = paperListFilters(accessToken, widget.year, widget.exam, widget.code);
       });
     });
   }
@@ -36,7 +38,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
   @override
   Widget build(BuildContext context) {
 
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,19 +57,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: blueColor,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MyCollections(),
-            ),
-          );
-        },
-        tooltip: 'Files',
-        child: Icon(Icons.folder_copy_outlined),
-      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -82,48 +71,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.02,),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                child: Row(
-                  children: [
-                    Container(
-                        width: size.width*0.7,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF979797).withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.search,
-                                color: Color(0xFF979797)
-                            ),
-                            hintText: 'What are you looking for?',
-                            hintStyle: TextStyle(color: Color(0xFF979797)),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(16.0),
-                          ),
-                        ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: size.width*0.02),
-                      child: Container(
-                        width: size.width*0.17,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF979797).withOpacity(0.25),
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset("assets/images/SlidersHorizontal.png"),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(height: size.height*0.02,),
               FutureBuilder<PaperListingModel?>(
                 future: papersFuture,
                 builder: (context, snapshot) {
@@ -184,7 +131,6 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                                               icon: Icon(Icons.download,)),
                                           IconButton(
                                               onPressed: (){
-                                                addToCollection(accessToken, paper.id.toString());
                                                 print("fffffff");
                                               },
                                               icon: Icon(Icons.create_new_folder,)),

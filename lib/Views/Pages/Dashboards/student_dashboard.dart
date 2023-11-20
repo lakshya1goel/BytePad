@@ -2,8 +2,6 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
-import '../../Widgets/bottom_navigation_bar.dart';
 import '../DocumentViewScreens/documents_listing_screen.dart';
 
 class StudentDashboard extends StatefulWidget {
@@ -257,7 +255,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0,),
     );
   }
 }

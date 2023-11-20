@@ -1,6 +1,5 @@
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
 import 'package:flutter/material.dart';
-
 import '../../../Models/PastYearPapers/myCollection_paper_list_model.dart';
 import '../../../Models/PastYearPapers/paper_read_model.dart';
 import '../../../Services/PastYearPapers/myCollections_papers_list.dart';
@@ -22,14 +21,11 @@ class _MyCollectionsState extends State<MyCollections> {
   bool isLoading = false;
   late Size size;
   Future<List<Results>>? papers;
-  // List<Results> myCollectionPapers = [];
   final SecureStorage secureStorage = SecureStorage();
-  // PaperReadModel? paperReading = PaperReadModel();
 
   @override
   void initState() {
     super.initState();
-    // fetchData();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
       print(accessToken);

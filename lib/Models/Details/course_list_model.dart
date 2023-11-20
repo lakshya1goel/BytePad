@@ -1,7 +1,7 @@
 class CourseListModel {
   int? count;
   String? next;
-  Null? previous;
+  String? previous;
   List<Results>? results;
 
   CourseListModel({this.count, this.next, this.previous, this.results});

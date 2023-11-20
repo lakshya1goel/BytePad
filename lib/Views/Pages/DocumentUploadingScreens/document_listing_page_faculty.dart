@@ -243,7 +243,6 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }

@@ -360,7 +360,7 @@ class _LearningSectionState extends State<LearningSection> {
           ),
         ),
       ),
-      bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
+      // bottomNavigationBar: MyBottomNavigationBar(currentIndex: 1,),
     );
   }
 }
