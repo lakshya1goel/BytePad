@@ -1,7 +1,10 @@
+import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
+import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
 
 class ProfileSettingPage extends StatefulWidget {
@@ -25,6 +28,8 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
     {'title': 'About App', 'icon': Icons.favorite_outline_rounded},
   ];
 
+  final SecureStorage secureStorage = SecureStorage();
+
   @override
   Widget build(BuildContext context) {
 
@@ -32,22 +37,6 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
 
     return Scaffold(
       backgroundColor: blueColor,
-      appBar: AppBar(
-        backgroundColor: blueColor,
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back,
-              color: Colors.white,
-              size: size.width*0.1,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -55,6 +44,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: size.height*0.02,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: size.width*0.07),
                     child: Text("My Profile",
@@ -89,42 +79,60 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Container(
-                        width: size.width*0.95,
-                        height: size.height*0.4,
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                          shadows: [
-                            BoxShadow(
-                              color: Color(0x0F000000),
-                              blurRadius: 44,
-                              offset: Offset(0, 4),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: size.height*0.02),
-                          child: ListView.builder(
-                            itemCount: itemList.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                leading: Icon(itemList[index]['icon']),
-                                title: Text(itemList[index]['title']),
-                                subtitle: Text(itemList[index]['subtitle']),
-                                onTap: () {
-                                  if (index == 0) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => StudentProfilePage()),
-                                    );
-                                  }
-                                  print('Tapped on ${itemList[index]['title']}');
-                                },
-                                trailing: Icon(Icons.arrow_forward_ios_outlined),
-                              );
-                            },
+                      child: Padding(
+                        padding: EdgeInsets.only(top: size.height*0.01),
+                        child: Container(
+                          width: size.width*0.95,
+                          height: size.height*0.4,
+                          decoration: ShapeDecoration(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                            shadows: [
+                              BoxShadow(
+                                color: Color(0x0F000000),
+                                blurRadius: 44,
+                                offset: Offset(0, 4),
+                                spreadRadius: 0,
+                              )
+                            ],
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: size.height*0.02),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: itemList.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: Icon(itemList[index]['icon']),
+                                  title: Text(itemList[index]['title']),
+                                  subtitle: Text(itemList[index]['subtitle']),
+                                  onTap: () {
+                                    if (index == 0) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => StudentProfilePage()),
+                                      );
+                                    }
+                                    if (index == 1) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => MyCollections()),
+                                      );
+                                    }
+                                    if (index == 3) {
+                                      secureStorage.deleteSecureData('accessToken');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LoginPage()),
+                                      );
+                                    }
+                                    print('Tapped on ${itemList[index]['title']}');
+                                  },
+                                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -156,6 +164,8 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                         child: Padding(
                           padding: EdgeInsets.only(top: size.height*0.02),
                           child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             itemCount: itemList2.length,
                             itemBuilder: (context, index) {
                               return ListTile(
