@@ -1,4 +1,5 @@
 import 'package:bytepad/Views/Pages/Dashboards/student_dashboard.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/profile_setting_page.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _StudentSideState extends State<StudentSide> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [StudentDashboard(), LearningSection(), StudentAttendance(), StudentProfilePage()];
+    List<Widget> widgets = [StudentDashboard(), LearningSection(), StudentAttendance(), ProfileSettingPage()];
     return Scaffold(
       body: widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

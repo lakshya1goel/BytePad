@@ -1,4 +1,5 @@
 import 'package:bytepad/Views/Pages/ProfilePages/hod_faculty_profile_page.dart';
+import 'package:bytepad/Views/Pages/ProfilePages/profile_setting_page.dart';
 import 'package:flutter/material.dart';
 import '../../../Utils/Constants/colors.dart';
 import '../Dashboards/hod_dashboard.dart';
@@ -16,7 +17,7 @@ class _HodSideState extends State<HodSide> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [HodDashboard(), DocumentSelectionScreen(), HodAnnouncement(), HodFacultyProfilePage()];
+    List<Widget> widgets = [HodDashboard(), DocumentSelectionScreen(), HodAnnouncement(), ProfileSettingPage()];
     return Scaffold(
       body: widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
