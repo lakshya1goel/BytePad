@@ -1,5 +1,9 @@
+import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
 import 'package:flutter/material.dart';
-import '../../../Models/PastYearPapers/papers_listing_model.dart';
+import '../../../Models/PastYearPapers/myCollection_paper_list_model.dart';
+import '../../../Models/PastYearPapers/paper_read_model.dart';
+import '../../../Services/PastYearPapers/myCollections_papers_list.dart';
+import '../../../Services/PastYearPapers/paper_reading.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
@@ -14,8 +18,9 @@ class MyCollections extends StatefulWidget {
 
 class _MyCollectionsState extends State<MyCollections> {
 
+  bool isLoading = false;
   late Size size;
-  Future<PaperListingModel?>? papersFuture;
+  Future<List<Results>>? papers;
   final SecureStorage secureStorage = SecureStorage();
 
   @override
@@ -23,51 +28,53 @@ class _MyCollectionsState extends State<MyCollections> {
     super.initState();
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
+      print(accessToken);
       setState(() {
-        papersFuture = paperListing(accessToken);
+        papers = getPapersFromCollection(accessToken);
       });
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    size = MediaQuery.of(context).size;
+    size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: bgColor,
-          elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
-            child: IconButton(
-              icon: Icon(Icons.arrow_back,
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back,
               color: Colors.black,
-              size: size.width*0.1,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              size: size.width * 0.1,
             ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width*0.07, vertical: size.height*0.02),
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.07,
+                    vertical: size.height * 0.02),
                 child: Text('My Collections',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: size.width*0.09,
+                    fontSize: size.width * 0.09,
                   ),
                 ),
               ),
-              FutureBuilder<PaperListingModel?>(
-                future: papersFuture,
+              FutureBuilder<List<Results>>(
+                future: papers,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -77,37 +84,90 @@ class _MyCollectionsState extends State<MyCollections> {
                     return Center(
                       child: Text('Error: ${snapshot.error}'),
                     );
-                  } else if (!snapshot.hasData || snapshot.data!.results == null || snapshot.data!.results!.isEmpty) {
-                    return Center(
-                      child: Text('No papers available.'),
-                    );
                   } else {
-                    return SizedBox(
-                      height: size.height,
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.results!.length,
-                        itemBuilder: (context, index) {
-                          Results paper = snapshot.data!.results![index];
-                          return Card(
-                            child: ListTile(
-                                title: Text(paper.title ?? ''),
+                    List<Results>? results = snapshot.data ?? [];
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: results.length,
+                      itemBuilder: (context, index) {
+                        Results result = results[index];
+                        return GestureDetector(
+                          onTap: (){
+                            print("hhhhhhhhh");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaperSolutionDisplay(paperId: result.paper,),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              width: size.width*0.95,
+                              height: size.height*0.15,
+                              child: ListTile(
+                                title: Padding(
+                                  padding: EdgeInsets.only(top: 8.0),
+                                  child: Text(result.title ?? '',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                ),
                                 subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(paper.courses.toString() ?? ''),
                                     Row(
                                       children: [
-                                        Text(paper.year.toString() ?? ''),
-                                        SizedBox(width: size.width*0.75,),
-                                        Text(paper.semester.toString() ?? ''),
+                                        Text(result.courses.toString() ?? '',
+                                          style: TextStyle(color: Color(0xFF656565), fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(width: size.width*0.28),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("dddddd");
+                                            },
+                                            icon: Icon(Icons.download,)),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("fffffff");
+                                            },
+                                            icon: Icon(Icons.delete,)),
+                                        IconButton(
+                                            onPressed: (){
+                                              print("sssssss");
+                                            },
+                                            icon: Icon(Icons.share,)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 8.0),
+                                          child: Text("Sem: ${result.semester}"),
+                                        ),
+                                        Text("Year: ${result.year}"),
                                       ],
                                     ),
                                   ],
-                                )
+                                ),
+                                // Add more details as needed
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                shadows: [
+                                  BoxShadow(
+                                    color: Color(0x3F000000),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 4),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     );
                   }
                 },

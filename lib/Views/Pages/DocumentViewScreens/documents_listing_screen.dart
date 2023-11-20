@@ -5,6 +5,7 @@ import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/papers_listing_model.dart';
+import '../../../Services/PastYearPapers/add_to_collection.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/authentication/storage.dart';
 String? accessToken;
@@ -183,6 +184,7 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                                               icon: Icon(Icons.download,)),
                                           IconButton(
                                               onPressed: (){
+                                                addToCollection(accessToken, paper.id.toString());
                                                 print("fffffff");
                                               },
                                               icon: Icon(Icons.create_new_folder,)),

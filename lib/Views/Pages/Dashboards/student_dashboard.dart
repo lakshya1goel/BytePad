@@ -1,5 +1,5 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
-import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
+import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import '../DocumentViewScreens/documents_listing_screen.dart';
@@ -167,7 +167,14 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyCollections(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 height: 100,
                                 width: 100,
@@ -232,11 +239,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                 ),
-                                child: Image.asset("assets/images/notice.png",
+                                child: Image.asset("assets/images/Calendar.png",
                                 ),
                               ),
                             ),
-                            Text("Notice"),
+                            Text("Timetable"),
                           ],
                         ),
                       ),
