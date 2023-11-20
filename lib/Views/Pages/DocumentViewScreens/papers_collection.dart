@@ -33,28 +33,11 @@ class _MyCollectionsState extends State<MyCollections> {
     secureStorage.readSecureData('accessToken').then((value) {
       accessToken = value;
       print(accessToken);
-      papers = getPapersFromCollection(accessToken);
+      setState(() {
+        papers = getPapersFromCollection(accessToken);
+      });
     });
   }
-
-  // void fetchData() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //     List<Results> papers = await getPapersFromCollection("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzAyODgxNTMzLCJpYXQiOjE3MDAyODk1MzMsImp0aSI6ImM0N2JmNDc0MWIzODQwOGI5OWVlMDIyMjE1NjNlNGRkIiwidXNlcl9pZCI6Imxha3NoeWEyMjEyMDIyQGFrZ2VjLmFjLmluIn0.JKF6SJad21xBRTNy-VX_BVOeaGG-SNQaZOaypRJuNAo");
-  //     setState(() {
-  //       myCollectionPapers = papers;
-  //     });
-  //   } catch (e) {
-  //     // Handle error if needed
-  //     print('Error fetching data: $e');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +135,7 @@ class _MyCollectionsState extends State<MyCollections> {
                                             onPressed: (){
                                               print("fffffff");
                                             },
-                                            icon: Icon(Icons.create_new_folder,)),
+                                            icon: Icon(Icons.delete,)),
                                         IconButton(
                                             onPressed: (){
                                               print("sssssss");
