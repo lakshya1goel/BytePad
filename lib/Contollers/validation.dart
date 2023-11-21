@@ -11,9 +11,9 @@ class Validator {
       return "Invalid email format";
     }
 
-    if (!email.endsWith('@akgec.ac.in')) {
-      return "Email must end with @akgec.ac.in";
-    }
+    // if (!email.endsWith('@akgec.ac.in')) {
+    //   return "Email must end with @akgec.ac.in";
+    // }
 
     return null; // Indicates the email is valid
   }

@@ -1,4 +1,5 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
+import 'package:bytepad/Views/Pages/DocumentViewScreens/filters.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_solutions_display.dart';
 import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
@@ -115,7 +116,14 @@ class _DocumentListingScreenState extends State<DocumentListingScreen> {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FiltersScreen(),
+                                ),
+                              );
+                            },
                             icon: Image.asset("assets/images/SlidersHorizontal.png"),
                         ),
                       ),

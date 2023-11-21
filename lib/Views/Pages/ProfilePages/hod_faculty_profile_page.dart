@@ -179,7 +179,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Student Contact No.',
+                          Text('Contact No.',
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: size.width*0.04

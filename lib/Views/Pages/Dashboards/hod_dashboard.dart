@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../../Models/Details/hod_faculty_details_model.dart';
+import '../../../Services/Details/hod_faculty_details.dart';
+import '../../../Services/authentication/storage.dart';
+String? accessToken;
 class HodDashboard extends StatefulWidget {
   const HodDashboard({super.key});
 
@@ -19,19 +23,37 @@ class _HodDashboardState extends State<HodDashboard> {
 
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
+  HodFacultyDetailsModel? hodFacultyDetailsModel;
+  final SecureStorage secureStorage = SecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    secureStorage.readSecureData('accessToken').then((value) {
+      accessToken = value;
+      print('Access Token: $accessToken');
+      getHodFacultyDetails(accessToken).then((data) {
+        setState(() {
+          hodFacultyDetailsModel = data;
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: hodFacultyDetailsModel != null? AppBar(
         backgroundColor: bgColor,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 8.0),
-          child: CircleAvatar(
-            radius: 17,
+          child: ClipOval(
+            child: Image.network(hodFacultyDetailsModel!.profilePicture?? '',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         title: Column(
@@ -40,7 +62,7 @@ class _HodDashboardState extends State<HodDashboard> {
             Text("Greetings!",
               style: TextStyle(color: Colors.black, fontSize: size.width*0.05),
             ),
-            Text("HOD",
+            Text(hodFacultyDetailsModel!.name??'',
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             )
           ],
@@ -53,7 +75,9 @@ class _HodDashboardState extends State<HodDashboard> {
               )
           )
         ],
-      ),
+      ): AppBar(backgroundColor: bgColor,
+          elevation: 0,
+          title: CircularProgressIndicator()),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

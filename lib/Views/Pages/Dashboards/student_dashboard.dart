@@ -2,8 +2,11 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import '../../../Models/Details/student_details_model.dart';
+import '../../../Services/Details/student_details.dart';
+import '../../../Services/authentication/storage.dart';
 import '../DocumentViewScreens/documents_listing_screen.dart';
-
+String? accessToken;
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
 
@@ -21,6 +24,22 @@ class _StudentDashboardState extends State<StudentDashboard> {
 
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
+  StudentDetailsModel? studentDetails;
+  final SecureStorage secureStorage = SecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    secureStorage.readSecureData('accessToken').then((value) {
+      accessToken = value;
+      print('Access Token: $accessToken');
+      getStudentDetails(accessToken).then((data) {
+        setState(() {
+          studentDetails = data;
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +47,15 @@ class _StudentDashboardState extends State<StudentDashboard> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: studentDetails != null? AppBar(
         backgroundColor: bgColor,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 8.0),
-          child: CircleAvatar(
-            radius: 17,
+          child: ClipOval(
+            child: Image.network(studentDetails!.profilePicture?? '',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         title: Column(
@@ -43,7 +64,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
             Text("Greetings!",
               style: TextStyle(color: Colors.black, fontSize: size.width*0.05),
             ),
-            Text("Student",
+            Text(studentDetails!.name??'',
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             )
           ],
@@ -56,7 +77,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
               )
           )
         ],
-      ),
+      ): AppBar(backgroundColor: bgColor,
+          elevation: 0,
+          title: CircularProgressIndicator()),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

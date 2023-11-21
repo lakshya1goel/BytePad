@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: bgColor,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
       routes: {
         '/Login' : (context) => const LoginPage()
       },
