@@ -1,16 +1,15 @@
 import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_listing_page_faculty.dart';
-import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_selction_screen.dart';
-import 'package:bytepad/Views/Pages/FacultyScreens/my_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
 import '../../../Models/Details/hod_faculty_details_model.dart';
+import '../../../Models/Details/student_details_model.dart';
 import '../../../Services/Details/hod_faculty_details.dart';
 import '../../../Services/authentication/storage.dart';
 String? accessToken;
 class FacultyDashboard extends StatefulWidget {
-  const FacultyDashboard({super.key});
+  final StudentDetailsModel? studentDetails;
+  const FacultyDashboard({super.key, required this.studentDetails});
 
   @override
   State<FacultyDashboard> createState() => _FacultyDashboardState();
@@ -26,35 +25,19 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
 
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
-  HodFacultyDetailsModel? hodFacultyDetailsModel;
-  final SecureStorage secureStorage = SecureStorage();
-
-  @override
-  void initState() {
-    super.initState();
-    secureStorage.readSecureData('accessToken').then((value) {
-      accessToken = value;
-      print('Access Token: $accessToken');
-      getHodFacultyDetails(accessToken).then((data) {
-        setState(() {
-          hodFacultyDetailsModel = data;
-        });
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: hodFacultyDetailsModel != null? AppBar(
+      appBar: AppBar(
         backgroundColor: bgColor,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 8.0),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(hodFacultyDetailsModel!.profilePicture?? ''),
+            backgroundImage: NetworkImage(widget.studentDetails!.profilePicture?? ''),
           ),
         ),
         title: Column(
@@ -63,7 +46,7 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
             Text("Greetings!",
               style: TextStyle(color: Colors.black, fontSize: size.width*0.05),
             ),
-            Text(hodFacultyDetailsModel!.name??'',
+            Text(widget.studentDetails!.name??'',
               style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             )
           ],
@@ -76,9 +59,7 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
               )
           )
         ],
-      ): AppBar(backgroundColor: bgColor,
-          elevation: 0,
-          title: CircularProgressIndicator()),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(

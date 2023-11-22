@@ -1,3 +1,4 @@
+import 'package:bytepad/Models/Details/hod_faculty_details_model.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/hod_faculty_profile_page.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
@@ -10,7 +11,8 @@ import '../../../Utils/Constants/colors.dart';
 String? accessToken;
 class ProfileSettingPage extends StatefulWidget {
   final StudentDetailsModel? studentDetails;
-  const ProfileSettingPage({super.key, this.studentDetails});
+  final HodFacultyDetailsModel? hodFacultyDetailsModel;
+  const ProfileSettingPage({super.key, this.studentDetails, this.hodFacultyDetailsModel});
 
   @override
   State<ProfileSettingPage> createState() => _ProfileSettingPageState();
@@ -122,7 +124,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                                     } else{
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => HodFacultyProfilePage()),
+                                        MaterialPageRoute(builder: (context) => HodFacultyProfilePage(hodFacultyDetailsModel: widget.hodFacultyDetailsModel,)),
                                       );
                                     }
                                     }

@@ -7,7 +7,8 @@ import '../../Widgets/bottom_navigation_bar.dart';
 
 String? accessToken;
 class HodFacultyProfilePage extends StatefulWidget {
-  const HodFacultyProfilePage({super.key});
+  final HodFacultyDetailsModel? hodFacultyDetailsModel;
+  const HodFacultyProfilePage({super.key, this.hodFacultyDetailsModel});
 
   @override
   State<HodFacultyProfilePage> createState() => _HodFacultyProfilePage();
@@ -16,22 +17,22 @@ class HodFacultyProfilePage extends StatefulWidget {
 class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
 
   late Size size;
-  HodFacultyDetailsModel? hodFacultyDetailsModel;
-  final SecureStorage secureStorage = SecureStorage();
-
-  @override
-  void initState() {
-    super.initState();
-    secureStorage.readSecureData('accessToken').then((value) {
-      accessToken = value;
-      print('Access Token: $accessToken');
-      getHodFacultyDetails(accessToken).then((data) {
-        setState(() {
-          hodFacultyDetailsModel = data;
-        });
-      });
-    });
-  }
+  // HodFacultyDetailsModel? hodFacultyDetailsModel;
+  // final SecureStorage secureStorage = SecureStorage();
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   secureStorage.readSecureData('accessToken').then((value) {
+  //     accessToken = value;
+  //     print('Access Token: $accessToken');
+  //     getHodFacultyDetails(accessToken).then((data) {
+  //       setState(() {
+  //         hodFacultyDetailsModel = data;
+  //       });
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: hodFacultyDetailsModel != null? Column(
+          child:Column(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +76,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                   SizedBox(height: size.height*0.02,),
                   Center(
                     child: ClipOval(
-                      child: Image.network(hodFacultyDetailsModel!.profilePicture?? '',
+                      child: Image.network(widget.hodFacultyDetailsModel?.profilePicture ?? '',
                         width: size.width*0.25,
                         height: size.width*0.25,
                         fit: BoxFit.cover,
@@ -84,7 +85,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: size.height*0.01),
-                    child: Center(child: Text(hodFacultyDetailsModel!.name??'',
+                    child: Center(child: Text(widget.hodFacultyDetailsModel?.name??'',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: size.width*0.04
@@ -122,7 +123,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                                     fontSize: size.width*0.04
                                 ),
                               ),
-                              Text(hodFacultyDetailsModel!.department.toString(),
+                              Text(widget.hodFacultyDetailsModel?.department.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -142,7 +143,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                                     fontSize: size.width*0.04
                                 ),
                               ),
-                              Text(hodFacultyDetailsModel!.dateOfBirth.toString(),
+                              Text(widget.hodFacultyDetailsModel?.dateOfBirth.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -164,7 +165,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(hodFacultyDetailsModel!.email.toString(),
+                          Text(widget.hodFacultyDetailsModel?.email.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -184,7 +185,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(hodFacultyDetailsModel!.contactNumber.toString(),
+                          Text(widget.hodFacultyDetailsModel?.contactNumber.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -198,7 +199,7 @@ class _HodFacultyProfilePage extends State<HodFacultyProfilePage> {
                 ),
               ),
             ],
-          ): Center(child: CircularProgressIndicator()),
+          ),
         ),
       ),
     );

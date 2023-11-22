@@ -7,6 +7,7 @@ import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Views/Pages/Attendance/student_attendance.dart';
 import 'Views/Pages/Attendance/student_subject_detailed_attendance.dart';
@@ -26,6 +27,10 @@ import 'Views/Pages/DocumentViewScreens/papers_collection.dart';
 
 void main() async{
   await dotenv.load(fileName: ".env");
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
