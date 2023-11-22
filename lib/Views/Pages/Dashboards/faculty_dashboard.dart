@@ -1,3 +1,6 @@
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_listing_page_faculty.dart';
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_selction_screen.dart';
+import 'package:bytepad/Views/Pages/FacultyScreens/my_classes.dart';
 import 'package:flutter/material.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -51,9 +54,7 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
         leading: Padding(
           padding: EdgeInsets.only(left: 8.0),
           child: CircleAvatar(
-            child: Image.network(hodFacultyDetailsModel!.profilePicture?? '',
-              fit: BoxFit.cover,
-            ),
+            backgroundImage: NetworkImage(hodFacultyDetailsModel!.profilePicture?? ''),
           ),
         ),
         title: Column(
@@ -200,22 +201,27 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/myClasses.png",
+                                  child: Image.asset("assets/images/announcement.png",
                                     // color: blueColor,
                                   ),
                                 ),
                               ),
                             ),
-                            Text("My Classes"),
+                            Text("Announcements"),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
+                        padding: EdgeInsets.only(right: size.width*0.07),
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DocumentListingFacultyScreen()),
+                                );
+                              },
                               child: Container(
                                 height: 100,
                                 width: 100,
@@ -227,13 +233,13 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/pastpaper.png",
+                                  child: Image.asset("assets/images/upload.png",
                                     // color: blueColor,
                                   ),
                                 ),
                               ),
                             ),
-                            Text("Past Papers"),
+                            Text("Upload Solutions"),
                           ],
                         ),
                       ),

@@ -6,6 +6,7 @@ import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/PastYearPapers/papers_listing_model.dart';
+import '../../../Services/PastYearPapers/add_to_collection.dart';
 import '../../../Services/PastYearPapers/papers_listing.dart';
 import '../../../Services/authentication/storage.dart';
 String? accessToken;
@@ -39,6 +40,22 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
     size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        elevation: 0,
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width*0.03),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back,
+              color: Colors.black,
+              size: size.width*0.1,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: blueColor,
         onPressed: () {
@@ -57,7 +74,6 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: size.height*0.02,),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
                 child: Text('Past Exams',
@@ -161,6 +177,7 @@ class _DocumentListingFacultyScreenState extends State<DocumentListingFacultyScr
                                               icon: Icon(Icons.download,)),
                                           IconButton(
                                               onPressed: (){
+                                                addToCollection(accessToken, paper.id.toString());
                                                 print("fffffff");
                                               },
                                               icon: Icon(Icons.create_new_folder,)),
