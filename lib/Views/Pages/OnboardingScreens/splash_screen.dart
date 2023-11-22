@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       else if (studentDetails != null && studentDetails!.isStudent == true && studentDetails!.isFaculty == false && studentDetails!.isDepartmentHead == false) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => StudentSide()),
+          MaterialPageRoute(builder: (context) => StudentSide(studentDetails: studentDetails,)),
         );
       }
       else if (studentDetails != null && studentDetails!.isStudent == false && studentDetails!.isFaculty == true && studentDetails!.isDepartmentHead == false) {
