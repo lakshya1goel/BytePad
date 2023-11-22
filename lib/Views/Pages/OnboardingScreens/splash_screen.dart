@@ -35,39 +35,39 @@ class _SplashScreenState extends State<SplashScreen> {
     });
     // TODO: implement initState
     Timer(Duration(seconds: 4), () {
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(
-      //     builder: (context) => accessToken == null ? FirstOnboardingScreen() : StudentSide()));
-      if (accessToken == null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FirstOnboardingScreen()),
-        );
-      }
-      else if (studentDetails != null && studentDetails!.isStudent == true && studentDetails!.isFaculty == false && studentDetails!.isDepartmentHead == false) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => StudentSide()),
-        );
-      }
-      else if (studentDetails != null && studentDetails!.isStudent == false && studentDetails!.isFaculty == true && studentDetails!.isDepartmentHead == false) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FacultySide()),
-        );
-      }
-      else if(studentDetails != null && studentDetails!.isStudent == false && studentDetails!.isFaculty == true && studentDetails!.isDepartmentHead == true){
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HodSide()),
-        );
-      }
-      else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => FirstOnboardingScreen()),
-        );
-      }
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(
+          builder: (context) => accessToken == null ? FirstOnboardingScreen() : StudentSide()));
+      // if (accessToken == null) {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => FirstOnboardingScreen()),
+      //   );
+      // }
+      // else if (studentDetails != null && studentDetails!.isStudent == true && studentDetails!.isFaculty == false && studentDetails!.isDepartmentHead == false) {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => StudentSide()),
+      //   );
+      // }
+      // else if (studentDetails != null && studentDetails!.isStudent == false && studentDetails!.isFaculty == true && studentDetails!.isDepartmentHead == false) {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => FacultySide()),
+      //   );
+      // }
+      // else if(studentDetails != null && studentDetails!.isStudent == false && studentDetails!.isFaculty == true && studentDetails!.isDepartmentHead == true){
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => HodSide()),
+      //   );
+      // }
+      // else {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => FirstOnboardingScreen()),
+      //   );
+      // }
 
     });
   }
