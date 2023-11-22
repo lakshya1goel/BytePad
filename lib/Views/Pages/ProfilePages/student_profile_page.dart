@@ -1,14 +1,11 @@
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:flutter/material.dart';
-
 import '../../../Models/Details/student_details_model.dart';
-import '../../../Services/Details/student_details.dart';
-import '../../../Services/authentication/storage.dart';
-import '../../Widgets/bottom_navigation_bar.dart';
 
 String? accessToken;
 class StudentProfilePage extends StatefulWidget {
-  const StudentProfilePage({super.key});
+  final StudentDetailsModel? studentDetails;
+  const StudentProfilePage({super.key, this.studentDetails});
 
   @override
   State<StudentProfilePage> createState() => _StudentProfilePageState();
@@ -16,28 +13,10 @@ class StudentProfilePage extends StatefulWidget {
 
 class _StudentProfilePageState extends State<StudentProfilePage> {
 
-  late Size size;
-  StudentDetailsModel? studentDetails;
-  final SecureStorage secureStorage = SecureStorage();
-
-  @override
-  void initState() {
-    super.initState();
-    secureStorage.readSecureData('accessToken').then((value) {
-      accessToken = value;
-      print('Access Token: $accessToken');
-      getStudentDetails(accessToken).then((data) {
-        setState(() {
-          studentDetails = data;
-        });
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
 
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: blueColor,
@@ -59,7 +38,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: studentDetails != null? Column(
+          child:Column(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +55,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                   SizedBox(height: size.height*0.02,),
                   Center(
                     child: ClipOval(
-                      child: Image.network(studentDetails!.profilePicture?? '',
+                      child: Image.network(widget.studentDetails?.profilePicture?? '',
                         width: size.width*0.25,
                         height: size.width*0.25,
                         fit: BoxFit.cover,
@@ -85,14 +64,14 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: size.height*0.01),
-                    child: Center(child: Text(studentDetails!.name??'',
+                    child: Center(child: Text(widget.studentDetails?.name??'',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: size.width*0.04
                       ),
                     )),
                   ),
-                  Center(child: Text(studentDetails!.rollNumber.toString()??'',
+                  Center(child: Text(widget.studentDetails?.rollNumber.toString()??'',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: size.width*0.04
@@ -129,7 +108,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                   fontSize: size.width*0.04
                                 ),
                               ),
-                              Text(studentDetails!.rollNumber.toString(),
+                              Text(widget.studentDetails?.rollNumber.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -149,7 +128,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                     fontSize: size.width*0.04
                                 ),
                               ),
-                              Text(studentDetails!.currentSemester.toString(),
+                              Text(widget.studentDetails?.currentSemester.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -173,7 +152,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                     color: Colors.grey,
                                     fontSize: size.width*0.04
                                 ),),
-                              Text(studentDetails!.branch.toString(),
+                              Text(widget.studentDetails?.branch.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -191,7 +170,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                     color: Colors.grey,
                                     fontSize: size.width*0.04
                                 ),),
-                              Text(studentDetails!.dateOfBirth.toString(),
+                              Text(widget.studentDetails?.dateOfBirth.toString() ?? '',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: size.width*0.04
@@ -213,7 +192,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(studentDetails!.email.toString(),
+                          Text(widget.studentDetails?.email.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -233,7 +212,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(studentDetails!.contactNumber.toString(),
+                          Text(widget.studentDetails?.contactNumber.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -253,7 +232,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(studentDetails!.guardianName.toString(),
+                          Text(widget.studentDetails?.guardianName.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -273,7 +252,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                 color: Colors.grey,
                                 fontSize: size.width*0.04
                             ),),
-                          Text(studentDetails!.guardianContactNumber.toString(),
+                          Text(widget.studentDetails?.guardianContactNumber.toString() ?? '',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: size.width*0.04
@@ -287,7 +266,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                 ),
               ),
             ],
-          ): Center(child: CircularProgressIndicator()),
+          ),
         ),
       ),
     );

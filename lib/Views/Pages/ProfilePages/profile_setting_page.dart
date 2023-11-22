@@ -1,18 +1,18 @@
+import 'package:bytepad/Models/Details/hod_faculty_details_model.dart';
 import 'package:bytepad/Views/Pages/DocumentViewScreens/papers_collection.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/hod_faculty_profile_page.dart';
 import 'package:bytepad/Views/Pages/ProfilePages/student_profile_page.dart';
 import 'package:bytepad/Views/Pages/authentication/login_page.dart';
-import 'package:bytepad/Views/Widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
 import '../../../Models/Details/student_details_model.dart';
-import '../../../Services/Details/student_details.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
 
 String? accessToken;
 class ProfileSettingPage extends StatefulWidget {
-  const ProfileSettingPage({super.key});
+  final StudentDetailsModel? studentDetails;
+  final HodFacultyDetailsModel? hodFacultyDetailsModel;
+  const ProfileSettingPage({super.key, this.studentDetails, this.hodFacultyDetailsModel});
 
   @override
   State<ProfileSettingPage> createState() => _ProfileSettingPageState();
@@ -33,22 +33,6 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
   ];
 
   final SecureStorage secureStorage = SecureStorage();
-  StudentDetailsModel? studentDetails;
-
-  @override
-  void initState() {
-    super.initState();
-    secureStorage.readSecureData('accessToken').then((value) {
-      accessToken = value;
-      print('Access Token: $accessToken');
-      getStudentDetails(accessToken).then((data) {
-        setState(() {
-          studentDetails = data;
-        });
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -75,13 +59,13 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                   ),
                   SizedBox(height: size.height*0.02,),
                   Center(
-                    child: studentDetails != null? ClipOval(
-                      child: Image.network(studentDetails!.profilePicture?? '',
+                    child: ClipOval(
+                      child: Image.network(widget.studentDetails?.profilePicture?? '',
                         width: size.width*0.25,
                         height: size.width*0.25,
                         fit: BoxFit.cover,
                       ),
-                    ) : CircularProgressIndicator(),
+                    ),
                   ),
                 ],
               ),
@@ -132,15 +116,15 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                                   subtitle: Text(itemList[index]['subtitle']),
                                   onTap: () {
                                     if (index == 0) {
-                                    if (studentDetails != null && studentDetails!.isStudent == true) {
+                                    if (widget.studentDetails != null && widget.studentDetails!.isStudent == true) {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => StudentProfilePage()),
+                                        MaterialPageRoute(builder: (context) => StudentProfilePage(studentDetails: widget.studentDetails,)),
                                       );
                                     } else{
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => HodFacultyProfilePage()),
+                                        MaterialPageRoute(builder: (context) => HodFacultyProfilePage(hodFacultyDetailsModel: widget.hodFacultyDetailsModel,)),
                                       );
                                     }
                                     }
