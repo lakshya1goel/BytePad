@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../Dashboards/hod_dashboard.dart';
 
 class SuccessUploadScreen extends StatelessWidget {
+
   const SuccessUploadScreen({super.key});
 
   @override
@@ -13,12 +14,13 @@ class SuccessUploadScreen extends StatelessWidget {
 
     Future<void> navigateToHodDashboard() async {
       await Future.delayed(Duration(seconds: 4));
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HodSide(),
-        ),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => HodSide(),
+      //   ),
+      // );
+      Navigator.pop(context);
     }
     navigateToHodDashboard();
 

@@ -2,10 +2,8 @@ import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_listing_pa
 import 'package:flutter/material.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../../Models/Details/hod_faculty_details_model.dart';
 import '../../../Models/Details/student_details_model.dart';
-import '../../../Services/Details/hod_faculty_details.dart';
-import '../../../Services/authentication/storage.dart';
+
 String? accessToken;
 class FacultyDashboard extends StatefulWidget {
   final StudentDetailsModel? studentDetails;

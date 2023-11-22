@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
       else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HodSide()),
+          MaterialPageRoute(builder: (context) => HodSide(studentDetails: studentDetails, hodFacultyDetailsModel: hodFacultyDetailsModel,)),
         );
       }
       // else {
