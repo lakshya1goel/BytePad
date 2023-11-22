@@ -1,11 +1,18 @@
 import 'dart:convert';
 import 'package:bytepad/Services/authentication/storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import '../../Models/Details/student_details_model.dart';
 import '../../Models/authentication/generate_token_error.dart';
 import '../../Models/authentication/generate_token_response.dart';
+import '../../Views/Pages/Home/FacultySide.dart';
+import '../../Views/Pages/Home/HodSide.dart';
+import '../../Views/Pages/Home/StudentSide.dart';
+import '../Details/student_details.dart';
 
-Future<String?> loginUser(String email, String password) async {
+Future<String?> loginUser(String email, String password, BuildContext context) async {
   final String baseURl = dotenv.get('BaseUrl');
   var url = Uri.parse('$baseURl/auth/generate/');
   var headers = {
@@ -25,6 +32,40 @@ Future<String?> loginUser(String email, String password) async {
     final SecureStorage secureStorage = SecureStorage();
     secureStorage.writeSecureData('accessToken', generateTokenResponse.access);
     print(jsonDecode(response.body));
+
+    StudentDetailsModel? studentDetails = await getStudentDetails(generateTokenResponse.access);
+
+    if (studentDetails != null && studentDetails.isStudent == true && studentDetails.isFaculty == false && studentDetails.isDepartmentHead == false) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => StudentSide()),
+      );
+    }
+    else if (studentDetails != null && studentDetails.isStudent == false && studentDetails.isFaculty == true && studentDetails.isDepartmentHead == false) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => FacultySide()),
+      );
+    }
+    else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HodSide()),
+      );
+    }
+    // else {
+    //   Navigator.pushReplacement(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => FirstOnboardingScreen()),
+    //   );
+    // }
+
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => StudentSide(),
+    //   ),
+    // );
     return null;
   }
   else {
