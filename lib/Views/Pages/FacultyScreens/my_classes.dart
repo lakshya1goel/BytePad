@@ -1,10 +1,10 @@
+import 'package:bytepad/Views/Pages/FacultyScreens/my_students.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Models/Details/batch_list_model.dart';
 import '../../../Services/Details/batch_list.dart';
 import '../../../Services/authentication/storage.dart';
 import '../../../Utils/Constants/colors.dart';
-
 String? accessToken;
 class MyClasses extends StatefulWidget {
   const MyClasses({super.key});
@@ -93,23 +93,165 @@ class _MyClassesState extends State<MyClasses> {
                                 color: Color(0x3321209C),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                                  child: Tab(
-                              text: batch.branch ?? 'Unknown',
-                            ),
-                                ))
-                                .toList(),
+                                  child: Tab(text: batch.branch ?? 'Unknown',),
+                                )).toList(),
                           ),
+                          SizedBox(height: size.height*0.05,),
                           SizedBox(
-                            height: size.height*0.05,
+                            height: size.height,
                             child: TabBarView(
                               children: snapshot.data!
                                   .map(
-                                    (batch) => Center(
-                                  // child: Text('Year: ${batch.year}, Semester: ${batch.semester}'),
-                                      child: SizedBox(
-                                        height: size.height*0.03,
-                                      ),
-                                ),
+                                    (batch) => Column(
+                                      children: [
+                                        Center(
+                                          child: Container(
+                                            width: size.width*0.9,
+                                            height: size.height*0.15,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: ShapeDecoration(
+                                              color: Color(0xFF21209C),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(16),
+                                              ),
+                                              shadows: [
+                                                BoxShadow(
+                                                  color: Color(0x3F000000),
+                                                  blurRadius: 16,
+                                                  offset: Offset(0, 4),
+                                                  spreadRadius: 0,
+                                                )
+                                              ],
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Text("LT-07",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                                                  child: Container(
+                                                    height: size.height*0.1,
+                                                    width: size.width*0.005,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: size.width*0.6,
+                                                  child: Text("Display any necessary information here about the section.",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: size.height*0.05,),
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(right: size.width*0.05),
+                                                  child: Column(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: (){
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) => MyStudents(id: batch.id.toString()),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          height: 100,
+                                                          width: 100,
+                                                          decoration: ShapeDecoration(
+                                                            color: Color(0xFF28C2A0).withOpacity(0.1),
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(12),
+                                                            ),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(size.width*0.04),
+                                                            child: Image.asset("assets/images/student.png",
+                                                              // color: blueColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text("Students"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(right: size.width*0.05),
+                                                  child: Column(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: (){},
+                                                        child: Container(
+                                                          height: 100,
+                                                          width: 100,
+                                                          decoration: ShapeDecoration(
+                                                            color: Color(0xFF28C2A0).withOpacity(0.1),
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(12),
+                                                            ),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(size.width*0.04),
+                                                            child: Image.asset("assets/images/Device.png",
+                                                              // color: blueColor,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text("Attendance"),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(right: size.width*0.05),
+                                                  child: Column(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: (){},
+                                                        child: Container(
+                                                          height: 100,
+                                                          width: 100,
+                                                          decoration: ShapeDecoration(
+                                                            color: Color(0xFF28C2A0).withOpacity(0.1),
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(12),
+                                                            ),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.all(size.width*0.04),
+                                                            child: Image.asset("assets/images/Clock.png",
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Text("Announcements"),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                               ).toList(),
                             ),
                           ),
@@ -119,145 +261,152 @@ class _MyClassesState extends State<MyClasses> {
                   }
                 },
               ),
-          Center(
-            child: Container(
-              width: size.width*0.9,
-              height: size.height*0.15,
-              padding: const EdgeInsets.all(10),
-              decoration: ShapeDecoration(
-                color: Color(0xFF21209C),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                shadows: [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 16,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Row(
-                children: [
-                  Text("LT-07",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                    child: Container(
-                      height: size.height*0.1,
-                      width: size.width*0.005,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Container(
-                    width: size.width*0.6,
-                    child: Text("Display any necessary information here about the section.",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-              SizedBox(height: size.height*0.05,),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/student.png",
-                                    // color: blueColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Students"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/Device.png",
-                                    // color: blueColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Attendance"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/Clock.png",
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Announcements"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
+          // Center(
+          //   child: Container(
+          //     width: size.width*0.9,
+          //     height: size.height*0.15,
+          //     padding: const EdgeInsets.all(10),
+          //     decoration: ShapeDecoration(
+          //       color: Color(0xFF21209C),
+          //       shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(16),
+          //       ),
+          //       shadows: [
+          //         BoxShadow(
+          //           color: Color(0x3F000000),
+          //           blurRadius: 16,
+          //           offset: Offset(0, 4),
+          //           spreadRadius: 0,
+          //         )
+          //       ],
+          //     ),
+          //     child: Row(
+          //       children: [
+          //         Text("LT-07",
+          //           style: TextStyle(
+          //             color: Colors.white,
+          //             fontWeight: FontWeight.w500,
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+          //           child: Container(
+          //             height: size.height*0.1,
+          //             width: size.width*0.005,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         Container(
+          //           width: size.width*0.6,
+          //           child: Text("Display any necessary information here about the section.",
+          //             style: TextStyle(
+          //               color: Colors.white,
+          //               fontWeight: FontWeight.w500,
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          //     SizedBox(height: size.height*0.05,),
+          //     SingleChildScrollView(
+          //       scrollDirection: Axis.horizontal,
+          //       child: Padding(
+          //         padding: EdgeInsets.symmetric(horizontal: size.width*0.05),
+          //         child: Row(
+          //           children: [
+          //             Padding(
+          //               padding: EdgeInsets.only(right: size.width*0.05),
+          //               child: Column(
+          //                 children: [
+          //                   GestureDetector(
+          //                     onTap: (){
+          //                       Navigator.push(
+          //                         context,
+          //                         MaterialPageRoute(
+          //                           builder: (context) => MyStudents(id: batch.id),
+          //                         ),
+          //                       );
+          //                     },
+          //                     child: Container(
+          //                       height: 100,
+          //                       width: 100,
+          //                       decoration: ShapeDecoration(
+          //                         color: Color(0xFF28C2A0).withOpacity(0.1),
+          //                         shape: RoundedRectangleBorder(
+          //                           borderRadius: BorderRadius.circular(12),
+          //                         ),
+          //                       ),
+          //                       child: Padding(
+          //                         padding: EdgeInsets.all(size.width*0.04),
+          //                         child: Image.asset("assets/images/student.png",
+          //                           // color: blueColor,
+          //                         ),
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   Text("Students"),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: EdgeInsets.only(right: size.width*0.05),
+          //               child: Column(
+          //                 children: [
+          //                   GestureDetector(
+          //                     onTap: (){},
+          //                     child: Container(
+          //                       height: 100,
+          //                       width: 100,
+          //                       decoration: ShapeDecoration(
+          //                         color: Color(0xFF28C2A0).withOpacity(0.1),
+          //                         shape: RoundedRectangleBorder(
+          //                           borderRadius: BorderRadius.circular(12),
+          //                         ),
+          //                       ),
+          //                       child: Padding(
+          //                         padding: EdgeInsets.all(size.width*0.04),
+          //                         child: Image.asset("assets/images/Device.png",
+          //                           // color: blueColor,
+          //                         ),
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   Text("Attendance"),
+          //                 ],
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: EdgeInsets.only(right: size.width*0.05),
+          //               child: Column(
+          //                 children: [
+          //                   GestureDetector(
+          //                     onTap: (){},
+          //                     child: Container(
+          //                       height: 100,
+          //                       width: 100,
+          //                       decoration: ShapeDecoration(
+          //                         color: Color(0xFF28C2A0).withOpacity(0.1),
+          //                         shape: RoundedRectangleBorder(
+          //                           borderRadius: BorderRadius.circular(12),
+          //                         ),
+          //                       ),
+          //                       child: Padding(
+          //                         padding: EdgeInsets.all(size.width*0.04),
+          //                         child: Image.asset("assets/images/Clock.png",
+          //                         ),
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   Text("Announcements"),
+          //                 ],
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     )
             ],
           ),
         ),

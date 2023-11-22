@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                               });
 
                               try {
-                                String? errorMessage = await loginUser(emailController.text, passwordController.text);
+                                String? errorMessage = await loginUser(emailController.text, passwordController.text, context);
 
                                 setState(() {
                                   isLoading = false;
@@ -180,12 +180,6 @@ class _LoginPageState extends State<LoginPage> {
                                   return;
                                 }
 
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StudentSide(),
-                                  ),
-                                );
 
                                 // secureStorage.writeSecureData('email', emailController.text);
                               } catch (error) {

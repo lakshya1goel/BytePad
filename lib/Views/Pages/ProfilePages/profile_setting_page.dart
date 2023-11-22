@@ -152,7 +152,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                                     }
                                     if (index == 3) {
                                       secureStorage.deleteSecureData('accessToken');
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(builder: (context) => LoginPage()),
                                       );

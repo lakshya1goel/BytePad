@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/Home/HodSide.dart';
 import 'package:flutter/material.dart';
 
 import '../Dashboards/hod_dashboard.dart';
@@ -15,7 +16,7 @@ class SuccessUploadScreen extends StatelessWidget {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HodDashboard(),
+          builder: (context) => HodSide(),
         ),
       );
     }
