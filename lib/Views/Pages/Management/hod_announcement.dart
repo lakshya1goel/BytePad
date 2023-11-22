@@ -1,3 +1,4 @@
+import 'package:bytepad/Views/Pages/DocumentUploadingScreens/document_selction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bytepad/Utils/Constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -45,45 +46,22 @@ class _ManagementState extends State<Management> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: hodFacultyDetailsModel != null? AppBar(
-        backgroundColor: bgColor,
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 8.0),
-          child: ClipOval(
-            child: Image.network(hodFacultyDetailsModel!.profilePicture?? '',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Greetings!",
-              style: TextStyle(color: Colors.black, fontSize: size.width*0.05),
-            ),
-            Text(hodFacultyDetailsModel!.name??'',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.notifications,
-                color: blueColor,
-              )
-          )
-        ],
-      ): AppBar(backgroundColor: bgColor,
-          elevation: 0,
-          title: CircularProgressIndicator()),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: size.height*0.05,),
+              SizedBox(height: size.height*0.02,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: size.width*0.07,),
+                child: Text('Manage',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: size.width*0.09,
+                  ),
+                ),
+              ),
+              SizedBox(height: size.height*0.03,),
               Container(
                 height: size.height*0.2,
                 width: double.infinity,
@@ -215,7 +193,12 @@ class _ManagementState extends State<Management> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DocumentSelectionScreen()),
+                                );
+                              },
                               child: Container(
                                 height: 100,
                                 width: 100,
@@ -260,86 +243,6 @@ class _ManagementState extends State<Management> {
                               ),
                             ),
                             Text("View Profile"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/announcement.png",
-                                    // color: blueColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Announcement"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/pastpaper.png",
-                                    // color: blueColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Past Papers"),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: size.width*0.05),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: (){},
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: ShapeDecoration(
-                                  color: Color(0xFF28C2A0).withOpacity(0.1),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/Stopwatch.png",
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text("Timetable"),
                           ],
                         ),
                       ),

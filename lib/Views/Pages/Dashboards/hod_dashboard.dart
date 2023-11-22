@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import '../../../Models/Details/hod_faculty_details_model.dart';
 import '../../../Services/Details/hod_faculty_details.dart';
 import '../../../Services/authentication/storage.dart';
+import '../DocumentUploadingScreens/document_listing_page_faculty.dart';
 String? accessToken;
 class HodDashboard extends StatefulWidget {
   const HodDashboard({super.key});
@@ -50,10 +51,8 @@ class _HodDashboardState extends State<HodDashboard> {
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 8.0),
-          child: ClipOval(
-            child: Image.network(hodFacultyDetailsModel!.profilePicture?? '',
-              fit: BoxFit.cover,
-            ),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(hodFacultyDetailsModel!.profilePicture?? ''),
           ),
         ),
         title: Column(
@@ -215,7 +214,12 @@ class _HodDashboardState extends State<HodDashboard> {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: (){},
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => DocumentListingFacultyScreen()),
+                                );
+                              },
                               child: Container(
                                 height: 100,
                                 width: 100,
@@ -227,13 +231,13 @@ class _HodDashboardState extends State<HodDashboard> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/pastpaper.png",
+                                  child: Image.asset("assets/images/solution.png",
                                     // color: blueColor,
                                   ),
                                 ),
                               ),
                             ),
-                            Text("Past Papers"),
+                            Text("Upload Solutions"),
                           ],
                         ),
                       ),
