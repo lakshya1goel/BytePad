@@ -17,7 +17,7 @@ class _HodSideState extends State<HodSide> {
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgets = [HodDashboard(), DocumentSelectionScreen(), HodAnnouncement(), ProfileSettingPage()];
+    List<Widget> widgets = [HodDashboard(), DocumentSelectionScreen(), Management(), ProfileSettingPage()];
     return Scaffold(
       body: widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
