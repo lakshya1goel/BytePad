@@ -233,7 +233,7 @@ class _FacultyDashboardState extends State<FacultyDashboard> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.all(size.width*0.04),
-                                  child: Image.asset("assets/images/upload.png",
+                                  child: Image.asset("assets/images/solution.png",
                                     // color: blueColor,
                                   ),
                                 ),
