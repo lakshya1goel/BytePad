@@ -53,7 +53,7 @@ Future<String?> loginUser(String email, String password, BuildContext context) a
     else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HodSide()),
+        MaterialPageRoute(builder: (context) => HodSide(studentDetails: studentDetails, hodFacultyDetailsModel: hodFacultyDetailsModel,)),
       );
     }
     // else {

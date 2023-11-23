@@ -26,7 +26,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
 
   final focusNode = FocusNode();
 
-  int _secondsRemaining = 300; // Initial value for OTP timer (5 minutes)
+  int _secondsRemaining = 300;
   late Timer _timer;
   String? errorMsgText;
 
