@@ -92,7 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   // Internet connection is available
                                   if (_emailformKey.currentState!.validate()) {
                                     setState(() {
-                                      errorMsgText = "";
+                                      // errorMsgText = null;
                                       isLoading = true;
                                     });
 
@@ -101,6 +101,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                                       setState(() {
                                         isLoading = false;
+                                        errorMsgText = "";
                                       });
 
                                       if (errorMessage != null) {
