@@ -43,7 +43,6 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           _secondsRemaining--;
         } else {
           _timer.cancel();
-          // Handle what happens when the timer reaches 0 (e.g., show a message)
         }
       });
     });
@@ -101,6 +100,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               SizedBox(height: size.height*0.05,),
               Form(
                 child: Pinput(
+                  // pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  // forceErrorState: (errorMsgText != null && errorMsgText == ''),
                   controller: _otpController,
                   defaultPinTheme: PinTheme(
                     textStyle: TextStyle(
@@ -252,3 +253,22 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     );
   }
 }
+// void showErrorDialog(BuildContext context, String errorMessage) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text('Error'),
+//         content: Text(errorMessage),
+//         actions: <Widget>[
+//           TextButton(
+//             onPressed: () {
+//               Navigator.of(context).pop(); // Close the dialog
+//             },
+//             child: Text('OK'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

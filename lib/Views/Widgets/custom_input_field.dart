@@ -20,6 +20,7 @@ class CustomInputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Form(
+        autovalidateMode: AutovalidateMode.always,
         key: formKey,
         child: TextFormField(
           controller: controller,

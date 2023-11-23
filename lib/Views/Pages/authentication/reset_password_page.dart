@@ -74,6 +74,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Form(
+                    autovalidateMode: AutovalidateMode.always,
                     key: _passwordformKey,
                     child: TextFormField(
                       obscureText: _obscureTextPassword,

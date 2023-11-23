@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Form(
+                      autovalidateMode: AutovalidateMode.always,
                       key: _passwordformKey,
                       child: TextFormField(
                         obscureText: _obscureText,
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (_emailformKey.currentState!.validate() && _passwordformKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
-                                errorMsgText = "";
+                                // errorMsgText = null;
                               });
 
                               try {
@@ -171,6 +172,7 @@ class _LoginPageState extends State<LoginPage> {
 
                                 setState(() {
                                   isLoading = false;
+                                  errorMsgText = "";
                                 });
 
                                 if (errorMessage != null) {
@@ -179,9 +181,6 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                   return;
                                 }
-
-
-                                // secureStorage.writeSecureData('email', emailController.text);
                               } catch (error) {
                                 setState(() {
                                   isLoading = false;
@@ -196,7 +195,6 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           }
                         } on SocketException catch (_) {
-                          // Unable to lookup host, likely no internet connection
                           setState(() {
                             errorMsgText = "No Internet Connection";
                           });
