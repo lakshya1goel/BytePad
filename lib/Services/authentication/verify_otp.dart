@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:bytepad/Models/verify_otp_reponse.dart';
-import 'package:bytepad/Models/verify_response.dart';
+import 'package:bytepad/Models/authentication/verify_otp_reponse.dart';
+import 'package:bytepad/Models/authentication/verify_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

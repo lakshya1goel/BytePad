@@ -9,7 +9,8 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
   final GlobalKey<FormState>? formKey;
-  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, Key? key,}) : super(key: key);
+  final String? errorMsgText;
+  const CustomInputField({ required this.labelText, required this.icon, required this.controller, this.emailController, this.passwordController, this.formKey, this.errorMsgText, Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class CustomInputField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Form(
+        autovalidateMode: AutovalidateMode.always,
         key: formKey,
         child: TextFormField(
           controller: controller,
@@ -41,6 +43,7 @@ class CustomInputField extends StatelessWidget {
             }
           },
           decoration: InputDecoration(
+            errorText: errorMsgText,
             hintText: labelText,
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),
