@@ -41,9 +41,8 @@ class _HodSideState extends State<HodSide> {
             label: 'Learning',
           ),
           BottomNavigationBarItem(
-            icon: Transform.rotate(
-              angle: 135 * 3.14 / 180,
-              child: Icon(Icons.edit),
+            icon: Image.asset('assets/images/manage.png',
+              color: (_selectedIndex == 2 )? blueColor: Colors.black54,
             ),
             label: 'Manage',
           ),

@@ -139,7 +139,23 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if(selectedTabIndex == 0) {
+                              selectedYearIndex = -1;
+                              selectedYear = null;
+                            }
+                            else if(selectedTabIndex == 1) {
+                              selectedExamIndex = -1;
+                              selectedExam = null;
+                            }
+                            else if(selectedTabIndex == 2) {
+                              selectedCode = null;
+                              selectedCodeIndex = -1;
+                            }
+                            setState(() {
+
+                            });
+                          },
                           child: Text("Clear",
                             style: TextStyle(
                                 color: blueColor,
@@ -196,7 +212,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: size.height*0.65,
+                    height: size.height*0.75,
                       width: size.width*0.55,
                       child: getContent(selectedTabIndex)
                   ),
